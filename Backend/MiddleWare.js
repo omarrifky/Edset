@@ -1,5 +1,5 @@
-import { Supplier } from "./Backend/Models/Supplier";
-import { User } from "./Backend/Models/User";
+import { Supplier } from "./Models/Supplier";
+import { User } from "./Models/User";
 import { Delivery } from "./Models/Delivery";
 
 export const authenticateuser = (req, res, next) => {
@@ -53,7 +53,7 @@ export const authenticateadmin = (req, res, next) => {
 
 export const authenticatesupplier = (req, res, next) => {
     const token = req.headers.authorization.split("Bearer ")[1];
-    console.log("IN AUTH")
+    console.log("In Supplier Auth")
     Supplier.findByToken(token)
         .then((supplier) => {
             if (!supplier) {

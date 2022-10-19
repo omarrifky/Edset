@@ -20,31 +20,28 @@ const supplierSchema = mongoose.Schema({
         trim: true,
         lowercase: true
     },
-    adresses:
-        {
-            address:{
-                type:String,
-                required:true
-            },
-            mapCoordinate:{
-              lat:{
-                type:Number,
-                required:true
-              },
-              long:{
-                type:Number,
-                required:true
-              }
-            },
-
+    adresses: [{
+        address:{
+            type:String,
+            required:true
+        },
+        mapCoordinate:{
+          lat:{
+            type:Number,
+            required:true
+          },
+          long:{
+            type:Number,
+            required:true
+          }
         }
-    ,
+    }],
     companyName: {
         type: String,
         required: true,
         trim: true,
     },
-    mobileNumber: [{
+    mobileNumbers: [{
         type: String,
         required: true,
         trim: true,
@@ -55,7 +52,6 @@ const supplierSchema = mongoose.Schema({
         required: true,
         trim: true,
     },
-   
     rating: {
         type: Number,
     },
@@ -66,7 +62,6 @@ const supplierSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-
     imageURL: {
         type: String,
         required: false
@@ -85,7 +80,6 @@ const supplierSchema = mongoose.Schema({
         unique: true
 
     },
-  
     tokens: [{
         access: {
             type: String,
@@ -95,9 +89,7 @@ const supplierSchema = mongoose.Schema({
             type: String,
             required: true,
         },
-    }, ],
- 
-
+    }]
 });
 supplierSchema.index({ "$**": "text" }); // Add this for the search to work
 
@@ -177,6 +169,11 @@ supplierSchema.statics.findByCredentials = function(email, password) { // Find u
         if (!supplier) {
             return Promise.reject({
                 message: "email is incorrect !!",
+            });
+        }
+        if (supplier.blocked) {
+            return Promise.reject({
+                message: "You are blocked, please contact support for fearther notes!!",
             });
         }
 
