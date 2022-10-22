@@ -36,6 +36,21 @@ const orderSchema = mongoose.Schema({
             type: Date,
             default: Date.now()
         },
+        estimatedTime:{
+           
+            days:{
+                type:Number,
+            required:true
+        },
+            hours:{
+                type:Number,
+            required:true
+        },
+            minutes:{
+                type:Number,
+                required:true
+            },
+        },
         delivery:{
             type: mongoose.Types.ObjectId,
             ref: "Delivery"

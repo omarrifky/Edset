@@ -19,6 +19,7 @@ var port = process.env.PORT || 8080; // set our port
 
 // DATABASE SETUP
 var mongoose = require('mongoose');
+const { userController } = require('./Controllers/userController');
 mongoose.connect('mongodb://localhost:27017/myapp'); // connect to our database
 
 // Handle the connection event
@@ -26,17 +27,20 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', function() {
-    console.log("DB connection alive");
+    console.log("DB connection is alive");
 });
 
 //Models lives here
 
-
 //Controllers lives here
+// import { userController } from "../Backend/Controllers/userController"
+// import { productControlller } from "./Controllers/productController";
 
 
 // ROUTES FOR OUR API
 // =============================================================================
+// app.use('/api/product', productController)
+app.use('/api/user', userController)
 
 // create our router
 var router = express.Router();
@@ -51,7 +55,7 @@ router.use(function(req, res, next) {
 // REGISTER OUR ROUTES -------------------------------
 app.use('/api', router);
 
-    // START THE SERVER
-    // =============================================================================
+// START THE SERVER
+// =============================================================================
 app.listen(port);
 console.log('Magic happens on port ' + port);
