@@ -73,7 +73,7 @@ router.post("/logout", authenticateuser, (req, res) => {
         });
     });
 })
-router.get('/allusers', authenticateuser, function(req, res) {
+router.get('/allusers', function(req, res) {
     const query = req.query.query ? JSON.parse(req.query.query) : {};
     const filter = {
         $text: {
