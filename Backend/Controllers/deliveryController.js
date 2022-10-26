@@ -47,7 +47,6 @@ router.post("/registerdelivery", authenticateadmin, (req, res) => {
     newdelivery.blocked = false;
     newdelivery.taxNumber = req.body.taxNumber;
     newdelivery.officialDocuments = req.body.officialDocuments;
-    newdelivery.cart = [];
     newdelivery.save().then(delivery => res.status(200).send(delivery))
         .catch((err) => {
             res.status(400).send({
