@@ -31,11 +31,8 @@ router.post("/login", (req, res) => { // If email or password fields are not ent
         });
 });
 
-
-
-
 router.post("/registerdelivery", authenticateadmin, (req, res) => {
-  
+
     var newdelivery = new Delivery(); // create a new instance of the delivery model
     newdelivery.deliveryname = req.body.deliveryname;
     newdelivery.email = req.body.email;
@@ -62,7 +59,7 @@ router.post("/logout", authenticatedelivery, (req, res) => {
     });
 })
 
-router.get('/alldelivery', function(req, res) {
+router.get('/alldelivery', function (req, res) {
     const query = req.query.query ? JSON.parse(req.query.query) : {};
     const filter = {
         $text: {
@@ -72,7 +69,7 @@ router.get('/alldelivery', function(req, res) {
     };
     if (!req.query.search) delete filter.$text;
 
-    Delivery.find(filter, function(err, Delivery) {
+    Delivery.find(filter, function (err, Delivery) {
         if (err)
             res.send(err);
         res.json(Delivery);
@@ -80,15 +77,14 @@ router.get('/alldelivery', function(req, res) {
     });
 })
 
-
 router.get('/viewdelivery/:delivery_id', (req, res) => {
     Delivery.findById(req.params.delivery_id).then(delivery => {
-            if (!delivery) {
-                throw { err: "No delivery with this id" }
-            }
-            res.status(200).send(delivery);
+        if (!delivery) {
+            throw { err: "No delivery with this id" }
+        }
+        res.status(200).send(delivery);
 
-        })
+    })
         .catch((err) => {
             res.status(400).send({
                 err: err.message ? err.message : err,
@@ -104,8 +100,6 @@ router.patch('/ratedelivery/:delivery_id', authenticatedelivery, (req, res) => {
     Delivery.findOneAndUpdate({ _id: req.params.delivery_id }, { $inc: { rating: req.body.rating, numberOfRatings: 1 } }, { new: true }).then(updateddelivery => res.status(200).send({ updateddelivery: updateddelivery }))
 
 })
-
-
 
 router.patch('/blockdelivery/:delivery_id', authenticateadmin, (req, res) => {
     Delivery.findOneAndUpdate({ _id: req.params.delivery_id }, { $set: { blocked: true } }, { new: true }).then(updateddelivery => res.status(200).send({ updateddelivery: updateddelivery }))

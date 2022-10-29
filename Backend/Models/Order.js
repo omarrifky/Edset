@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import mongoose_sequence from "mongoose-sequence";
+import { PaymentTypeEnums } from "../utils";
 
 const AutoIncrement = mongoose_sequence(mongoose);
 
@@ -9,11 +10,14 @@ const orderSchema = mongoose.Schema({
         unique: true,
         index: true
     },
-
     products: [{
         product: {
             type: mongoose.Types.ObjectId,
             ref: "Product"
+        },
+        supplier: {
+            type: mongoose.Types.ObjectId,
+            ref: "Suplier"
         },
         quantity: {
             type: Number,
@@ -24,7 +28,7 @@ const orderSchema = mongoose.Schema({
             type: String,
             default: "Pending"
         },
-        expectedDelivery: {
+        deliveryOn: {
             type: Date,
             default: null
         },
@@ -36,31 +40,30 @@ const orderSchema = mongoose.Schema({
             type: Date,
             default: Date.now()
         },
-        estimatedTime:{
-           
-            days:{
-                type:Number,
-            required:true
-        },
-            hours:{
-                type:Number,
-            required:true
-        },
-            minutes:{
-                type:Number,
-                required:true
+        estimatedTime: {
+            days: {
+                type: Number,
+                required: true
+            },
+            hours: {
+                type: Number,
+                required: true
+            },
+            minutes: {
+                type: Number,
+                required: true
             },
         },
-        delivery:{
+        delivery: {
             type: mongoose.Types.ObjectId,
             ref: "Delivery"
         },
-        deliveryFees:{
-        type:Number,
-        required:true
+        deliveryFees: {
+            type: Number,
+            required: true,
+            default: 0
         }
-
-    }, ],
+    },],
     price: {
         type: Number,
         required: false
@@ -69,7 +72,11 @@ const orderSchema = mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "User"
     },
- 
+    paymentType: {
+        type: Number,
+        required: true,
+        default: PaymentTypeEnums.COD
+    }
 });
 orderSchema.index({ "$**": "text" });
 orderSchema.plugin(AutoIncrement, { inc_field: "ordernumber" });
