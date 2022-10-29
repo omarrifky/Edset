@@ -19,6 +19,7 @@ var port = process.env.PORT || 8080; // set our port
 
 // DATABASE SETUP
 var mongoose = require('mongoose');
+const { supplierController } = require('./Controllers/supplierController');
 mongoose.connect('mongodb://localhost:27017/myapp'); // connect to our database
 
 // Handle the connection event
@@ -33,6 +34,7 @@ db.once('open', function() {
 
 
 //Controllers lives here
+app.use("/api/suppliers", supplierController);
 
 
 // ROUTES FOR OUR API

@@ -263,3 +263,5 @@ router.patch("/update", authenticatesupplier, async (req, res) => {
             });
         });
 });
+
+export const supplierController = router;
