@@ -34,9 +34,6 @@ router.post("/login", (req, res) => { // If email or password fields are not ent
         });
 });
 
-
-
-
 router.post("/registerUser", (req, res) => {
     console.log("HELLOO")
     var newuser = new User(); // create a new instance of the User model
@@ -139,8 +136,6 @@ router.patch('/rateuser/:user_id', authenticateuser, (req, res) => {
 router.patch('/setuserwallet/:user_id', authenticateadmin, (req, res) => {
     User.findOneAndUpdate({ _id: req.params.user_id}, { $inc: { wallet: req.body.wallet } }, { new: true }).then(updateduser => res.status(200).send({ updateduser: updateduser }))
 })
-
-
 
 router.patch('/blockuser/:user_id', authenticateadmin, (req, res) => {
     User.findOneAndUpdate({ _id: req.params.user_id }, { $set: { blocked: true } }, { new: true }).then(updateduser => res.status(200).send({ updateduser: updateduser }))

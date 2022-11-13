@@ -15,6 +15,13 @@ const orderSchema = mongoose.Schema({
             type: mongoose.Types.ObjectId,
             ref: "Product"
         },
+        deliveryStart:{
+            type: Date
+            
+        },
+        deliveryEnd:{
+            type: Date
+        },
         supplier: {
             type: mongoose.Types.ObjectId,
             ref: "Suplier"

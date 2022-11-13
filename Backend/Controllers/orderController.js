@@ -348,7 +348,7 @@ router.patch('/supplier/prepareAll/:orderId', authenticatesupplier, (req, res) =
         res.status(200).send({ order })
     })
 });
-router.patch('/supplier/rejectOne/:orderId', authenticatesupplier, (req, res) => {
+router.patch('/supplier/prepareOne/:orderId', authenticatesupplier, (req, res) => {
     if(!req.params.orderId) {
         return res.status(400).send({
             err: "Please choose an order!",
@@ -394,11 +394,13 @@ router.patch('/delivered/:orderId', authenticatedelivery, (req, res) => {
         { 
             _id: orderId,
             "products.delivery": req.delivery._id,
-            "products.status": OrderStatusEnums.Preparing
+            "products.status": OrderStatusEnums.Preparing,
+            
         }, 
         { 
             $set: {
-                'products.$.status': OrderStatusEnums.Delivered
+                'products.$.status': OrderStatusEnums.Delivered,
+                'products.$.deliveryEnd':req.body.deliveryEnd
             }
         }, 
         { new: true }
@@ -411,7 +413,7 @@ router.patch('/delivered/:orderId', authenticatedelivery, (req, res) => {
         res.status(200).send({ order })
     })
 });
-router.patch('/delivering/:orderId', authenticatedelivery, (req, res) => {
+router.patch('/deliveringOne/:orderId', authenticatedelivery, (req, res) => {
     if(!req.params.orderId) {
         return res.status(400).send({
             err: "Please choose an order!",
@@ -421,12 +423,43 @@ router.patch('/delivering/:orderId', authenticatedelivery, (req, res) => {
     Order.findOneAndUpdate(
         { 
             _id: orderId,
-            "products.delivery": req.delivery._id,
+            "products.product": {$in:req.body.products},
             "products.status": OrderStatusEnums.Preparing
         }, 
         { 
             $set: {
-                'products.$.status': OrderStatusEnums.Delivering
+                'products.$.status': OrderStatusEnums.Delivering,
+                'products.$.estimatedTime': req.body.estimatedTime,
+                'products.$.deliveryStart':req.body.deliveryStart
+            }
+        }, 
+        { new: true }
+    ).then(order => {
+        if(!order) {
+            return res.status(400).send({
+                err: "Order not found!",
+            });
+        }
+        res.status(200).send({ order })
+    })
+});
+router.patch('/deliveringAll/:orderId', authenticatedelivery, (req, res) => {
+    if(!req.params.orderId) {
+        return res.status(400).send({
+            err: "Please choose an order!",
+        });
+    }
+    const orderId = req.params.orderId; 
+    Order.findOneAndUpdate(
+        { 
+            _id: orderId,
+            "products.status": OrderStatusEnums.Preparing
+        }, 
+        { 
+            $set: {
+                'products.$.status': OrderStatusEnums.Delivering,
+                'products.$.estimatedTime': req.body.estimatedTime,
+                'products.$.deliveryStart':req.body.deliveryStart
             }
         }, 
         { new: true }
