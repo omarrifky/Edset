@@ -34,7 +34,7 @@ export const authenticateadmin = (req, res, next) => {
                 };
             }
 
-            if (!user.admin && user.employeeLevel != "Admin") {
+            if (!user.admin) {
                 throw {
                     message: "Access Denied, Not an admin!",
                 };
@@ -75,7 +75,6 @@ export const authenticatesupplier = (req, res, next) => {
 
 export const authenticatedelivery = (req, res, next) => {
     const token = req.headers.authorization.split("Bearer ")[1];
-    console.log("IN AUTH")
     Delivery.findByToken(token)
         .then((delivery) => {
             if (!delivery) {

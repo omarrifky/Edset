@@ -193,7 +193,7 @@ router.post("/create", authenticateadmin, async (req, res) => {
         taxNumber: req.body.taxNumber,
         companyName: req.body.companyName,
         mobileNumbers: req.body.mobileNumbers || [],
-        officialDocuments: req.body.officialDocuments || [],
+        officialDocuments: req.body.officialDocuments || "",
     };
 
     const supplier = new Supplier({ ...supplierData });
