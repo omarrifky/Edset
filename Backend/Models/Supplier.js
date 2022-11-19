@@ -70,10 +70,10 @@ const supplierSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    officialDocuments: {
+    officialDocuments: [{
         type: String,
         required: false
-    },
+    }],
     supplierId: {
         type: Number,
         index: true,
