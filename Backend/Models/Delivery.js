@@ -56,10 +56,10 @@ const deliverySchema = mongoose.Schema({
         type: String,
         required: false
     },
-    officialDocuments: {
+    officialDocuments: [{
         type: String,
         required: false
-    },
+    }],
     deliveryId: {
         type: Number,
         index: true,

@@ -1,5 +1,9 @@
+import { Router } from "express";
+
 const { authenticatedelivery, authenticateadmin } = require("../MiddleWare");
 const { Delivery } = require("../Models/Delivery");
+
+const router = Router();
 
 router.post("/login", (req, res) => { // If email or password fields are not entered return error
     if (!req.body.email) {
@@ -108,3 +112,5 @@ router.patch('/blockdelivery/:delivery_id', authenticateadmin, (req, res) => {
 router.patch('/unblockdelivery/:delivery_id', authenticateadmin, (req, res) => {
     Delivery.findOneAndUpdate({ _id: req.params.delivery_id }, { $set: { blocked: false } }, { new: true }).then(updateddelivery => res.status(200).send({ updateddelivery: updateddelivery }))
 })
+
+export const deliveryController = router;
