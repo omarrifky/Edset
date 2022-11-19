@@ -39,6 +39,7 @@ router.post("/registerdelivery", authenticateadmin, (req, res) => {
 
     var newdelivery = new Delivery(); // create a new instance of the delivery model
     newdelivery.deliveryname = req.body.deliveryname;
+    newdelivery.username = req.body.username;
     newdelivery.email = req.body.email;
     newdelivery.companyName = req.body.companyName;
     newdelivery.mobileNumber = req.body.mobileNumber;
