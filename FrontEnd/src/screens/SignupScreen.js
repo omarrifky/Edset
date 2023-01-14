@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Title, IconButton } from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
@@ -64,3 +63,4 @@ const styles = StyleSheet.create({
     marginTop: 10
   }
 });
+module.exports = SignupScreen;

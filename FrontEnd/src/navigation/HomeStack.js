@@ -17,3 +17,4 @@ export default function HomeStack() {
     </ModalStack.Navigator>
   );
 }
+module.exports = HomeStack;
