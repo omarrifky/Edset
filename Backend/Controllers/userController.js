@@ -73,7 +73,7 @@ router.post("/logout", authenticateuser, (req, res) => {
         });
     });
 })
-router.get('/allusers', function(req, res) {
+router.get('/allusers',authenticateadmin, function(req, res) {
     const query = req.query.query ? JSON.parse(req.query.query) : {};
     const filter = {
         $text: {
@@ -92,7 +92,7 @@ router.get('/allusers', function(req, res) {
 })
 
 
-router.get('/viewuser/:user_id', (req, res) => {
+router.get('/viewuser/:user_id', authenticateadmin,(req, res) => {
     User.findById(req.params.user_id).then(user => {
             if (!user) {
                 throw { err: "No user with this id" }
@@ -132,7 +132,7 @@ router.patch('/clearcart', authenticateuser, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { $set: { cart: [] } }, { new: true }).then(updatedcart => res.status(200).send({ user: updatedcart }))
 
 })
-router.patch('/rateuser/:user_id', authenticateuser, (req, res) => {
+router.patch('/rateuser/:user_id', authenticateuser, (req, res) => { 
     User.findOneAndUpdate({ _id: req.params.user_id }, { $inc: { rating: req.body.rating, numberOfRatings: 1 } }, { new: true }).then(updateduser => res.status(200).send({ updateduser: updateduser }))
 
 })
@@ -151,6 +151,10 @@ router.patch('/unblockuser/:user_id', authenticateadmin, (req, res) => {
 })
 
 router.patch('/removeuser/:user_id', authenticateadmin, (req, res) => {
+    User.findOneAndUpdate({ _id: req.params.user_id}, { $set: { isremoved: true } }, { new: true }).then(updateduser => res.status(200).send({ updateduser: updateduser }))
+})
+
+router.patch('/removeme/:user_id', authenticateuser, (req, res) => { // lesaaa
     User.findOneAndUpdate({ _id: req.params.user_id}, { $set: { isremoved: true } }, { new: true }).then(updateduser => res.status(200).send({ updateduser: updateduser }))
 })
 
