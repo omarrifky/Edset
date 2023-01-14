@@ -13,4 +13,3 @@ export default function AuthStack() {
     </Stack.Navigator>
   );
 }
-module.exports = AuthStack;

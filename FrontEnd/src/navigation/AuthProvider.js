@@ -31,4 +31,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-module.exports = AuthProvider;

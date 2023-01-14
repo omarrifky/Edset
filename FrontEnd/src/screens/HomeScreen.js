@@ -53,4 +53,3 @@ const styles = StyleSheet.create({
     fontSize: 16
   }
 });
-module.exports = HomeScreen;
