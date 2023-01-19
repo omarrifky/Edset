@@ -1,15 +1,15 @@
+import { NavigationContainer } from "@react-navigation/native";
+import { useState } from "react";
 import {  Alert, Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import AuthStack from "./src/navigation/AuthStack";
+import HomeStack from "./src/navigation/HomeStack";
 
 export default function App(){
+  const user :number= 0;
   return(
-    <SafeAreaView style = {styles.container}>
-      <Text>EdSet</Text>
-      <Button
-   onPress={() => Alert.alert('Button with adjusted color pressed')}
-  title="Lets get Started!"
-  accessibilityLabel="Learn more about this purple button"
-/>
-    </SafeAreaView>
+<NavigationContainer>
+{user==1?<HomeStack/>:<AuthStack/>}
+</NavigationContainer>
   )
 }
 const styles = StyleSheet.create({
