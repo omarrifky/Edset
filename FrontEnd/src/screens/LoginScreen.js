@@ -1,4 +1,5 @@
 import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import SignUpScreen from "./SignupScreen";
 
 
 export default function LoginScreen({navigation}){
@@ -16,11 +17,11 @@ export default function LoginScreen({navigation}){
         // value={number}
         placeholder="Password"
       />
-    <Text style = {styles.link}>Forgot your Password?</Text>
-    <Pressable style={styles.button}><Text style={styles.buttontext}>SIGN IN</Text></Pressable>
+    <Pressable><Text style = {styles.link}>Forgot your Password?</Text></Pressable>
+    <Pressable style={styles.button} onPress={() => navigation.navigate("Home")}><Text style={styles.buttontext}>SIGN IN</Text></Pressable>
 
 </View>
-<View style = {styles.signup}><Text>Don't have an account? </Text><Pressable><Text style = {styles.signupbuttontext} >Signup</Text></Pressable></View>
+<View style = {styles.signup}><Text>Don't have an account? </Text><Pressable onPress={() => navigation.navigate("Signup")}><Text style = {styles.signupbuttontext} >Signup</Text></Pressable></View>
 
     </SafeAreaView>
 
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
         borderRadius:20,
         padding: 14,
         width: "50%",
-        marginTop: 12,
+        marginTop: 20,
         justifyContent:"center",
         alignItems:"center",
         alignSelf:"center",
@@ -61,7 +62,8 @@ const styles = StyleSheet.create({
     title:{
         alignSelf:"flex-start",
         fontSize:50,
-        fontWeight:600
+        fontWeight:600,
+        
     },
     subtitle:{
         fontSize:20,
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
     },
     link:{
         alignSelf:"flex-end",
-        marginTop:12
+        marginTop:20
     },
   container:{
     flex:1,
