@@ -19,8 +19,10 @@ var port = process.env.PORT || 8080; // set our port
 
 // DATABASE SETUP
 var mongoose = require('mongoose');
-const { supplierController } = require('./Controllers/supplierController');
 const { userController } = require('./Controllers/userController');
+const { orderController } = require('./Controllers/orderController');
+const { productController } = require('./Controllers/productController');
+const { supplierController } = require('./Controllers/supplierController');
 const { deliveryController } = require('./Controllers/deliveryController');
 mongoose.connect('mongodb://localhost:27017/myapp'); // connect to our database
 
@@ -43,8 +45,10 @@ db.once('open', function() {
 // =============================================================================
 // app.use('/api/product', productController)
 app.use('/api/user', userController)
-app.use("/api/suppliers", supplierController);
+app.use("/api/order", orderController);
+app.use("/api/product", productController);
 app.use("/api/delivery", deliveryController);
+app.use("/api/suppliers", supplierController);
 
 // create our router
 var router = express.Router();

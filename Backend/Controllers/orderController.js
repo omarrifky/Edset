@@ -2,6 +2,7 @@ const { authenticatedelivery, authenticateadmin, authenticatesupplier, authentic
 const { Order } = require("../Models/Order");
 const { GlobalValues, OrderStatusEnums } = require("../utils");
 
+const router = Router();
 router.post("/create", authenticateuser, (req, res) => {
     const { products } = req.body;
     if(!products || products.length === 0) {
