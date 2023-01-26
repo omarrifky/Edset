@@ -1,24 +1,47 @@
-import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
-import SignUpScreen from "./SignupScreen";
-
+import { useState } from "react";
+import { Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function LoginScreen({ navigation }) {
+  const [loginData, setLoginData] = useState({
+    email: null,
+    password: null
+  })
+
+  const onChangehandle = (value, field) => {
+    setLoginData({
+      ...loginData,
+      [field]: value
+    })
+  }
+
+  const submit = () => {
+    if(!loginData.email || !loginData.password) {
+      alert("Email or password is missing")
+    } 
+    // else if(loginData.email) {
+      // TODO: check email pattern
+    // }
+    //TODO: change it with backend check
+    alert(JSON.stringify(loginData))
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.holder}>
         <Text style={styles.title}>Hello!</Text>
         <Text style={styles.subtitle}>Sign in to your account</Text>
         <TextInput style={styles.textInput}
-          // value={number}
+          onChangeText={($event) => onChangehandle($event, "email")}
+          value={loginData.email}
           placeholder="Email"
         />
         <TextInput style={styles.textInput}
-          // onChangeText={onChangeNumber}
-          // value={number}
+          onChangeText={($event) => onChangehandle($event, "password")}
+          value={loginData.password}
           placeholder="Password"
         />
         <Pressable><Text style={styles.link}>Forgot your Password?</Text></Pressable>
-        <Pressable style={styles.button} onPress={() => navigation.navigate("Home")}><Text style={styles.buttontext}>SIGN IN</Text></Pressable>
+        <Pressable style={styles.button} onPress={submit}><Text style={styles.buttontext}>SIGN IN</Text></Pressable>
 
       </View>
       <View style={styles.signup}><Text>Don't have an account? </Text><Pressable onPress={() => navigation.navigate("Signup")}><Text style={styles.signupbuttontext} >Signup</Text></Pressable></View>
