@@ -9,6 +9,9 @@ export default function SignUpScreen({ navigation }) {
   function prevScreen() {
     setCurrentscreen(currentscreen - 1);
   }
+  function submit() {
+    alert("Registered successfully")
+  }
 
   return (
     <>
@@ -31,7 +34,9 @@ export default function SignUpScreen({ navigation }) {
             placeholder="Address"
           />
 
-          <Pressable onPress={nextScreen} style={styles.button} ><Text style={styles.buttontext}>NEXT</Text></Pressable>
+        </View>
+        <View style={styles.steps}>
+          <Pressable onPress={nextScreen} style={[styles.button, styles.stepsBtn]} ><Text style={styles.buttontext}>NEXT</Text></Pressable>
         </View>
       </SafeAreaView> : <></>}
 
@@ -47,11 +52,11 @@ export default function SignUpScreen({ navigation }) {
             // value={number}
             placeholder="Create Password"
           />
-
-          <Pressable onPress={prevScreen} style={styles.button} ><Text style={styles.buttontext}>Back</Text></Pressable>
-          <Pressable onPress={nextScreen} style={styles.button} ><Text style={styles.buttontext}>NEXT</Text></Pressable>
         </View>
-
+        <View style={styles.steps}>
+          <Pressable onPress={prevScreen} style={[styles.button, styles.stepsBtn]} ><Text style={styles.buttontext}>Back</Text></Pressable>
+          <Pressable onPress={nextScreen} style={[styles.button, styles.stepsBtn]} ><Text style={styles.buttontext}>NEXT</Text></Pressable>
+        </View>
       </SafeAreaView> : <></>}
 
       {currentscreen === 2 ? <SafeAreaView style={styles.container}>
@@ -69,11 +74,11 @@ export default function SignUpScreen({ navigation }) {
             // value={number}
             placeholder="Year"
           />
-
-          <Pressable onPress={prevScreen} style={styles.button} ><Text style={styles.buttontext}>Back</Text></Pressable>
-          <Pressable onPress={nextScreen} style={styles.button} ><Text style={styles.buttontext}>FINISH</Text></Pressable>
         </View>
-
+        <View style={styles.steps}>
+          <Pressable onPress={prevScreen} style={[styles.button, styles.stepsBtn]} ><Text style={styles.buttontext}>Back</Text></Pressable>
+          <Pressable onPress={submit} style={[styles.button, styles.stepsBtn]} ><Text style={styles.buttontext}>FINISH</Text></Pressable>
+        </View>
       </SafeAreaView> : <></>}
     </>
   )
@@ -144,4 +149,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "space-between"
   },
+  steps: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly"
+  },
+  stepsBtn: {
+    width: "40%"
+  }
 })
