@@ -1,9 +1,9 @@
 import { SafeAreaView, StyleSheet, Text } from "react-native";
 
-export default function HomeScreen({ navigation }) {
+export default function OrdersScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Home Screen</Text>
+      <Text>Orders Screen</Text>
     </SafeAreaView>
   )
 }

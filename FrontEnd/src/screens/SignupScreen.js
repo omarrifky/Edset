@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import { AuthContext } from "../providers/auth";
 
 export default function SignUpScreen({ navigation }) {
+  const { setUser, register } = useContext(AuthContext);
   const [currentscreen, setCurrentscreen] = useState(0);
   function nextScreen() {
     setCurrentscreen(currentscreen + 1);
@@ -11,6 +13,7 @@ export default function SignUpScreen({ navigation }) {
   }
   function submit() {
     alert("Registered successfully")
+    setUser(true);
   }
 
   return (

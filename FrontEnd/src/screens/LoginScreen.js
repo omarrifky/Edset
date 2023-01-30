@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import { AuthContext } from "../providers/auth";
 
 export default function LoginScreen({ navigation }) {
+  const { setUser, login } = useContext(AuthContext);
   const [loginData, setLoginData] = useState({
     email: null,
     password: null
@@ -17,12 +19,14 @@ export default function LoginScreen({ navigation }) {
   const submit = () => {
     if(!loginData.email || !loginData.password) {
       alert("Email or password is missing")
+      return
     } 
     // else if(loginData.email) {
       // TODO: check email pattern
     // }
     //TODO: change it with backend check
     alert(JSON.stringify(loginData))
+    setUser(true);
   }
 
   return (
