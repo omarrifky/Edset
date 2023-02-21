@@ -10,19 +10,21 @@ import {
 } from 'react-native';
 export default function AccountScreen({navigation}) {
   const [edit, setEdit] = useState(false);
-  const [userData] = useState({
+  const [userData, setUserData] = useState({
     name: null,
     email: null,
     password: null,
   });
 
   function editInfo(flag) {
-    alert('Edited successfully');
+    if(!flag) {
+      alert('Edited successfully');
+    }
     setEdit(flag);
   }
   const onChangehandle = (value, field) => {
-    setLoginData({
-      ...loginData,
+    setUserData({
+      ...userData,
       [field]: value
     })
   }
@@ -61,21 +63,16 @@ export default function AccountScreen({navigation}) {
         />
         {edit === false ? (
           <SafeAreaView>
-            <Pressable onPress={editInfo(true)} style={styles.button}>
+            <Pressable onPress={() => editInfo(true)} style={styles.button}>
               <Text style={styles.buttontext}>Edit Info</Text>
             </Pressable>
           </SafeAreaView>
         ) : (
-          <></>
-        )}
-        {edit === true ? (
           <SafeAreaView>
-            <Pressable onPress={editInfo(false)} style={styles.button}>
+            <Pressable onPress={() => editInfo(false)} style={styles.button}>
               <Text style={styles.buttontext}>Save</Text>
             </Pressable>
           </SafeAreaView>
-        ) : (
-          <></>
         )}
       </View>
     </SafeAreaView>
