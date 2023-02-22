@@ -4,6 +4,8 @@ import AccountScreen from '../screens/Account';
 import CustomerServiceScreen from '../screens/CustomerService';
 import OrdersScreen from '../screens/Orders';
 import SettingsScreen from '../screens/Settings';
+import StoresScreen from '../screens/StoresScreen';
+import ViewProductScreen from '../screens/ViewProductScreen';
 
 const UserStack = createStackNavigator();
 export default function HomeStack() {
@@ -19,6 +21,10 @@ export default function HomeStack() {
       <UserStack.Screen name='Settings' component={SettingsScreen} options={{ headerShown: false, headerMode: false }}
       />
       <UserStack.Screen name='CustomerService' component={CustomerServiceScreen} options={{ headerShown: false, headerMode: false }}
+      />
+      <UserStack.Screen name='ViewProduct' component={ViewProductScreen} options={{ headerShown: false, headerMode: false }}
+      /> 
+      <UserStack.Screen name='Stores' component={StoresScreen} options={{ headerShown: false, headerMode: false }}
       />
     </UserStack.Navigator>
   );

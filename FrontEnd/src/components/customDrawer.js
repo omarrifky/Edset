@@ -38,6 +38,20 @@ const CustomDrawer = (props) => {
                     >
                         <Text style={styles.text}>Settings</Text>
                     </Pressable>
+                    <Pressable
+                        style={styles.btn}
+                        title="View Product"
+                        onPress={() => { navigation.navigate('ViewProduct'); navigation.closeDrawer() }}
+                    >
+                        <Text style={styles.text}>View Product</Text>
+                    </Pressable>  
+                      <Pressable
+                        style={styles.btn}
+                        title="Stores"
+                        onPress={() => { navigation.navigate('Stores'); navigation.closeDrawer() }}
+                    >
+                        <Text style={styles.text}>Stores</Text>
+                    </Pressable>
                 </View>
             </ScrollView>
             <View style={styles.logout}>
