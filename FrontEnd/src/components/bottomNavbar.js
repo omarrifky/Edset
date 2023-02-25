@@ -12,22 +12,23 @@ const BottomNavbar = (props) => {
     return (
         <Tab.Navigator headerMode="none">
             <Tab.Screen name="Home" component={HomeScreen} options={{
+                tabBarActiveTintColor:"#FFE605",
                 headerShown: false, headerMode: false, tabBarIcon: ({ color, size }) => (
                     <MaterialCommunityIcons name="home" color={color} size={size} />
                 )
             }} />
             <Tab.Screen name="Favorites" component={FavoritesScreen} options={{
-                headerShown: false, headerMode: false, tabBarIcon: ({ color, size }) => (
+                tabBarActiveTintColor:"#FFE605",headerShown: false, headerMode: false, tabBarIcon: ({ color, size }) => (
                     <MaterialCommunityIcons name="heart" color={color} size={size} />
                 )
             }} />
             <Tab.Screen name="Categories" component={CategoriesScreen} options={{
-                headerShown: false, headerMode: false, tabBarIcon: ({ color, size }) => (
+                tabBarActiveTintColor:"#FFE605",headerShown: false, headerMode: false, tabBarIcon: ({ color, size }) => (
                     <MaterialCommunityIcons name="menu" color={color} size={size} />
                 )
             }} />
             <Tab.Screen name="Cart" component={CartScreen} options={{
-                headerShown: false, headerMode: false, tabBarIcon: ({ color, size }) => (
+                tabBarActiveTintColor:"#FFE605",headerShown: false, headerMode: false, tabBarIcon: ({ color, size }) => (
                     <MaterialCommunityIcons name="cart" color={color} size={size} />
                 )
             }} />

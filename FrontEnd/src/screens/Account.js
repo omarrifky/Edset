@@ -7,6 +7,8 @@ import {
   TextInput,
   View,
   Image,
+  ScrollView
+  
 } from 'react-native';
 export default function AccountScreen({navigation}) {
   const [edit, setEdit] = useState(false);
@@ -40,27 +42,30 @@ export default function AccountScreen({navigation}) {
           />
           <Text style={[styles.text, styles.title]}>Khaled Mahmoud</Text>
         </View>
+        <ScrollView>
+
         <TextInput
           style={styles.textInput}
           onChangeText={$event => onChangehandle($event, 'username')}
           value={userData.name}
           placeholder="Username"
           editable={edit}
-        />
+          />
         <TextInput
           style={styles.textInput}
           onChangeText={$event => onChangehandle($event, 'email')}
           value={userData.name}
           placeholder="Email"
           editable={edit}
-        />
+          />
         <TextInput
           style={styles.textInput}
           onChangeText={$event => onChangehandle($event, 'password')}
           value={userData.name}
           placeholder="Password"
           editable={edit}
-        />
+          />
+            </ScrollView>
         {edit === false ? (
           <SafeAreaView>
             <Pressable onPress={() => editInfo(true)} style={styles.button}>
