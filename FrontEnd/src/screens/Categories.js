@@ -1,8 +1,10 @@
 import { SafeAreaView, StyleSheet, Text,View } from "react-native";
+import TopBar from "../components/topBar";
 
 export default function CategoriesScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
+      <TopBar navigation={navigation} iconColor="#FFFFFF" />
       <View style={styles.card1}>
       <Text style={styles.card1Text} >Architecture Engineering</Text>
       </View> 
@@ -47,7 +49,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFE605",
-
   },
   card1:{
     width:"100%",

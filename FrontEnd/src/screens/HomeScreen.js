@@ -2,10 +2,12 @@ import { SafeAreaView, StyleSheet, View,Text,ScrollView ,Dimensions,Pressable,Im
 import milaneraser from "../assets/milaneraser.jpeg"
 import roateringpencil from "../assets/roatringpencil.jpeg"
 import canson from "../assets/canson.jpeg"
+import TopBar from "../components/topBar";
 
 export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
+      <TopBar navigation={navigation} />
       <ScrollView>
         <View style={styles.holder}>
           <Text style={styles.title}>Hi Khaled!</Text>
