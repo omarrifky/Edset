@@ -23,7 +23,6 @@ const TopBar = ({ navigation, iconColor = "#FFE605" }) => {
         <View style={styles.TopBar}>
             <DrawerToggleButton pressColor={"#000000"} tintColor={"#000000"} />
             <View style={styles.locationHolder}>
-                
                 <SelectDropdown
                     data={data}
                     onSelect={handleSelect} 
