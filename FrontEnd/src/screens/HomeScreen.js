@@ -1,283 +1,284 @@
-import { SafeAreaView, StyleSheet, View,Text,ScrollView ,Dimensions,Pressable,Image} from "react-native";
+import { SafeAreaView, StyleSheet, View, Text, ScrollView, Dimensions, Pressable, Image } from "react-native";
 import milaneraser from "../assets/milaneraser.jpeg"
 import roateringpencil from "../assets/roatringpencil.jpeg"
 import canson from "../assets/canson.jpeg"
 import TopBar from "../components/topBar";
 
 export default function HomeScreen({ navigation }) {
+  const handleNavigation = () => {
+    navigation.navigate('ViewProduct')
+  }
   return (
     <SafeAreaView style={styles.container}>
       <TopBar navigation={navigation} />
       <ScrollView>
         <View style={styles.holder}>
           <Text style={styles.title}>Hi Khaled!</Text>
-          <View style= {styles.bannerholder}>
-          <View style = {styles.leftholder}>
-            <Text style = {styles.bannertitle}>Black Friday!</Text>
-            <Text style = {styles.bannersubtitle}>Use promocode: blckfriday50 and get 50% off!</Text>
-            <View style = {styles.ordernow}>
-              <Text style={styles.ordernowtext}>Order NOW!</Text>
+          <View style={styles.bannerholder}>
+            <View style={styles.leftholder}>
+              <Text style={styles.bannertitle}>Black Friday!</Text>
+              <Text style={styles.bannersubtitle}>Use promocode: blckfriday50 and get 50% off!</Text>
+              <View style={styles.ordernow}>
+                <Text style={styles.ordernowtext}>Order NOW!</Text>
+              </View>
+            </View>
+            <View >
+              <View style={styles.promotionpercentage}>
+                <Text style={styles.promotiontext} >50%</Text>
+              </View>
             </View>
           </View>
-          <View >
-            <View style={styles.promotionpercentage}>
 
-            <Text style={styles.promotiontext} >50%</Text>
-            </View>
-          </View>
-
-          </View>
-
-          <View style = {styles.shoppingholder}>
+          <View style={styles.shoppingholder}>
             <Text style={styles.shoppingtitle} >Essentials</Text>
             <Pressable><Text style={styles.link}>View all {">"}</Text></Pressable>
-          </View>  
-          <View style = {styles.cardholder}>
-              <View style = {styles.card}>
-              <Image style={styles.cardimageholder} source={milaneraser}>
-
-              </Image>
-              <Text style = {styles.titletext}>Milan Eraser</Text>
-              <Text style = {styles.pricetext}>EGP 12.5</Text>
-              <Text style = {styles.Instocktext}>In Stock</Text>
-              </View>    
-              <View style = {styles.card}>
-              <Image style={styles.cardimageholder} source={canson}>
-
-              </Image>
-              <Text style = {styles.titletext}>Canson Sketch</Text>
-              <Text style = {styles.descriptiontext}>150g 25 x 35 cm</Text>
-              <Text style = {styles.pricetext}>EGP 37</Text>
-              <Text style = {styles.Outofstocktext}>Out of Stock</Text>
-              </View>   
-              <View style = {styles.card}>
-              <Image style={styles.cardimageholder} source={roateringpencil}>
-
-              </Image>
-              <Text style = {styles.titletext}>Roatring Pencil</Text>
-              <Text style = {styles.descriptiontext}>0.5mm</Text>
-              <Text style = {styles.pricetext}>EGP 85</Text>
-              <Text style = {styles.Instocktext}>In Stock</Text>
+          </View>
+          <View style={styles.cardholder}>
+            <Pressable onPress={handleNavigation}>
+              <View style={styles.card}>
+                <Image style={styles.cardimageholder} source={milaneraser}>
+                </Image>
+                <Text style={styles.titletext}>Milan Eraser</Text>
+                <Text style={styles.pricetext}>EGP 12.5</Text>
+                <Text style={styles.Instocktext}>In Stock</Text>
               </View>
-          </View>      
+            </Pressable>
+            <Pressable onPress={handleNavigation}>
+              <View style={styles.card}>
+                <Image style={styles.cardimageholder} source={canson}>
+                </Image>
+                <Text style={styles.titletext}>Canson Sketch</Text>
+                <Text style={styles.descriptiontext}>150g 25 x 35 cm</Text>
+                <Text style={styles.pricetext}>EGP 37</Text>
+                <Text style={styles.Outofstocktext}>Out of Stock</Text>
+              </View>
+            </Pressable>
+            <Pressable onPress={handleNavigation}>
+              <View style={styles.card}>
+                <Image style={styles.cardimageholder} source={roateringpencil}>
+                </Image>
+                <Text style={styles.titletext}>Roatring Pencil</Text>
+                <Text style={styles.descriptiontext}>0.5mm</Text>
+                <Text style={styles.pricetext}>EGP 85</Text>
+                <Text style={styles.Instocktext}>In Stock</Text>
+              </View>
+            </Pressable>
+          </View>
 
-
-
-          <View style = {styles.shoppingholder}>
+          <View style={styles.shoppingholder}>
             <Text style={styles.shoppingtitle} >Stores</Text>
             <Pressable><Text style={styles.link}>View all {">"}</Text></Pressable>
           </View>
 
-
-          <View style = {[styles.cardholder,styles.card2holder]}>
-            <View style = {styles.subcard2holder}>
-            <View style = {styles.card}>
-            <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-2.fna.fbcdn.net/v/t39.30808-6/307317580_192243113187416_3278791085684623431_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=dUkFDc4-BqAAX_OxIXi&_nc_ht=scontent.fcai2-2.fna&oh=00_AfAvth5ROf3dBvtVqOOnqQugQ4UMHEQ4hpN5pdk_HvmgjA&oe=63FB5581" }} />
-             <Text style = {styles.supplierdiscount}>
-              -5%
-             </Text>
-             <Text style = {styles.supplierrating}>
-              4.1
-             </Text>
-              </View>    
-              <View style = {styles.card}>
-              <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-1.fna.fbcdn.net/v/t31.18172-8/665460_434144229956164_1282990638_o.jpg?_nc_cat=108&ccb=1-7&_nc_sid=174925&_nc_ohc=2aqwIK6g60sAX8-BUtO&_nc_ht=scontent.fcai2-1.fna&oh=00_AfCkjmk8uoQ-LaGWk1-tXEmz54vN1dsiMF2diROH7b0VTA&oe=6421741C" }} />
-              <Text style = {styles.supplierdiscount}>
-              -15%
-             </Text> 
-             <Text style = {styles.supplierrating}>
-              4.1
-             </Text>
-         
-              </View> 
-            </View>
-            <View style = {styles.subcard2holder}>
-            <View style = {styles.card}>
-            <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-1.fna.fbcdn.net/v/t39.30808-6/277580457_376103014524313_4416877040863470373_n.png?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=g7htpCBlEPoAX_1mcFW&_nc_ht=scontent.fcai2-1.fna&oh=00_AfBYSmQKIofpJBfz3fw_yAqs0BrO6OUwHYoiUiR9Gr8eDw&oe=63FFD041" }} />
-            <Text style = {styles.supplierdiscount}>
-              -20%
-             </Text>
-             <Text style = {styles.supplierrating}>
-              4.1
-             </Text>
-              </View>     
-               <View style = {styles.card}>
-            <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-1.fna.fbcdn.net/v/t39.30808-6/299685801_5138280906294387_7991562011588907931_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OmAxaC5D8YMAX9owyV9&_nc_ht=scontent.fcai2-1.fna&oh=00_AfA8__pUOljVGyhWBcDfPqL8bQMHySLt4BhabPhGOFeKbA&oe=63FFB1EA" }} />
-            <Text style = {styles.supplierdiscount}>
-              -10%
-             </Text>
-             <Text style = {styles.supplierrating}>
-              4.1
-             </Text>
+          <View style={[styles.cardholder, styles.card2holder]}>
+            <View style={styles.subcard2holder}>
+              <View style={styles.card}>
+                <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-2.fna.fbcdn.net/v/t39.30808-6/307317580_192243113187416_3278791085684623431_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=dUkFDc4-BqAAX_OxIXi&_nc_ht=scontent.fcai2-2.fna&oh=00_AfAvth5ROf3dBvtVqOOnqQugQ4UMHEQ4hpN5pdk_HvmgjA&oe=63FB5581" }} />
+                <Text style={styles.supplierdiscount}>
+                  -5%
+                </Text>
+                <Text style={styles.supplierrating}>
+                  4.1
+                </Text>
               </View>
-  </View>  
-          </View>   
+              <View style={styles.card}>
+                <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-1.fna.fbcdn.net/v/t31.18172-8/665460_434144229956164_1282990638_o.jpg?_nc_cat=108&ccb=1-7&_nc_sid=174925&_nc_ohc=2aqwIK6g60sAX8-BUtO&_nc_ht=scontent.fcai2-1.fna&oh=00_AfCkjmk8uoQ-LaGWk1-tXEmz54vN1dsiMF2diROH7b0VTA&oe=6421741C" }} />
+                <Text style={styles.supplierdiscount}>
+                  -15%
+                </Text>
+                <Text style={styles.supplierrating}>
+                  4.1
+                </Text>
+
+              </View>
+            </View>
+            <View style={styles.subcard2holder}>
+              <View style={styles.card}>
+                <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-1.fna.fbcdn.net/v/t39.30808-6/277580457_376103014524313_4416877040863470373_n.png?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=g7htpCBlEPoAX_1mcFW&_nc_ht=scontent.fcai2-1.fna&oh=00_AfBYSmQKIofpJBfz3fw_yAqs0BrO6OUwHYoiUiR9Gr8eDw&oe=63FFD041" }} />
+                <Text style={styles.supplierdiscount}>
+                  -20%
+                </Text>
+                <Text style={styles.supplierrating}>
+                  4.1
+                </Text>
+              </View>
+              <View style={styles.card}>
+                <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-1.fna.fbcdn.net/v/t39.30808-6/299685801_5138280906294387_7991562011588907931_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OmAxaC5D8YMAX9owyV9&_nc_ht=scontent.fcai2-1.fna&oh=00_AfA8__pUOljVGyhWBcDfPqL8bQMHySLt4BhabPhGOFeKbA&oe=63FFB1EA" }} />
+                <Text style={styles.supplierdiscount}>
+                  -10%
+                </Text>
+                <Text style={styles.supplierrating}>
+                  4.1
+                </Text>
+              </View>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({
-  supplierrating:{
-    position:"absolute",
-    right:5,
-    top:5,
-    
-  },
-  supplierdiscount:{
-    position:"absolute",
-    left:5,
-    top:5,
-    color:"red"
-  },
-  subcard2holder:{
-    display:"flex",
-    flexDirection:"column",
-    gap:5,
-    minWidth:"50%"
-  },
-  
-  titletext:{
-    fontWeight:700,
-    fontSize:15,
-  }, 
-  descriptiontext:{
-    fontWeight:500,
-    fontSize:13,
-  },  
-  pricetext:{
-    fontWeight:700,
-    fontSize:20,
-  }, 
-  Instocktext:{
-    fontWeight:700,
-    fontSize:10,
-    color:"green"
-  }, 
-  Outofstocktext:{
-    fontWeight:700,
-    fontSize:10,
-    color:"red",
-  },
-  cardholder:{
-    marginBottom:20,
-    display:"flex",
-    flexDirection:"row",
-    gap:15,
+  supplierrating: {
+    position: "absolute",
+    right: 5,
+    top: 5,
 
   },
-  card2holder:{
-    gap:5,
+  supplierdiscount: {
+    position: "absolute",
+    left: 5,
+    top: 5,
+    color: "red"
   },
-  card:{
-    flex:1,
-    
+  subcard2holder: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 5,
+    minWidth: "50%"
+  },
+
+  titletext: {
+    fontWeight: 700,
+    fontSize: 15,
+  },
+  descriptiontext: {
+    fontWeight: 500,
+    fontSize: 13,
+  },
+  pricetext: {
+    fontWeight: 700,
+    fontSize: 20,
+  },
+  Instocktext: {
+    fontWeight: 700,
+    fontSize: 10,
+    color: "green"
+  },
+  Outofstocktext: {
+    fontWeight: 700,
+    fontSize: 10,
+    color: "red",
+  },
+  cardholder: {
+    marginBottom: 20,
+    display: "flex",
+    flexDirection: "row",
+    gap: 15,
+
+  },
+  card2holder: {
+    gap: 5,
+  },
+  card: {
+    flex: 1,
+
     // shadowColor: '#EEE',
     // shadowOffset: { width: -2, height: 8 },
     // shadowOpacity: 1,
     // shadowRadius: 5,
   },
-  cardimageholder:{
-    width:"100%",
-    height:150,
-    padding:5,
-    resizeMode:"contain"
+  cardimageholder: {
+    width: "100%",
+    height: 150,
+    padding: 5,
+    resizeMode: "contain"
   },
-  shoppingtitle:{
-    fontWeight:700,
-    fontSize:23,
+  shoppingtitle: {
+    fontWeight: 700,
+    fontSize: 23,
   },
-  shoppingholder:{
-    display:"flex",
-    marginBottom:30,
-    flexDirection:"row",
-    justifyContent:"space-between",
-    alignItems:"flex-end"
+  shoppingholder: {
+    display: "flex",
+    marginBottom: 30,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end"
   },
   link: {
     alignSelf: "flex-end",
-    fontWeight:600,
-    fontSize:12,
-   
+    fontWeight: 600,
+    fontSize: 12,
+
   },
-  promotiontext:{
+  promotiontext: {
     color: "#FFE605",
-    fontSize:25,
+    fontSize: 25,
     fontWeight: 900,
   },
-  ordernowtext:{
+  ordernowtext: {
     color: "#FFE605",
-    fontSize:15,
+    fontSize: 15,
     fontWeight: 900,
 
   },
-  ordernow:{
-    backgroundColor:"white",
-    borderRadius:50,
-    padding:5,
-    marginTop:10
-    
+  ordernow: {
+    backgroundColor: "white",
+    borderRadius: 50,
+    padding: 5,
+    marginTop: 10
+
   },
-  promotionpercentage:{
-    width:80,
-    height:80,
-    borderRadius:50,
-    display:"flex",
+  promotionpercentage: {
+    width: 80,
+    height: 80,
+    borderRadius: 50,
+    display: "flex",
     color: "#FFE605",
-    alignItems:"center",
-    justifyContent:"center",
-    backgroundColor:"white"
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white"
   },
-  leftholder:{
-    textAlign:"center",
-    display:"flex",
-    flexDirection:"column",
-    alignItems:"center",
-    justifyContent:"center",
-    maxWidth:Dimensions.get("window").width - 186
+  leftholder: {
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    maxWidth: Dimensions.get("window").width - 186
   },
-  bannertitle:{
-    color:"white",
-    fontSize:30,
-    textAlign:"center",
+  bannertitle: {
+    color: "white",
+    fontSize: 30,
+    textAlign: "center",
     fontWeight: 900,
 
   },
-  bannersubtitle:{
-    color:"white",
-    fontSize:15,
+  bannersubtitle: {
+    color: "white",
+    fontSize: 15,
     fontWeight: 500,
-    textAlign:"center",
+    textAlign: "center",
 
   },
- 
-  bannerholder:{
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"space-between",
-    alignItems:"center",
-    paddingVertical:15,
-    paddingHorizontal:25,
+
+  bannerholder: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 25,
     backgroundColor: "#FFE605",
     borderRadius: 20,
-    gap:6,
-    marginVertical:20
+    gap: 6,
+    marginVertical: 20
   },
-  holder:{
-    padding:25,
-    
+  holder: {
+    padding: 25,
+
   },
   title: {
     alignSelf: "flex-start",
     fontSize: 40,
     fontWeight: 700,
-    
+
 
   },
   container: {
     flex: 1,
     backgroundColor: "white",
 
-  
+
   },
 })

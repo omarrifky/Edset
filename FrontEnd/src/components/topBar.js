@@ -48,10 +48,11 @@ const TopBar = ({ navigation, iconColor = "#FFE605" }) => {
 }
 const styles = StyleSheet.create({
     TopBar: {
-        paddingVertical: 6,
-        paddingHorizontal: 12,
+        width: "100%",
         display: "flex",
+        paddingVertical: 6,
         flexDirection: "row",
+        paddingHorizontal: 12,
         alignContent: "center",
         justifyContent: "space-between",
     },

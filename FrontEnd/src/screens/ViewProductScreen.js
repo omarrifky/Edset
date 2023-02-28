@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,14 +8,28 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
+import TopBarProduct from '../components/topBarProduct';
 
-export default function ViewProductScreen({navigation}) {
-  const increase = () => {};
-  const decrease = () => {};
-  const addtocart = () => {};
+export default function ViewProductScreen({ navigation }) {
+  const [quantity, setQuantity] = useState(1);
+  const [isFavorate, setIsFavorate] = useState(false);
+
+  const increase = () => {
+    setQuantity(quantity + 1);
+   };
+  const decrease = () => {
+    if(quantity - 1 >= 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+  const addtocart = () => {
+  };
+  const handleFavorite = () => {
+    setIsFavorate(!isFavorate);
+  }
   return (
     <SafeAreaView style={styles.container}>
-        
+      <TopBarProduct navigation={navigation} handleFavorite={handleFavorite} isFavorate={isFavorate} />
       <View style={styles.card}>
         <Text style={styles.productbrand}>Faber-Castel</Text>
         <Text style={styles.productname}>24 Colour Grip Pencil</Text>
@@ -26,63 +41,58 @@ export default function ViewProductScreen({navigation}) {
         />
       </View>
 
-
-
-        <View style={styles.holder1}>
-          <Pressable style={styles.button} onPress={decrease}>
-            <Text style={styles.buttontext}>-</Text>
-          </Pressable>
-          <Text style={styles.productprice}>0</Text>
-          <Pressable style={styles.button} onPress={increase}>
-            <Text style={styles.buttontext}>+</Text>
-          </Pressable>
-        </View>
-
-        <View style={styles.holder2}>
-          <View>
-
-        <Text style={styles.productpricelabel}>Price</Text>
-        <Text style={styles.productprice}>EGP 120</Text>
-          </View>
-          <View>
-
-        <Pressable style={styles.button2} onPress={addtocart}>
-          <Text style={styles.button2text}>Add to Cart</Text>
+      <View style={styles.holder1}>
+        <Pressable style={styles.button} onPress={decrease}>
+          <Text style={styles.buttontext}>-</Text>
         </Pressable>
-          </View>
+        <Text style={styles.productprice}>{quantity}</Text>
+        <Pressable style={styles.button} onPress={increase}>
+          <Text style={styles.buttontext}>+</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.holder2}>
+        <View>
+          <Text style={styles.productpricelabel}>Price</Text>
+          <Text style={styles.productprice}>EGP 120</Text>
         </View>
-
-      
-
-    
+        <View>
+          <Pressable style={styles.button2} onPress={addtocart}>
+            <Text style={styles.button2text}>Add to Cart</Text>
+          </Pressable>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
-  
+
   holder1: {
+    gap: 20,
     display: 'flex',
-    flexDirection:"row",
-    flexWrap:"wrap",
-    gap:20,
-    alignContent:"center",
-   
+    flexWrap: "wrap",
+    flexDirection: "row",
+    alignItems: "center",
   },
-  holder2:{
+  holder2: {
     display: 'flex',
-    flexDirection:"row",
-    flexWrap:"wrap",
-    gap:20,
-    marginTop:30,
-    alignItems:"center",
-    justifyContent:"space-between",
-    width:"100%",
-    padding:25
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 20,
+    marginTop: 30,
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    padding: 25
   },
   button: {
     borderRadius: 150,
     backgroundColor: '#FFE605',
-    width: '10%',
+    width: 40,
+    height: 40,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   },
   button2: {
     backgroundColor: '#FFE605',
@@ -100,7 +110,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: 'white',
   },
-  button2text:{
+  button2text: {
     fontWeight: 400,
     fontSize: 20,
     alignSelf: 'center',
@@ -116,7 +126,7 @@ const styles = StyleSheet.create({
   },
   productpricelabel: {
     fontSize: 20,
-    marginBottom:10
+    marginBottom: 10
   },
   productbrand: {
     fontWeight: 700,
@@ -129,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: Dimensions.get('window').width,
     shadowColor: '#EEE',
-    shadowOffset: {width: -2, height: 8},
+    shadowOffset: { width: -2, height: 8 },
     shadowOpacity: 1,
     shadowRadius: 5,
     width: '100%',
@@ -145,11 +155,11 @@ const styles = StyleSheet.create({
     height: 150,
   },
   container: {
-    flex:1,
-    display:"flex",
-    flexDirection:"column",
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent:"space-between"
+    justifyContent: "space-between"
   },
 });
