@@ -3,7 +3,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const TopBarProduct = ({ navigation, handleFavorite, isFavorate = false}) => {
     const handleBack = () => {
-        navigation.navigate('Home');
+        navigation.navigate('Home'); // make it pop so it backs not to homescreen
     }
     return (
         <View style={styles.TopBar}>

@@ -5,9 +5,17 @@ import canson from "../assets/canson.jpeg"
 import TopBar from "../components/topBar";
 
 export default function HomeScreen({ navigation }) {
-  const handleNavigation = () => {
+  const viewproduct = () => {
     navigation.navigate('ViewProduct')
   }
+
+  const viewproducts = () => {
+    navigation.navigate('ViewProducts')
+  }
+   const viewstores = () => {
+    navigation.navigate('Stores')
+  }
+  
   return (
     <SafeAreaView style={styles.container}>
       <TopBar navigation={navigation} />
@@ -31,10 +39,10 @@ export default function HomeScreen({ navigation }) {
 
           <View style={styles.shoppingholder}>
             <Text style={styles.shoppingtitle} >Essentials</Text>
-            <Pressable><Text style={styles.link}>View all {">"}</Text></Pressable>
+            <Pressable onPress={viewproducts}><Text style={styles.link}>View all {">"}</Text></Pressable>
           </View>
           <View style={styles.cardholder}>
-            <Pressable onPress={handleNavigation}>
+            <Pressable onPress={viewproduct}>
               <View style={styles.card}>
                 <Image style={styles.cardimageholder} source={milaneraser}>
                 </Image>
@@ -43,7 +51,7 @@ export default function HomeScreen({ navigation }) {
                 <Text style={styles.Instocktext}>In Stock</Text>
               </View>
             </Pressable>
-            <Pressable onPress={handleNavigation}>
+            <Pressable onPress={viewproduct}>
               <View style={styles.card}>
                 <Image style={styles.cardimageholder} source={canson}>
                 </Image>
@@ -53,7 +61,7 @@ export default function HomeScreen({ navigation }) {
                 <Text style={styles.Outofstocktext}>Out of Stock</Text>
               </View>
             </Pressable>
-            <Pressable onPress={handleNavigation}>
+            <Pressable onPress={viewproduct}>
               <View style={styles.card}>
                 <Image style={styles.cardimageholder} source={roateringpencil}>
                 </Image>
@@ -67,11 +75,13 @@ export default function HomeScreen({ navigation }) {
 
           <View style={styles.shoppingholder}>
             <Text style={styles.shoppingtitle} >Stores</Text>
-            <Pressable><Text style={styles.link}>View all {">"}</Text></Pressable>
+            <Pressable onPress={viewstores}><Text style={styles.link}>View all {">"}</Text></Pressable>
           </View>
-
+          
           <View style={[styles.cardholder, styles.card2holder]}>
+          
             <View style={styles.subcard2holder}>
+            <Pressable onPress={viewproducts}>
               <View style={styles.card}>
                 <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-2.fna.fbcdn.net/v/t39.30808-6/307317580_192243113187416_3278791085684623431_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=dUkFDc4-BqAAX_OxIXi&_nc_ht=scontent.fcai2-2.fna&oh=00_AfAvth5ROf3dBvtVqOOnqQugQ4UMHEQ4hpN5pdk_HvmgjA&oe=63FB5581" }} />
                 <Text style={styles.supplierdiscount}>
@@ -81,6 +91,8 @@ export default function HomeScreen({ navigation }) {
                   4.1
                 </Text>
               </View>
+              </Pressable>
+              <Pressable onPress={viewproducts}>
               <View style={styles.card}>
                 <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-1.fna.fbcdn.net/v/t31.18172-8/665460_434144229956164_1282990638_o.jpg?_nc_cat=108&ccb=1-7&_nc_sid=174925&_nc_ohc=2aqwIK6g60sAX8-BUtO&_nc_ht=scontent.fcai2-1.fna&oh=00_AfCkjmk8uoQ-LaGWk1-tXEmz54vN1dsiMF2diROH7b0VTA&oe=6421741C" }} />
                 <Text style={styles.supplierdiscount}>
@@ -89,10 +101,13 @@ export default function HomeScreen({ navigation }) {
                 <Text style={styles.supplierrating}>
                   4.1
                 </Text>
-
               </View>
+              </Pressable>
             </View>
+          
+            
             <View style={styles.subcard2holder}>
+            <Pressable onPress={viewproducts}>
               <View style={styles.card}>
                 <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-1.fna.fbcdn.net/v/t39.30808-6/277580457_376103014524313_4416877040863470373_n.png?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=g7htpCBlEPoAX_1mcFW&_nc_ht=scontent.fcai2-1.fna&oh=00_AfBYSmQKIofpJBfz3fw_yAqs0BrO6OUwHYoiUiR9Gr8eDw&oe=63FFD041" }} />
                 <Text style={styles.supplierdiscount}>
@@ -102,6 +117,8 @@ export default function HomeScreen({ navigation }) {
                   4.1
                 </Text>
               </View>
+              </Pressable>
+              <Pressable onPress={viewproducts}>
               <View style={styles.card}>
                 <Image style={styles.cardimageholder} source={{ uri: "https://scontent.fcai2-1.fna.fbcdn.net/v/t39.30808-6/299685801_5138280906294387_7991562011588907931_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OmAxaC5D8YMAX9owyV9&_nc_ht=scontent.fcai2-1.fna&oh=00_AfA8__pUOljVGyhWBcDfPqL8bQMHySLt4BhabPhGOFeKbA&oe=63FFB1EA" }} />
                 <Text style={styles.supplierdiscount}>
@@ -111,6 +128,7 @@ export default function HomeScreen({ navigation }) {
                   4.1
                 </Text>
               </View>
+              </Pressable>
             </View>
           </View>
         </View>
