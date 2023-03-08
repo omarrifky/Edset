@@ -34,7 +34,23 @@ router.post("/login", (req, res) => { // If email or password fields are not ent
         });
 });
 
+router.get('/getusers', function(req, res) {
+    const query = req.query.query ? JSON.parse(req.query.query) : {};
+    const filter = {
+        $text: {
+            $search: req.query.search
+        },
+        ...query
+    };
+    if (!req.query.search) delete filter.$text;
 
+    User.find(filter, function(err, User) {
+        if (err)
+            res.send(err);
+        res.json(User);
+
+    });
+})
 
 
 router.post("/registerUser", (req, res) => {

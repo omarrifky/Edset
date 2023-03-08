@@ -3,9 +3,11 @@ import milaneraser from "../assets/milaneraser.jpeg"
 import roateringpencil from "../assets/roatringpencil.jpeg"
 import canson from "../assets/canson.jpeg"
 import TopBar from "../components/topBar";
+import UsersService from "../services/users";
 
 export default function HomeScreen({ navigation }) {
   const viewproduct = () => {
+    UsersService.getUsers();
     navigation.navigate('ViewProduct')
   }
 

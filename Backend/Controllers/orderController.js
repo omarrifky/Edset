@@ -1,6 +1,7 @@
 const { authenticatedelivery, authenticateadmin, authenticatesupplier, authenticateuser } = require("../MiddleWare");
 const { Order } = require("../Models/Order");
 const { GlobalValues, OrderStatusEnums } = require("../utils");
+import { Router } from "express";
 
 const router = Router();
 router.post("/create", authenticateuser, (req, res) => {
@@ -563,3 +564,4 @@ router.patch('/update/:orderId', authenticateadmin, (req, res) => {
         res.status(200).send({ order })
     })
 });
+export const orderController = router;
