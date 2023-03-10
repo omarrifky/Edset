@@ -96,6 +96,20 @@ router.get('/viewdelivery/:delivery_id', (req, res) => {
             });
         });;
 })
+router.get('/viewmyinfodelivery', authenticatedelivery,(req, res) => {
+    Delivery.findById(req.delivery._id).then(delivery => {
+        if (!delivery) {
+            throw { err: "No delivery with this id" }
+        }
+        res.status(200).send(delivery);
+
+    })
+        .catch((err) => {
+            res.status(400).send({
+                err: err.message ? err.message : err,
+            });
+        });;
+})
 
 router.patch('/updatemyinfo', authenticatedelivery, (req, res) => {
     Delivery.findOneAndUpdate({ _id: req.delivery._id }, { $set: req.body }, { new: true }).then(updateddelivery => res.status(200).send({ delivery: updateddelivery }))

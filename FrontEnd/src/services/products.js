@@ -1,18 +1,9 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:8080/api/user';
+const baseUrl = 'http://localhost:8080/api/product';
 
-const UsersService = {
-    login: function(){
-//TODO
-    },
-    logout: function(){
-//TODO
-    },
-    register: function(){
-//TODO
-    },
-    getUsers: function() {
-        axios.get(`${baseUrl}/getusers`, {
+const ProductsService = {
+    getProducts: function() {
+        axios.get(`${baseUrl}/getallProducts`, {
           
         })
             .then(function (response) {
@@ -24,8 +15,8 @@ const UsersService = {
             })
     },
 
-    getUser: function(id) {
-        axios.get(`${baseUrl}/viewuser/`+id, {
+    getProduct: function(id) {
+        axios.get(`${baseUrl}/viewproduct/`+id, {
           
         })
             .then(function (response) {
@@ -38,4 +29,4 @@ const UsersService = {
     },
 };
 
-export default UsersService;
+export default ProductsService;

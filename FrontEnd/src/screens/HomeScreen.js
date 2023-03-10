@@ -7,7 +7,7 @@ import UsersService from "../services/users";
 
 export default function HomeScreen({ navigation }) {
   const viewproduct = () => {
-    UsersService.getUsers();
+    UsersService.getUser("63597ba0b5267004343f382d");
     navigation.navigate('ViewProduct')
   }
 

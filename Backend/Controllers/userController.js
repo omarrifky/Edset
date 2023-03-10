@@ -122,6 +122,20 @@ router.get('/viewuser/:user_id', authenticateadmin,(req, res) => {
             });
         });;
 })
+router.get('/viewmyinfo', authenticateuser,(req, res) => {
+    User.findById(req.user._id).then(user => {
+            if (!user) {
+                throw { err: "No user with this id" }
+            }
+            res.status(200).send(user);
+
+        })
+        .catch((err) => {
+            res.status(400).send({
+                err: err.message ? err.message : err,
+            });
+        });;
+})
 
 
 router.patch('/updatemyinfo', authenticateuser, (req, res) => {
