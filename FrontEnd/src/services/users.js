@@ -12,16 +12,19 @@ const UsersService = {
 //TODO
     },
     getUsers: function() {
-        axios.get(`${baseUrl}/getusers`, {
+        const res = axios.get(`${baseUrl}/getusers`, {
           
         })
             .then(function (response) {
-                console.log("RESS",response.data);
+             user = response.data;
                 return response.data;
+                
             })
+
             .catch(function (error) {
                 console.log(error);
             })
+          
     },
 
     getUser: function(id) {
