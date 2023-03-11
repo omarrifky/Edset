@@ -48,7 +48,7 @@ app.use('/api/user', userController)
 app.use("/api/order", orderController);
 app.use("/api/product", productController);
 app.use("/api/delivery", deliveryController);
-app.use("/api/suppliers", supplierController);
+app.use("/api/supplier", supplierController);
 
 // create our router
 var router = express.Router();

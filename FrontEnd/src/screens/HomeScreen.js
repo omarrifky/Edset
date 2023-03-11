@@ -1,11 +1,16 @@
 import { SafeAreaView, StyleSheet, View, Text, ScrollView, Dimensions, Pressable, Image } from "react-native";
+import { useState } from "react";
 import milaneraser from "../assets/milaneraser.jpeg"
 import roateringpencil from "../assets/roatringpencil.jpeg"
 import canson from "../assets/canson.jpeg"
 import TopBar from "../components/topBar";
+import UsersService from "../services/users";
 
 export default function HomeScreen({ navigation }) {
+  const [users, setUsers] = useState(null);
   const viewproduct = () => {
+    setUsers(UsersService.getUsers("63597ba0b5267004343f382d"));
+    console.log("USER",users)
     navigation.navigate('Cart', { screen: 'ViewProduct'})
   }
 

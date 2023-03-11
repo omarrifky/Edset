@@ -34,7 +34,23 @@ router.post("/login", (req, res) => { // If email or password fields are not ent
         });
 });
 
+router.get('/getusers', function(req, res) {
+    const query = req.query.query ? JSON.parse(req.query.query) : {};
+    const filter = {
+        $text: {
+            $search: req.query.search
+        },
+        ...query
+    };
+    if (!req.query.search) delete filter.$text;
 
+    User.find(filter, function(err, User) {
+        if (err)
+            res.send(err);
+        res.json(User);
+
+    });
+})
 
 
 router.post("/registerUser", (req, res) => {
@@ -94,6 +110,20 @@ router.get('/allusers',authenticateadmin, function(req, res) {
 
 router.get('/viewuser/:user_id', authenticateadmin,(req, res) => {
     User.findById(req.params.user_id).then(user => {
+            if (!user) {
+                throw { err: "No user with this id" }
+            }
+            res.status(200).send(user);
+
+        })
+        .catch((err) => {
+            res.status(400).send({
+                err: err.message ? err.message : err,
+            });
+        });;
+})
+router.get('/viewmyinfo', authenticateuser,(req, res) => {
+    User.findById(req.user._id).then(user => {
             if (!user) {
                 throw { err: "No user with this id" }
             }
