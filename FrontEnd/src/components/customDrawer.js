@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Button, StyleSheet, SafeAreaView, Image, Text, Pressable } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { NavigationActions } from 'react-navigation';
 import { AuthContext } from '../providers/auth';
 
 const CustomDrawer = (props) => {
@@ -16,29 +17,29 @@ const CustomDrawer = (props) => {
                 <View>
                     <Pressable
                         style={styles.btn}
-                        onPress={() => { navigation.navigate('Orders'); navigation.closeDrawer() }}
+                        onPress={() => { navigation.navigate('Cart', { screen: 'Orders' }); navigation.closeDrawer() }}
                     >
                         <Text style={styles.text}>Orders</Text>
                     </Pressable>
                     <Pressable
                         style={styles.btn}
                         title="Account"
-                        onPress={() => { navigation.navigate('Account'); navigation.closeDrawer() }}
+                        onPress={() => { navigation.navigate('Home', { screen: 'Account'}); navigation.closeDrawer() }}
                     >
                         <Text style={styles.text}>Account</Text>
                     </Pressable>
                     <Pressable
-                        style={styles.btn} title="Customer Service" onPress={() => { navigation.navigate('CustomerService'); navigation.closeDrawer() }} >
+                        style={styles.btn} title="Customer Service" onPress={() => { navigation.navigate('Home', { screen:'CustomerService'}); navigation.closeDrawer() }} >
                         <Text style={styles.text}>Customer Service</Text>
                     </Pressable>
                     <Pressable
                         style={styles.btn}
                         title="Settings"
-                        onPress={() => { navigation.navigate('Settings'); navigation.closeDrawer() }}
+                        onPress={() => { navigation.navigate('Home', { screen: 'Settings'}); navigation.closeDrawer() }}
                     >
                         <Text style={styles.text}>Settings</Text>
                     </Pressable>
-               
+
                 </View>
             </ScrollView>
             <View style={styles.logout}>
@@ -55,7 +56,7 @@ const CustomDrawer = (props) => {
 };
 const styles = StyleSheet.create({
     safe: {
-        height:"100%",
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",

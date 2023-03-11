@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import { useContext, useState } from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -8,9 +8,10 @@ import {
   View,
   Image,
   ScrollView
-  
+
 } from 'react-native';
-export default function AccountScreen({navigation}) {
+import TopBar from '../components/topBar';
+export default function AccountScreen({ navigation }) {
   const [edit, setEdit] = useState(false);
   const [userData, setUserData] = useState({
     name: null,
@@ -19,7 +20,7 @@ export default function AccountScreen({navigation}) {
   });
 
   function editInfo(flag) {
-    if(!flag) {
+    if (!flag) {
       alert('Edited successfully');
     }
     setEdit(flag);
@@ -32,53 +33,56 @@ export default function AccountScreen({navigation}) {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.holder}>
-        <View style={styles.titleHolder}>
-          <Image
-            style={styles.pic}
-            source={{
-              uri: 'https://scontent.fcai2-2.fna.fbcdn.net/v/t1.6435-9/78416817_10218449129812468_5834337807438446592_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=RhmGHff4ErYAX_u8Rsd&_nc_ht=scontent.fcai2-2.fna&oh=00_AfBZHofQDA_ct-42lh03bD-loNMK9Lfv5Fq5lUwWKt4vAA&oe=63FE5852',
-            }}
-          />
-          <Text style={[styles.text, styles.title]}>Khaled Mahmoud</Text>
-        </View>
-        <ScrollView>
+      <TopBar navigation={navigation} />
+      <View style={styles.body}>
+        <View style={styles.holder}>
+          <View style={styles.titleHolder}>
+            <Image
+              style={styles.pic}
+              source={{
+                uri: 'https://scontent.fcai2-2.fna.fbcdn.net/v/t1.6435-9/78416817_10218449129812468_5834337807438446592_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=RhmGHff4ErYAX_u8Rsd&_nc_ht=scontent.fcai2-2.fna&oh=00_AfBZHofQDA_ct-42lh03bD-loNMK9Lfv5Fq5lUwWKt4vAA&oe=63FE5852',
+              }}
+            />
+            <Text style={[styles.text, styles.title]}>Khaled Mahmoud</Text>
+          </View>
+          <ScrollView>
 
-        <TextInput
-          style={styles.textInput}
-          onChangeText={$event => onChangehandle($event, 'username')}
-          value={userData.name}
-          placeholder="Username"
-          editable={edit}
-          />
-        <TextInput
-          style={styles.textInput}
-          onChangeText={$event => onChangehandle($event, 'email')}
-          value={userData.name}
-          placeholder="Email"
-          editable={edit}
-          />
-        <TextInput
-          style={styles.textInput}
-          onChangeText={$event => onChangehandle($event, 'password')}
-          value={userData.name}
-          placeholder="Password"
-          editable={edit}
-          />
-            </ScrollView>
-        {edit === false ? (
-          <SafeAreaView>
-            <Pressable onPress={() => editInfo(true)} style={styles.button}>
-              <Text style={styles.buttontext}>Edit Info</Text>
-            </Pressable>
-          </SafeAreaView>
-        ) : (
-          <SafeAreaView>
-            <Pressable onPress={() => editInfo(false)} style={styles.button}>
-              <Text style={styles.buttontext}>Save</Text>
-            </Pressable>
-          </SafeAreaView>
-        )}
+            <TextInput
+              style={styles.textInput}
+              onChangeText={$event => onChangehandle($event, 'username')}
+              value={userData.name}
+              placeholder="Username"
+              editable={edit}
+            />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={$event => onChangehandle($event, 'email')}
+              value={userData.name}
+              placeholder="Email"
+              editable={edit}
+            />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={$event => onChangehandle($event, 'password')}
+              value={userData.name}
+              placeholder="Password"
+              editable={edit}
+            />
+          </ScrollView>
+          {edit === false ? (
+            <SafeAreaView>
+              <Pressable onPress={() => editInfo(true)} style={styles.button}>
+                <Text style={styles.buttontext}>Edit Info</Text>
+              </Pressable>
+            </SafeAreaView>
+          ) : (
+            <SafeAreaView>
+              <Pressable onPress={() => editInfo(false)} style={styles.button}>
+                <Text style={styles.buttontext}>Save</Text>
+              </Pressable>
+            </SafeAreaView>
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
   },
   holder: {
     paddingHorizontal: 24,
-    paddingTop: 120,
+    // paddingTop: 120,
   },
   title: {
     alignSelf: 'flex-start',
@@ -131,7 +135,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     shadowColor: '#EEE',
-    shadowOffset: {width: -2, height: 8},
+    shadowOffset: { width: -2, height: 8 },
     shadowOpacity: 1,
     shadowRadius: 5,
   },
@@ -142,7 +146,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
+  },
+  body: {
+    flex: 1,
+    justifyContent: "center",
   },
   titleHolder: {
     padding: 18,

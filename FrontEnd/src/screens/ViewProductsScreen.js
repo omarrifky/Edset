@@ -6,13 +6,7 @@ import TopBar from "../components/topBar";
 
 export default function HomeScreen({ navigation }) {
   const viewproduct = () => {
-  
     navigation.navigate('ViewProduct')
-
-  }
-
-  const viewproducts = () => {
-    navigation.navigate('ViewProducts')
   }
   return (
     <SafeAreaView style={styles.container}>

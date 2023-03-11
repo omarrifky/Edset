@@ -1,29 +1,32 @@
 import { useContext, useState } from "react";
 import { Alert, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import TopBar from "../components/topBar";
 import { AuthContext } from "../providers/auth";
 export default function CustomerServiceScreen({ navigation }) {
-  const sendEmail = () =>{
+  const sendEmail = () => {
     alert("Email Sent!")
     return
   }
   return (
     <SafeAreaView style={styles.container}>
-    <View style={styles.holder}>
-      <Text style={styles.title}>Contact Us!</Text>
-      <Text style={styles.subtitle}>We will be in touch soon</Text>
-      <TextInput style={styles.textInput}
-      
-        placeholder="Subject"
-      />
-      <TextInput style={styles.textInput2}
-     
-        placeholder="Email"
-      />
-      <Pressable style={styles.button} onPress={()=>sendEmail()}><Text style={styles.buttontext}>Send Email</Text></Pressable>
+      <TopBar navigation={navigation} />
+      <View style={styles.body}>
+        <View style={styles.holder}>
+          <Text style={styles.title}>Contact Us!</Text>
+          <Text style={styles.subtitle}>We will be in touch soon</Text>
+          <TextInput style={styles.textInput}
 
-    </View>
+            placeholder="Subject"
+          />
+          <TextInput style={styles.textInput2}
 
-  </SafeAreaView>
+            placeholder="Email"
+          />
+          <Pressable style={styles.button} onPress={() => sendEmail()}><Text style={styles.buttontext}>Send Email</Text></Pressable>
+
+        </View>
+      </View>
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({
@@ -46,7 +49,11 @@ const styles = StyleSheet.create({
   },
   holder: {
     paddingHorizontal: 24,
-    paddingTop: 120
+    // paddingTop: 120
+  },
+  body: {
+    flex: 1,
+    justifyContent: "center",
   },
   title: {
     alignSelf: "flex-start",
@@ -72,14 +79,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 5,
 
-  },  textInput2: {
+  }, textInput2: {
     padding: 12,
     marginTop: 30,
     borderWidth: 1,
     borderColor: "white",
     borderRadius: 8,
     width: "100%",
-    height:"40%",
+    height: "40%",
     backgroundColor: "white",
     shadowColor: '#EEE',
     shadowOffset: { width: -2, height: 8 },

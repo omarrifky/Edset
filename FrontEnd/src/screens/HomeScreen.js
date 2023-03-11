@@ -6,14 +6,14 @@ import TopBar from "../components/topBar";
 
 export default function HomeScreen({ navigation }) {
   const viewproduct = () => {
-    navigation.navigate('ViewProduct')
+    navigation.navigate('Cart', { screen: 'ViewProduct'})
   }
 
   const viewproducts = () => {
-    navigation.navigate('ViewProducts')
+    navigation.navigate('Cart', { screen: 'ViewProducts'});
   }
    const viewstores = () => {
-    navigation.navigate('Stores')
+    navigation.navigate('Cart', { screen: 'Stores'})
   }
   
   return (
