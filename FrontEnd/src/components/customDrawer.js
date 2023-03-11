@@ -6,12 +6,12 @@ import { AuthContext } from '../providers/auth';
 
 const CustomDrawer = (props) => {
     const { navigation } = props;
-    const { setUser } = useContext(AuthContext)
+    const { setUser, user } = useContext(AuthContext)
     return (
         <SafeAreaView style={styles.safe}>
             <View style={styles.titleHolder}>
                 <Image style={styles.pic} source={{ uri: "https://scontent.fcai2-2.fna.fbcdn.net/v/t1.6435-9/78416817_10218449129812468_5834337807438446592_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=RhmGHff4ErYAX_u8Rsd&_nc_ht=scontent.fcai2-2.fna&oh=00_AfBZHofQDA_ct-42lh03bD-loNMK9Lfv5Fq5lUwWKt4vAA&oe=63FE5852" }} />
-                <Text style={[styles.text, styles.title]}>Khaled Mahmoud</Text>
+                <Text style={[styles.text, styles.title]}>{user.firstname} {user.lastname}</Text>
             </View>
             <ScrollView style={styles.container}>
                 <View>

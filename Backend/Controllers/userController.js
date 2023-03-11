@@ -52,7 +52,6 @@ router.get('/getusers', function(req, res) {
     });
 })
 
-
 router.post("/registerUser", (req, res) => {
     console.log("HELLOO")
     var newuser = new User(); // create a new instance of the User model
@@ -64,6 +63,8 @@ router.post("/registerUser", (req, res) => {
     newuser.firstname = req.body.firstname;
     newuser.lastname = req.body.lastname;
     newuser.password = req.body.password;
+    newuser.university = req.body.university;
+    newuser.faculty = req.body.faculty;
     newuser.wallet = 0;
     newuser.rating = 0;
     newuser.numberOfRatings = 0;
@@ -75,12 +76,12 @@ router.post("/registerUser", (req, res) => {
     newuser.cart = [];
     newuser.save().then(user => res.status(200).send(user))
         .catch((err) => {
+            console.log(err.message ? err.message : err);
             res.status(400).send({
                 err: err.message ? err.message : err,
             });
         });
 })
-
 
 router.post("/logout", authenticateuser, (req, res) => {
     req.user.removeToken(req.token).then(logoutres => res.status(200).send({ msg: "User logged out successfully" })).catch((err) => {
@@ -89,6 +90,7 @@ router.post("/logout", authenticateuser, (req, res) => {
         });
     });
 })
+
 router.get('/allusers',authenticateadmin, function(req, res) {
     const query = req.query.query ? JSON.parse(req.query.query) : {};
     const filter = {
@@ -107,7 +109,6 @@ router.get('/allusers',authenticateadmin, function(req, res) {
     });
 })
 
-
 router.get('/viewuser/:user_id', authenticateadmin,(req, res) => {
     User.findById(req.params.user_id).then(user => {
             if (!user) {
@@ -122,6 +123,7 @@ router.get('/viewuser/:user_id', authenticateadmin,(req, res) => {
             });
         });;
 })
+
 router.get('/viewmyinfo', authenticateuser,(req, res) => {
     User.findById(req.user._id).then(user => {
             if (!user) {
@@ -137,11 +139,28 @@ router.get('/viewmyinfo', authenticateuser,(req, res) => {
         });;
 })
 
+router.get('/favorites', authenticateuser,(req, res) => {
+    User.findById(req.user._id).select('favorites').populate({ 
+        path: "favorites", 
+        model: 'Product', 
+        select: "name price description _id",
+      }).then(user => {
+            if (!user) {
+                throw { err: "No user with this id" }
+            }
+            console.log(user);
+            res.status(200).send({favorites: user.favorites || []});
+        })
+        .catch((err) => {
+            res.status(400).send({
+                err: err.message ? err.message : err,
+            });
+        });;
+})
 
 router.patch('/updatemyinfo', authenticateuser, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { $set: req.body }, { new: true }).then(updateduser => res.status(200).send({ user: updateduser }))
 })
-
 
 router.patch('/addtocart', authenticateuser, (req, res) => {
     if (!(req.user.cart.map(element => element.product).includes(req.body.productid))) {
@@ -150,27 +169,28 @@ router.patch('/addtocart', authenticateuser, (req, res) => {
         User.findOneAndUpdate({ _id: req.user._id, "cart.product": req.body.productid }, { $inc: { "cart.$.quantity": req.body.quantity } }, { new: true }).then(updatedcart => res.status(200).send({ user: updatedcart }))
     }
 })
+
 router.patch('/addexistingtocart', authenticateuser, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id, "cart.product": req.body.productid }, { $inc: { "cart.$.quantity": req.body.quantity } }, { new: true }).then(updatedcart => res.status(200).send({ user: updatedcart }))
 })
 
-
 router.patch('/removefromcart/:product_id', authenticateuser, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { $pull: { cart: { _id: req.params.product_id } } }, { new: true }).then(updatedcart => res.status(200).send({ user: updatedcart }))
 })
+
 router.patch('/clearcart', authenticateuser, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { $set: { cart: [] } }, { new: true }).then(updatedcart => res.status(200).send({ user: updatedcart }))
 
 })
+
 router.patch('/rateuser/:user_id', authenticateuser, (req, res) => { 
     User.findOneAndUpdate({ _id: req.params.user_id }, { $inc: { rating: req.body.rating, numberOfRatings: 1 } }, { new: true }).then(updateduser => res.status(200).send({ updateduser: updateduser }))
 
 })
+
 router.patch('/setuserwallet/:user_id', authenticateadmin, (req, res) => {
     User.findOneAndUpdate({ _id: req.params.user_id}, { $inc: { wallet: req.body.wallet } }, { new: true }).then(updateduser => res.status(200).send({ updateduser: updateduser }))
 })
-
-
 
 router.patch('/blockuser/:user_id', authenticateadmin, (req, res) => {
     User.findOneAndUpdate({ _id: req.params.user_id }, { $set: { blocked: true } }, { new: true }).then(updateduser => res.status(200).send({ updateduser: updateduser }))
@@ -187,6 +207,5 @@ router.patch('/removeuser/:user_id', authenticateadmin, (req, res) => {
 router.patch('/removeme/:user_id', authenticateuser, (req, res) => { // lesaaa
     User.findOneAndUpdate({ _id: req.params.user_id}, { $set: { isremoved: true } }, { new: true }).then(updateduser => res.status(200).send({ updateduser: updateduser }))
 })
-
 
 export const userController = router;

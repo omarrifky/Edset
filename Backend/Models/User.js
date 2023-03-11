@@ -16,7 +16,10 @@ const userSchema = mongoose.Schema({
         trim: true,
         lowercase: true
     },
+    university: String,
+    faculty: String,
     prefrences:{
+        categories: [String],
         isStudent:{
             type:Boolean,
             default:true
@@ -32,7 +35,8 @@ const userSchema = mongoose.Schema({
         },
         major:{
             type:String
-        }
+        },
+        year: Number
     },
     email: {
         type: String,
@@ -71,7 +75,10 @@ const userSchema = mongoose.Schema({
     wallet: {
         type: Number,
     },
-  
+    favorites: [{
+        type: mongoose.Types.ObjectId,
+        ref: "Product"
+    }],
     rating: {
         type: Number,
     },

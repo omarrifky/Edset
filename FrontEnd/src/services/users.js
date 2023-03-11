@@ -2,42 +2,27 @@ import axios from 'axios';
 const baseUrl = 'http://localhost:8080/api/user';
 
 const UsersService = {
-    login: function(){
-//TODO
+    login: function(body){
+        return axios.post(`${baseUrl}/login`, body);
     },
     logout: function(){
-//TODO
+        return axios.post(`${baseUrl}/logout`);
     },
-    register: function(){
-//TODO
+    register: function(body){
+        return axios.post(`${baseUrl}/registerUser`, body);
     },
     getUsers: function() {
-        const res = axios.get(`${baseUrl}/getusers`, {
-          
-        })
-            .then(function (response) {
-             user = response.data;
-                return response.data;
-                
-            })
-
-            .catch(function (error) {
-                console.log(error);
-            })
-          
+        return axios.get(`${baseUrl}/getusers`);
     },
-
-    getUser: function(id) {
-        axios.get(`${baseUrl}/viewuser/`+id, {
-          
-        })
-            .then(function (response) {
-                console.log("RESS",response.data);
-                return response.data;
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+    getUser: function() {
+        return axios.get(`${baseUrl}/viewmyinfo`);
+    },
+    favorites: function(token) {
+        return axios.get(`${baseUrl}/favorites`, {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+        });
     },
 };
 

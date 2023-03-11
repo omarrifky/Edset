@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react';
+import UsersService from '../services/users';
 
 /**
  * This provider is created
@@ -9,32 +10,26 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [favorites, setFavorites] = useState([]);
 
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser,
+        token,
+        setToken,
+        favorites,
+        setFavorites,
         login: async (email, password) => {
-          try {
-            // await auth().signInWithEmailAndPassword(email, password);
-          } catch (e) {
-            console.log(e);
-          }
+          return UsersService.login({email, password})
         },
-        register: async (email, password) => {
-          try {
-            // await auth().createUserWithEmailAndPassword(email, password);
-          } catch (e) {
-            console.log(e);
-          }
+        register: async (body) => {
+          return UsersService.register({...body})
         },
         logout: async () => {
-          try {
-            // await auth().signOut();
-          } catch (e) {
-            console.error(e);
-          }
+          return UsersService.logout()
         }
       }}
     >

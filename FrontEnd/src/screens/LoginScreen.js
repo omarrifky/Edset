@@ -3,7 +3,7 @@ import { Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "reac
 import { AuthContext } from "../providers/auth";
 
 export default function LoginScreen({ navigation }) {
-  const { setUser, login } = useContext(AuthContext);
+  const { setUser, login, setToken } = useContext(AuthContext);
   const [loginData, setLoginData] = useState({
     email: null,
     password: null
@@ -24,9 +24,15 @@ export default function LoginScreen({ navigation }) {
     // else if(loginData.email) {
       // TODO: check email pattern
     // }
-    //TODO: change it with backend check
-    alert(JSON.stringify(loginData))
-    setUser(true);
+    
+    login(loginData.email, loginData.password).then(
+      res => {
+        setToken(res.data.token)
+        setUser(res.data.user);
+      }
+    ).catch(e => {
+      alert(e.response.data.err)
+    });
   }
 
   return (
@@ -39,7 +45,7 @@ export default function LoginScreen({ navigation }) {
           value={loginData.email}
           placeholder="Email"
         />
-        <TextInput style={styles.textInput}
+        <TextInput secureTextEntry={true} style={styles.textInput}
           onChangeText={($event) => onChangehandle($event, "password")}
           value={loginData.password}
           placeholder="Password"
