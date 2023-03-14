@@ -6,7 +6,7 @@ import { AuthContext } from "../providers/auth";
 import UsersService from "../services/users";
 
 export default function FavoritesScreen({ route, navigation }) {
-  const { user, token, favorites, setFavorates } = useContext(AuthContext);
+  const { user, token, setFavorites } = useContext(AuthContext);
   const [favoritesData, setFavoritesData] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function FavoritesScreen({ route, navigation }) {
       .then(res => {
         setFavoritesData(res?.data.favorites);
         const ids = res?.data.favorites.map(el => el._id) || [];
-        setFavorates(ids);
+        setFavorites(ids);
       }).catch(e => {
         alert(e.response?.data.err)
       })
