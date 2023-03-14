@@ -17,6 +17,13 @@ const UsersService = {
     getUser: function() {
         return axios.get(`${baseUrl}/viewmyinfo`);
     },
+    updateUser: function(body = {}, token) {
+        return axios.patch(`${baseUrl}/updatemyinfo`, body, {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            },
+        });
+    },
     favorites: function(token) {
         return axios.get(`${baseUrl}/favorites`, {
             headers: {

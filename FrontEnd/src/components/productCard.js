@@ -1,9 +1,9 @@
 import { StyleSheet, View, Text, Dimensions, Pressable, Image } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../providers/auth";
+import productPlaceholder from "../assets/product.png";
 
 export default function ProductCard({ navigation, product }) {
-    console.log(product);
     const { user } = useContext(AuthContext);
     const { _id, productName, price, description, quantity, category, Subcategory, percentageDiscount, photoLinks } = product || {};
 
@@ -15,7 +15,7 @@ export default function ProductCard({ navigation, product }) {
         <Pressable onPress={viewproduct}>
             <View style={styles.card}>
                 {photoLinks?.length > 0 ? <Image style={styles.cardimageholder} source={{ uri: photoLinks[0] }}>
-                </Image> : <></>}
+                </Image> : <Image style={styles.cardimageholder} source={productPlaceholder}></Image>}
                 {productName ? <Text style={styles.titletext}>{productName}</Text> : <></>}
                 {description ? <Text style={styles.descriptiontext}>{description}</Text> : <></>}
                 {price ? <Text style={styles.pricetext}>EGP {price}</Text> : <></>}

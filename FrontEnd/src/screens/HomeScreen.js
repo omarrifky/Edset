@@ -9,16 +9,13 @@ import ProductsService from "../services/products";
 export default function HomeScreen({ navigation }) {
   const { user } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
-  const viewproduct = () => {
-    navigation.navigate('Cart', { screen: 'ViewProduct' })
-  }
+
   const viewproducts = () => {
-    navigation.navigate('Cart', { screen: 'ViewProducts' });
+    navigation.navigate('Cart', { params: { category: "Engineer" }, screen: 'ViewProducts' });
   }
   const viewstores = () => {
     navigation.navigate('Cart', { screen: 'Stores' })
   }
-
   useEffect(() => {
     ProductsService.getProducts({
       limit: 4,

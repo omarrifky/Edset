@@ -1,13 +1,65 @@
-import { SafeAreaView, StyleSheet, View, Text, ScrollView, Dimensions, Pressable, Image } from "react-native";
-import milaneraser from "../assets/milaneraser.jpeg"
-import roateringpencil from "../assets/roatringpencil.jpeg"
-import canson from "../assets/canson.jpeg"
+import { SafeAreaView, StyleSheet, View, Text, ScrollView, Pressable } from "react-native";
 import TopBar from "../components/topBar";
+import ProductCard from "../components/productCard";
+import { useEffect, useState } from "react";
+import ProductsService from "../services/products";
 
-export default function HomeScreen({ navigation }) {
-  const viewproduct = () => {
-    navigation.navigate('ViewProduct')
-  }
+export default function HomeScreen({ route, navigation }) {
+  const limit = 20;
+  const [page, setPage] = useState(1);
+  const [showPager, setShowPage] = useState(false);
+  const [productsData, setProducts] = useState([]);
+  useEffect(() => {
+    setPage(1);
+    setProducts([]);
+    setShowPage(true);
+
+    const queryBody = {};
+    if(route.params.category) {
+      queryBody.category = route.params.category;
+    }
+
+    ProductsService.getProducts({
+      page,
+      limit,
+      queryBody
+    })
+    .then(res => {
+      const { count = 0, pages = 1, products = [] } = res.data || {};
+      setProducts(products);
+      if(page >= pages) {
+        setShowPage(false)
+      } else {
+        setShowPage(true)
+      }
+    }).catch(e => {
+      alert(e.response.data.err)
+    });
+  }, [])
+
+  const loadMore = () => {
+    setPage(page + 1)
+    const queryBody = {};
+    if(route.params.category) {
+      queryBody.category = route.params.category;
+    }
+    ProductsService.getProducts({
+      limit,
+      queryBody,
+      page: page + 1,
+    })
+      .then(res => {
+        const { count = 0, pages = 1, products = [] } = res.data || {};
+        setProducts([...productsData, ...products]);
+        if((page + 1) >= pages) {
+          setShowPage(false)
+        } else {
+          setShowPage(true)
+        }
+      }).catch(e => {
+        alert(e.response.data.err)
+      });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <TopBar navigation={navigation} />
@@ -15,218 +67,32 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.holder}>
           <Text style={styles.title}>Search</Text>
           <View style={styles.cardholder}>
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={milaneraser}>
-                </Image>
-                <Text style={styles.titletext}>Milan Eraser</Text>
-                <Text style={styles.pricetext}>EGP 12.5</Text>
-                <Text style={styles.Instocktext}>In Stock</Text>
-              </View>
-            </Pressable>
-         
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={canson}>
-                </Image>
-                <Text style={styles.titletext}>Canson Sketch</Text>
-                <Text style={styles.descriptiontext}>150g 25 x 35 cm</Text>
-                <Text style={styles.pricetext}>EGP 37</Text>
-                <Text style={styles.Outofstocktext}>Out of Stock</Text>
-              </View>
-            </Pressable>
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={roateringpencil}>
-                </Image>
-                <Text style={styles.titletext}>Roatring Pencil</Text>
-                <Text style={styles.descriptiontext}>0.5mm</Text>
-                <Text style={styles.pricetext}>EGP 85</Text>
-                <Text style={styles.Instocktext}>In Stock</Text>
-              </View>
-            </Pressable>
-
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={milaneraser}>
-                </Image>
-                <Text style={styles.titletext}>Milan Eraser</Text>
-                <Text style={styles.pricetext}>EGP 12.5</Text>
-                <Text style={styles.Instocktext}>In Stock</Text>
-              </View>
-            </Pressable>
-         
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={canson}>
-                </Image>
-                <Text style={styles.titletext}>Canson Sketch</Text>
-                <Text style={styles.descriptiontext}>150g 25 x 35 cm</Text>
-                <Text style={styles.pricetext}>EGP 37</Text>
-                <Text style={styles.Outofstocktext}>Out of Stock</Text>
-              </View>
-            </Pressable>
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={roateringpencil}>
-                </Image>
-                <Text style={styles.titletext}>Roatring Pencil</Text>
-                <Text style={styles.descriptiontext}>0.5mm</Text>
-                <Text style={styles.pricetext}>EGP 85</Text>
-                <Text style={styles.Instocktext}>In Stock</Text>
-              </View>
-            </Pressable>
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={milaneraser}>
-                </Image>
-                <Text style={styles.titletext}>Milan Eraser</Text>
-                <Text style={styles.pricetext}>EGP 12.5</Text>
-                <Text style={styles.Instocktext}>In Stock</Text>
-              </View>
-            </Pressable>
-         
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={canson}>
-                </Image>
-                <Text style={styles.titletext}>Canson Sketch</Text>
-                <Text style={styles.descriptiontext}>150g 25 x 35 cm</Text>
-                <Text style={styles.pricetext}>EGP 37</Text>
-                <Text style={styles.Outofstocktext}>Out of Stock</Text>
-              </View>
-            </Pressable>
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={roateringpencil}>
-                </Image>
-                <Text style={styles.titletext}>Roatring Pencil</Text>
-                <Text style={styles.descriptiontext}>0.5mm</Text>
-                <Text style={styles.pricetext}>EGP 85</Text>
-                <Text style={styles.Instocktext}>In Stock</Text>
-              </View>
-            </Pressable>
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={milaneraser}>
-                </Image>
-                <Text style={styles.titletext}>Milan Eraser</Text>
-                <Text style={styles.pricetext}>EGP 12.5</Text>
-                <Text style={styles.Instocktext}>In Stock</Text>
-              </View>
-            </Pressable>
-         
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={canson}>
-                </Image>
-                <Text style={styles.titletext}>Canson Sketch</Text>
-                <Text style={styles.descriptiontext}>150g 25 x 35 cm</Text>
-                <Text style={styles.pricetext}>EGP 37</Text>
-                <Text style={styles.Outofstocktext}>Out of Stock</Text>
-              </View>
-            </Pressable>
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={roateringpencil}>
-                </Image>
-                <Text style={styles.titletext}>Roatring Pencil</Text>
-                <Text style={styles.descriptiontext}>0.5mm</Text>
-                <Text style={styles.pricetext}>EGP 85</Text>
-                <Text style={styles.Instocktext}>In Stock</Text>
-              </View>
-            </Pressable>
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={milaneraser}>
-                </Image>
-                <Text style={styles.titletext}>Milan Eraser</Text>
-                <Text style={styles.pricetext}>EGP 12.5</Text>
-                <Text style={styles.Instocktext}>In Stock</Text>
-              </View>
-            </Pressable>
-         
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={canson}>
-                </Image>
-                <Text style={styles.titletext}>Canson Sketch</Text>
-                <Text style={styles.descriptiontext}>150g 25 x 35 cm</Text>
-                <Text style={styles.pricetext}>EGP 37</Text>
-                <Text style={styles.Outofstocktext}>Out of Stock</Text>
-              </View>
-            </Pressable>
-            <Pressable onPress={viewproduct}>
-              <View style={styles.card}>
-                <Image style={styles.cardimageholder} source={roateringpencil}>
-                </Image>
-                <Text style={styles.titletext}>Roatring Pencil</Text>
-                <Text style={styles.descriptiontext}>0.5mm</Text>
-                <Text style={styles.pricetext}>EGP 85</Text>
-                <Text style={styles.Instocktext}>In Stock</Text>
-              </View>
-            </Pressable>
+            {productsData.map(product => (
+              <ProductCard product={product} navigation={navigation} />
+            ))}
           </View>
+          {showPager ? <Pressable style={styles.button} onPress={() => loadMore()}>
+            <Text style={styles.buttontext}>View More</Text>
+          </Pressable> : <></>}
         </View>
       </ScrollView>
     </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({
-
-
-  titletext: {
-    fontWeight: 700,
-    fontSize: 15,
-  },
-  descriptiontext: {
-    fontWeight: 500,
-    fontSize: 13,
-  },
-  pricetext: {
-    fontWeight: 700,
-    fontSize: 20,
-  },
-  Instocktext: {
-    fontWeight: 700,
-    fontSize: 10,
-    color: "green"
-  },
-  Outofstocktext: {
-    fontWeight: 700,
-    fontSize: 10,
-    color: "red",
-  },
   cardholder: {
     marginVertical: 20,
     display: "flex",
-    alignItems:"center",
-    justifyContent:"space-between",
-    flexWrap:"wrap",
+    justifyContent: "space-between",
     flexDirection: "row",
+    flexWrap: "wrap",
     gap: 10,
   },
   holder: {
     padding: 25,
-
+    display: "flex",
+    flexDirection: "column"
   },
-
-  card: {
-    // flex: 1,
-
-    // shadowColor: '#EEE',
-    // shadowOffset: { width: -2, height: 8 },
-    // shadowOpacity: 1,
-    // shadowRadius: 5,
-  },
-  cardimageholder: {
-    width: "100%",
-    height: 150,
-    padding: 5,
-    resizeMode: "contain"
-  },
-
-
   title: {
     alignSelf: "flex-start",
     fontSize: 40,
@@ -237,7 +103,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-
-
+  },
+  buttontext: {
+    color: "white",
+    fontWeight: 700,
+    fontSize: 15
+  },
+  button: {
+    backgroundColor: "#FFE605",
+    borderRadius: 20,
+    padding: 14,
+    width: "auto",
+    marginTop: 20,
+    color: "white",
+    display:"flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 })

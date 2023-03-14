@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -10,8 +10,12 @@ import {
 } from 'react-native';
 import TopBarProduct from '../components/topBarProduct';
 import ProductsService from '../services/products';
+import productPlaceholder from "../assets/product.png";
+import { AuthContext } from '../providers/auth';
+import UsersService from '../services/users';
 
 export default function ViewProductScreen({ route, navigation }) {
+  const { user, token, favorites, setFavorites } = useContext(AuthContext);
   const { id, product } = route.params || {};
   const [fecthProduct, setFecthProduct] = useState(product || null);
 
@@ -30,12 +34,38 @@ export default function ViewProductScreen({ route, navigation }) {
   };
   const handleFavorite = () => {
     setIsFavorate(!isFavorate);
+    let updatedFavorate = [...favorites];
+    if(isFavorate) {
+      updatedFavorate = updatedFavorate.filter(el => el != id);
+    } else {
+      updatedFavorate = [id, ...updatedFavorate]
+    }
+    UsersService.updateUser({favorites: updatedFavorate}, token)
+    .then(res => {
+      const { user } = res.data;
+      setFavorites(user.favorites);
+      console.log(user.favorites);
+      if((user.favorites || []).includes(id)) {
+        setIsFavorate(true)
+      } else {
+        setIsFavorate(false)
+      }
+    })
+    .catch(e => {
+      alert(e.response.data.err)
+    });
   }
 
   useEffect(() => {
     const { id, product } = route.params || {};
     setFecthProduct(product);
-
+    console.log(favorites);
+    if((favorites || []).includes(id)) {
+      setIsFavorate(true)
+    } else {
+      setIsFavorate(false)
+    }
+    
     if(!product) {
       ProductsService.getProduct(id)
       .then(res => {
@@ -58,7 +88,7 @@ export default function ViewProductScreen({ route, navigation }) {
           source={{
             uri: fecthProduct.photoLinks[0],
           }}
-        /> : <></>}
+        /> : <Image style={styles.pic} source={productPlaceholder}></Image>}
       </View>
 
       <View style={styles.holder1}>

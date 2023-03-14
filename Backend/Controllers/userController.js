@@ -143,12 +143,10 @@ router.get('/favorites', authenticateuser,(req, res) => {
     User.findById(req.user._id).select('favorites').populate({ 
         path: "favorites", 
         model: 'Product', 
-        select: "name price description _id",
       }).then(user => {
             if (!user) {
                 throw { err: "No user with this id" }
             }
-            console.log(user);
             res.status(200).send({favorites: user.favorites || []});
         })
         .catch((err) => {
