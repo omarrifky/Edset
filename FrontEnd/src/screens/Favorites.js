@@ -6,7 +6,7 @@ import { AuthContext } from "../providers/auth";
 import UsersService from "../services/users";
 
 export default function FavoritesScreen({ route, navigation }) {
-  const { user, token, setFavorites } = useContext(AuthContext);
+  const { user, token, favorites, setFavorites } = useContext(AuthContext);
   const [favoritesData, setFavoritesData] = useState([]);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function FavoritesScreen({ route, navigation }) {
       }).catch(e => {
         alert(e.response?.data.err)
       })
-  }, [])
+  }, [favorites])
   return (
     <SafeAreaView style={styles.container}>
       <TopBar navigation={navigation} />
