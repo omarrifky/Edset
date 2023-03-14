@@ -11,6 +11,11 @@ router.post("/getallProducts", (req, res) => { // Gets all products
         .sort(sort)
         .skip(skip)
         .limit(limit)
+        .populate({ 
+            path: "supplier", 
+            model: 'Supplier', 
+            select: "companyName rating _id",
+        })
         .then(async(products) => {
             const count = await Product.countDocuments({ isremoved: false, ...queryBody })
                 .sort(sort);

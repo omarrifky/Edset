@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -9,16 +9,20 @@ import {
   Image,
 } from 'react-native';
 import TopBarProduct from '../components/topBarProduct';
+import ProductsService from '../services/products';
 
-export default function ViewProductScreen({ navigation }) {
+export default function ViewProductScreen({ route, navigation }) {
+  const { id, product } = route.params || {};
+  const [fecthProduct, setFecthProduct] = useState(product || null);
+
   const [quantity, setQuantity] = useState(1);
   const [isFavorate, setIsFavorate] = useState(false);
 
   const increase = () => {
     setQuantity(quantity + 1);
-   };
+  };
   const decrease = () => {
-    if(quantity - 1 >= 1) {
+    if (quantity - 1 >= 1) {
       setQuantity(quantity - 1);
     }
   };
@@ -27,18 +31,34 @@ export default function ViewProductScreen({ navigation }) {
   const handleFavorite = () => {
     setIsFavorate(!isFavorate);
   }
+
+  useEffect(() => {
+    const { id, product } = route.params || {};
+    setFecthProduct(product);
+
+    if(!product) {
+      ProductsService.getProduct(id)
+      .then(res => {
+        const product = res.data;
+        setFecthProduct(product);
+      }).catch(e => {
+        alert(e.response.data.err)
+      });
+    }
+  }, [route.params])
+
   return (
     <SafeAreaView style={styles.container}>
       <TopBarProduct navigation={navigation} handleFavorite={handleFavorite} isFavorate={isFavorate} />
       <View style={styles.card}>
-        <Text style={styles.productbrand}>Faber-Castel</Text>
-        <Text style={styles.productname}>24 Colour Grip Pencil</Text>
-        <Image
+        {fecthProduct?.supplier?.companyName ? <Text style={styles.productbrand}>{fecthProduct.supplier.companyName}</Text> : <></>}
+        {fecthProduct?.productName ? <Text style={styles.productname}>{fecthProduct?.productName}</Text> : <></>}
+        {fecthProduct?.photoLinks?.length > 0 ? <Image
           style={styles.pic}
           source={{
-            uri: 'https://scontent.fcai2-2.fna.fbcdn.net/v/t31.18172-8/19787527_1362038537236890_6923746836663638186_o.jpg?_nc_cat=109&ccb=1-7&_nc_sid=9267fe&_nc_ohc=zp6oQPYahT0AX8AVUv-&_nc_ht=scontent.fcai2-2.fna&oh=00_AfBL53UM48RqFqnycVFzkZGkF3-CNLwCoeBKGI9rC5Aidw&oe=641DE597',
+            uri: fecthProduct.photoLinks[0],
           }}
-        />
+        /> : <></>}
       </View>
 
       <View style={styles.holder1}>
@@ -51,17 +71,17 @@ export default function ViewProductScreen({ navigation }) {
         </Pressable>
       </View>
 
-      <View style={styles.holder2}>
+      {fecthProduct?.price ? <View style={styles.holder2}>
         <View>
           <Text style={styles.productpricelabel}>Price</Text>
-          <Text style={styles.productprice}>EGP 120</Text>
+          <Text style={styles.productprice}>EGP {fecthProduct?.price}</Text>
         </View>
         <View>
           <Pressable style={styles.button2} onPress={addtocart}>
             <Text style={styles.button2text}>Add to Cart</Text>
           </Pressable>
         </View>
-      </View>
+      </View> : <></>}
     </SafeAreaView>
   );
 }
