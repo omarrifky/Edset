@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import CartScreen from '../screens/Cart';
 import OrdersScreen from '../screens/Orders';
-import StoresScreen from '../screens/StoresScreen';
+import SuppliersScreen from '../screens/SuppliersScreen';
 import ViewProductScreen from '../screens/ViewProductScreen';
 import ViewProductsScreen from '../screens/ViewProductsScreen';
 
@@ -16,7 +16,7 @@ export default function CartStack() {
             />
             <CartStackNav.Screen name='ViewProduct' component={ViewProductScreen} options={{ headerShown: false, headerMode: false }}
             />
-            <CartStackNav.Screen name='Stores' component={StoresScreen} options={{ headerShown: false, headerMode: false }}
+            <CartStackNav.Screen name='Suppliers' component={SuppliersScreen} options={{ headerShown: false, headerMode: false }}
             />
             <CartStackNav.Screen name='ViewProducts' component={ViewProductsScreen} options={{ headerShown: false, headerMode: false }}
             />

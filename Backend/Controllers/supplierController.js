@@ -60,13 +60,23 @@ router.get("/admin/readAll", authenticateadmin, async (req, res) => {
 
 router.get("/readAll", async (req, res) => {
     const exclude = "-username -password -blocked -taxNumber -officialDocuments -tokens";
-    Supplier
-        .find({
-            blocked: false
+    const { queryBody, search, page, sort, limit } = req.body;
+    const skip = limit * (page - 1);
+    if (search) queryBody.$text = { $search: search };
+    Supplier.find({ ...queryBody })
+        .sort(sort)
+        .skip(skip)
+        .limit(limit)
+        .populate({ 
+            path: "supplier", 
+            model: 'Supplier', 
+            select: "companyName rating _id",
         })
-        .select(exclude)
-        .then((suppliers) => {
-            res.status(200).send(suppliers);
+        .then(async(suppliers) => {
+            const count = await Supplier.countDocuments({ isremoved: false, ...queryBody })
+                .sort(sort);
+            const pages = Math.ceil(count / limit);
+            res.status(200).send({ suppliers, pages, count });
         })
         .catch((err) => {
             res.status(400).send({
