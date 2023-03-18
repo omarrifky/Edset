@@ -26,7 +26,6 @@ export default function HomeScreen({ navigation }) {
     })
       .then(res => {
         const { count = 0, products = [] } = res.data || {};
-        console.log("PRODDD",products)
         setProducts(products);
       }).catch(e => {
         alert(e.response.data.err)
