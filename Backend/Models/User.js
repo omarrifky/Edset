@@ -139,9 +139,6 @@ const userSchema = mongoose.Schema({
             type:mongoose.Types.ObjectId,
             ref:"supplier"
         }
-
-
-
     }],
     tokens: [{
         access: {

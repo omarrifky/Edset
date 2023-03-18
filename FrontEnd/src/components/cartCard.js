@@ -6,78 +6,71 @@ import {
   Pressable,
   Image,
 } from 'react-native';
-import {useContext} from 'react';
-import {AuthContext} from '../providers/auth';
+import { useContext } from 'react';
+import { AuthContext } from '../providers/auth';
 import productPlaceholder from '../assets/product.png';
 
-export default function CartCard({navigation, product}) {
-  const {user} = useContext(AuthContext);
+export default function CartCard({ navigation, product }) {
+  const { user } = useContext(AuthContext);
   const {
     _id,
+    quantity,
+    photoLinks,
     productName,
     productPrice,
-    description,
-    quantity,
-    category,
-    Subcategory,
-    percentageDiscount,
-    photoLinks,
   } = product || {};
 
-  const viewproduct = () => {
-    navigation.navigate('Cart', {
-      params: {id: _id, product},
-      screen: 'ViewProduct',
-    });
+  const removeitem = () => { 
+
   };
-  const removeitem = () => {};
-  const increase = () => {};
-  const decrease = () => {};
-  console.log(product);
+  const increase = () => { 
+
+  };
+  const decrease = () => { 
+
+  };
   return (
-    <Pressable onPress={viewproduct}>
-      <View style={styles.card}>
-        <View style={styles.cardimageholder}>
-          {photoLinks?.length > 0 ? (
-            <Image style={styles.image} source={{uri: photoLinks[0]}}></Image>
+    <View style={styles.card}>
+      <View style={styles.cardimageholder}>
+        {photoLinks?.length > 0 ? (
+          <Image style={styles.image} source={{ uri: photoLinks[0] }}></Image>
+        ) : (
+          <Image style={styles.image} source={productPlaceholder}></Image>
+        )}
+      </View>
+      <View style={styles.content}>
+        <View style={styles.header}>
+          {productName ? (
+            <Text style={styles.titletext}>{productName}</Text>
           ) : (
-            <Image style={styles.image} source={productPlaceholder}></Image>
+            <></>
+          )}
+          <Pressable onPress={removeitem}>
+            <Text style={styles.x}>x</Text>
+          </Pressable>
+        </View>
+        <View style={styles.holder1}>
+          <Pressable style={styles.button} onPress={decrease}>
+            <Text style={styles.buttontext}>-</Text>
+          </Pressable>
+          <Text style={styles.productprice}>{quantity}</Text>
+          <Pressable style={styles.button} onPress={increase}>
+            <Text style={styles.buttontext}>+</Text>
+          </Pressable>
+        </View>
+        <View style={styles.priceholder}>
+          <Text
+            style={quantity > 0 ? styles.Instocktext : styles.Outofstocktext}>
+            {quantity > 0 ? 'In Stock' : 'Out of Stock'}
+          </Text>
+          {productPrice ? (
+            <Text style={styles.pricetext}>EGP {productPrice}</Text>
+          ) : (
+            <></>
           )}
         </View>
-        <View style={styles.content}>
-          <View style={styles.header}>
-            {productName ? (
-              <Text style={styles.titletext}>{productName}</Text>
-            ) : (
-              <></>
-            )}
-            <Pressable onPress={removeitem}>
-              <Text style={styles.x}>x</Text>
-            </Pressable>
-          </View>
-          <View style={styles.holder1}>
-            <Pressable style={styles.button} onPress={decrease}>
-              <Text style={styles.buttontext}>-</Text>
-            </Pressable>
-            <Text style={styles.productprice}>{quantity}</Text>
-            <Pressable style={styles.button} onPress={increase}>
-              <Text style={styles.buttontext}>+</Text>
-            </Pressable>
-          </View>
-          <View style={styles.priceholder}>
-            <Text
-              style={quantity > 0 ? styles.Instocktext : styles.Outofstocktext}>
-              {quantity > 0 ? 'In Stock' : 'Out of Stock'}
-            </Text>
-            {productPrice ? (
-              <Text style={styles.pricetext}>EGP {productPrice}</Text>
-            ) : (
-              <></>
-            )}
-          </View>
-        </View>
       </View>
-    </Pressable>
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -106,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'white',
     shadowColor: '#EEE',
-    shadowOffset: {width: -2, height: 8},
+    shadowOffset: { width: -2, height: 8 },
     shadowOpacity: 1,
     shadowRadius: 5,
     padding: 8,

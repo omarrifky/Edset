@@ -177,15 +177,12 @@ router.patch('/updatemyinfo', authenticateuser, (req, res) => {
 })
 
 router.patch('/addtocart', authenticateuser, (req, res) => {
-        console.log(req.user.cart)
         if (!(req.user.cart.map(element => element.product).includes(req.body.productid))) {
             User.findOneAndUpdate({ _id: req.user._id }, { $push: { cart: { product: req.body.productid, quantity: req.body.quantity, supplier: req.body.supplier, productName: req.body.name, productPrice: req.body.price, productLogo: req.body.logo } } }, { new: true }).then(updatedcart => res.status(200).send({ cart: updatedcart }))
         } else {
             User.findOneAndUpdate({ _id: req.user._id, "cart.product": req.body.productid }, { $inc: { "cart.$.quantity": req.body.quantity } }, { new: true }).then(updatedcart => res.status(200).send({ user: updatedcart }))
         }
         console.log(req.user.cart)
-    
-   
     })
 
 

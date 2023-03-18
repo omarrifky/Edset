@@ -32,9 +32,11 @@ export default function ViewProductScreen({route, navigation}) {
     }
   };
   const addtocart = () => {
+    const {id, product} = route.params || {};
+    console.log(id);
     UsersService.addtoCart(
       {
-        product: id,
+        productid: id,
         quantity: quantity,
         supplier: product.supplier,
         name: product.productName,
