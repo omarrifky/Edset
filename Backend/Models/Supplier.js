@@ -55,6 +55,9 @@ const supplierSchema = mongoose.Schema({
     rating: {
         type: Number,
     },
+    discount: {
+        type: Number,
+    },
     numberOfRatings: {
         type: Number,
     },

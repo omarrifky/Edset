@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -10,17 +10,18 @@ import {
 } from 'react-native';
 import TopBarProduct from '../components/topBarProduct';
 import ProductsService from '../services/products';
-import productPlaceholder from "../assets/product.png";
-import { AuthContext } from '../providers/auth';
+import productPlaceholder from '../assets/product.png';
+import {AuthContext} from '../providers/auth';
 import UsersService from '../services/users';
 
-export default function ViewProductScreen({ route, navigation }) {
-  const { user, token, favorites, setFavorites } = useContext(AuthContext);
-  const { id, product } = route.params || {};
+export default function ViewProductScreen({route, navigation}) {
+  const {user, token, favorites, setFavorites, cart, setCart} =
+    useContext(AuthContext);
+  const {id, product} = route.params || {};
   const [fecthProduct, setFecthProduct] = useState(product || null);
 
   const [quantity, setQuantity] = useState(1);
-  const [isFavorate, setIsFavorate] = useState(false);
+  const [isfavorite, setIsfavorite] = useState(false);
 
   const increase = () => {
     setQuantity(quantity + 1);
@@ -31,63 +32,95 @@ export default function ViewProductScreen({ route, navigation }) {
     }
   };
   const addtocart = () => {
+    UsersService.addtoCart(
+      {
+        product: id,
+        quantity: quantity,
+        supplier: product.supplier,
+        name: product.productName,
+        price: product.price,
+        logo: product.photoLinks?.[0],
+      },
+      token,
+    ).then(res => {
+      setCart(res.data);
+    });
   };
   const handleFavorite = () => {
-    setIsFavorate(!isFavorate);
-    let updatedFavorate = [...favorites];
-    if(isFavorate) {
-      updatedFavorate = updatedFavorate.filter(el => el != id);
+    setIsfavorite(!isfavorite);
+    let updatedfavorite = [...favorites];
+    if (isfavorite) {
+      updatedfavorite = updatedfavorite.filter(el => el != id);
     } else {
-      updatedFavorate = [id, ...updatedFavorate]
+      updatedfavorite = [id, ...updatedfavorite];
     }
-    UsersService.updateUser({favorites: updatedFavorate}, token)
-    .then(res => {
-      const { user } = res.data;
-      setFavorites(user.favorites);
-      console.log(user.favorites);
-      if((user.favorites || []).includes(id)) {
-        setIsFavorate(true)
-      } else {
-        setIsFavorate(false)
-      }
-    })
-    .catch(e => {
-      alert(e.response.data.err)
-    });
-  }
+    UsersService.updateUser({favorites: updatedfavorite}, token)
+      .then(res => {
+        const {user} = res.data;
+        setFavorites(user.favorites);
+        console.log(user.favorites);
+        if ((user.favorites || []).includes(id)) {
+          setIsfavorite(true);
+        } else {
+          setIsfavorite(false);
+        }
+      })
+      .catch(e => {
+        alert(e.response.data.err);
+      });
+  };
 
   useEffect(() => {
-    const { id, product } = route.params || {};
+    const {id, product} = route.params || {};
     setFecthProduct(product);
-    if((favorites || []).includes(id)) {
-      setIsFavorate(true)
+    if ((favorites || []).includes(id)) {
+      setIsfavorite(true);
     } else {
-      setIsFavorate(false)
+      setIsfavorite(false);
     }
-    
-    if(!product) {
+
+    if (!product) {
       ProductsService.getProduct(id)
-      .then(res => {
-        const product = res.data;
-        setFecthProduct(product);
-      }).catch(e => {
-        alert(e.response.data.err)
-      });
+        .then(res => {
+          const product = res.data;
+          setFecthProduct(product);
+        })
+        .catch(e => {
+          alert(e.response.data.err);
+        });
     }
-  }, [route.params])
+  }, [route.params]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <TopBarProduct navigation={navigation} handleFavorite={handleFavorite} isFavorate={isFavorate} />
+      <TopBarProduct
+        navigation={navigation}
+        handleFavorite={handleFavorite}
+        isfavorite={isfavorite}
+      />
       <View style={styles.card}>
-        {fecthProduct?.supplier?.companyName ? <Text style={styles.productbrand}>{fecthProduct.supplier.companyName}</Text> : <></>}
-        {fecthProduct?.productName ? <Text style={styles.productname}>{fecthProduct?.productName}</Text> : <></>}
-        {fecthProduct?.photoLinks?.length > 0 ? <Image
-          style={styles.pic}
-          source={{
-            uri: fecthProduct.photoLinks[0],
-          }}
-        /> : <Image style={styles.pic} source={productPlaceholder}></Image>}
+        {fecthProduct?.supplier?.companyName ? (
+          <Text style={styles.productbrand}>
+            {fecthProduct.supplier.companyName}
+          </Text>
+        ) : (
+          <></>
+        )}
+        {fecthProduct?.productName ? (
+          <Text style={styles.productname}>{fecthProduct?.productName}</Text>
+        ) : (
+          <></>
+        )}
+        {fecthProduct?.photoLinks?.length > 0 ? (
+          <Image
+            style={styles.pic}
+            source={{
+              uri: fecthProduct.photoLinks[0],
+            }}
+          />
+        ) : (
+          <Image style={styles.pic} source={productPlaceholder}></Image>
+        )}
       </View>
 
       <View style={styles.holder1}>
@@ -100,48 +133,51 @@ export default function ViewProductScreen({ route, navigation }) {
         </Pressable>
       </View>
 
-      {fecthProduct?.price ? <View style={styles.holder2}>
-        <View>
-          <Text style={styles.productpricelabel}>Price</Text>
-          <Text style={styles.productprice}>EGP {fecthProduct?.price}</Text>
+      {fecthProduct?.price ? (
+        <View style={styles.holder2}>
+          <View>
+            <Text style={styles.productpricelabel}>Price</Text>
+            <Text style={styles.productprice}>EGP {fecthProduct?.price}</Text>
+          </View>
+          <View>
+            <Pressable style={styles.button2} onPress={addtocart}>
+              <Text style={styles.button2text}>Add to Cart</Text>
+            </Pressable>
+          </View>
         </View>
-        <View>
-          <Pressable style={styles.button2} onPress={addtocart}>
-            <Text style={styles.button2text}>Add to Cart</Text>
-          </Pressable>
-        </View>
-      </View> : <></>}
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
-
   holder1: {
     gap: 20,
     display: 'flex',
-    flexWrap: "wrap",
-    flexDirection: "row",
-    alignItems: "center",
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   holder2: {
     display: 'flex',
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 20,
     marginTop: 30,
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    padding: 25
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: 25,
   },
   button: {
     borderRadius: 150,
     backgroundColor: '#FFE605',
     width: 40,
     height: 40,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   button2: {
     backgroundColor: '#FFE605',
@@ -175,7 +211,7 @@ const styles = StyleSheet.create({
   },
   productpricelabel: {
     fontSize: 20,
-    marginBottom: 10
+    marginBottom: 10,
   },
   productbrand: {
     fontWeight: 700,
@@ -188,7 +224,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: Dimensions.get('window').width,
     shadowColor: '#EEE',
-    shadowOffset: { width: -2, height: 8 },
+    shadowOffset: {width: -2, height: 8},
     shadowOpacity: 1,
     shadowRadius: 5,
     width: '100%',
@@ -205,10 +241,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: "space-between"
+    justifyContent: 'space-between',
   },
 });

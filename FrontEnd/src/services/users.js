@@ -23,9 +23,23 @@ const UsersService = {
               'Authorization': 'Bearer ' + token
             },
         });
+    }, 
+    addtoCart: function(body = {}, token) {
+        return axios.patch(`${baseUrl}/addtocart`, body, {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            },
+        });
     },
     favorites: function(token) {
         return axios.get(`${baseUrl}/favorites`, {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+        });
+    },   
+    cart: function(token) {
+        return axios.get(`${baseUrl}/getCart`, {
             headers: {
               'Authorization': 'Bearer ' + token
             }

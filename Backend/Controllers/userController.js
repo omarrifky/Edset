@@ -155,22 +155,40 @@ router.get('/favorites', authenticateuser,(req, res) => {
             });
         });;
 })
+router.get('/getCart', authenticateuser,(req, res) => {
+    User.findById(req.user._id).select('cart').populate({ 
+        path: "cart", 
+        model: 'Product', 
+      }).then(user => {
+            if (!user) {
+                throw { err: "No user with this id" }
+            }
+            res.status(200).send({cart: user.cart || []});
+        })
+        .catch((err) => {
+            res.status(400).send({
+                err: err.message ? err.message : err,
+            });
+        });;
+})
 
 router.patch('/updatemyinfo', authenticateuser, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { $set: req.body }, { new: true }).then(updateduser => res.status(200).send({ user: updateduser }))
 })
 
 router.patch('/addtocart', authenticateuser, (req, res) => {
-    if (!(req.user.cart.map(element => element.product).includes(req.body.productid))) {
-        User.findOneAndUpdate({ _id: req.user._id }, { $push: { cart: { product: req.body.productid, quantity: req.body.quantity, supplier: req.body.supplier, productName: req.body.name, productPrice: req.body.price, productLogo: req.body.logo } } }, { new: true }).then(updatedcart => res.status(200).send({ cart: updatedcart }))
-    } else {
-        User.findOneAndUpdate({ _id: req.user._id, "cart.product": req.body.productid }, { $inc: { "cart.$.quantity": req.body.quantity } }, { new: true }).then(updatedcart => res.status(200).send({ user: updatedcart }))
-    }
-})
+        console.log(req.user.cart)
+        if (!(req.user.cart.map(element => element.product).includes(req.body.productid))) {
+            User.findOneAndUpdate({ _id: req.user._id }, { $push: { cart: { product: req.body.productid, quantity: req.body.quantity, supplier: req.body.supplier, productName: req.body.name, productPrice: req.body.price, productLogo: req.body.logo } } }, { new: true }).then(updatedcart => res.status(200).send({ cart: updatedcart }))
+        } else {
+            User.findOneAndUpdate({ _id: req.user._id, "cart.product": req.body.productid }, { $inc: { "cart.$.quantity": req.body.quantity } }, { new: true }).then(updatedcart => res.status(200).send({ user: updatedcart }))
+        }
+        console.log(req.user.cart)
+    
+   
+    })
 
-router.patch('/addexistingtocart', authenticateuser, (req, res) => {
-    User.findOneAndUpdate({ _id: req.user._id, "cart.product": req.body.productid }, { $inc: { "cart.$.quantity": req.body.quantity } }, { new: true }).then(updatedcart => res.status(200).send({ user: updatedcart }))
-})
+
 
 router.patch('/removefromcart/:product_id', authenticateuser, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { $pull: { cart: { _id: req.params.product_id } } }, { new: true }).then(updatedcart => res.status(200).send({ user: updatedcart }))

@@ -1,4 +1,4 @@
-import { Pressable, SafeAreaView, StyleSheet, Text,View } from "react-native";
+import { Pressable, SafeAreaView, StyleSheet,ScrollView, Text,View } from "react-native";
 import TopBar from "../components/topBar";
 
 export default function CategoriesScreen({ navigation }) {
@@ -9,6 +9,7 @@ export default function CategoriesScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <TopBar navigation={navigation} iconColor="#FFFFFF" />
+        <ScrollView>
       <View style={styles.card1}>
       <Pressable onPress={viewproducts}>
       <Text style={styles.card1Text} >Architecture Engineering</Text>
@@ -69,7 +70,7 @@ export default function CategoriesScreen({ navigation }) {
       <Text  style={styles.card2Text}>Other</Text>
       </Pressable>
       </View> 
-     
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -80,13 +81,13 @@ const styles = StyleSheet.create({
   },
   card1:{
     width:"100%",
-    height:"8%",
+    height:"20%",
     backgroundColor:"white",
     alignContent:"center",
-    justifyContent:"center"
+    justifyContent:"center",
   },card2:{
     width:"100%",
-    height:"8%",
+    height:"20%",
     backgroundColor:"#FFE605",
     alignContent:"center",
     justifyContent:"center"

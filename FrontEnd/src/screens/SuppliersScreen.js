@@ -26,15 +26,10 @@ export default function StoresScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <Text style = {styles.title}>Stores</Text>
         <ScrollView>
-
-       
             <View style = {styles.imageholder}>
-
             {suppliers.map(supplier =>    {supplier.image> 0 ? <Pressable onPress={viewproducts}><Image style={styles.cardimageholder} source={{ uri: supplier.image }}>
             </Image> : <Image style={styles.cardimageholder} source={productPlaceholder}></Image></Pressable>: <></>}   )}
-
             </View>
-
       </ScrollView>
     </SafeAreaView>
   )

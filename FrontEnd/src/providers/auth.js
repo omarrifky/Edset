@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, {createContext, useState} from 'react';
 import UsersService from '../services/users';
 
 /**
@@ -8,10 +8,11 @@ import UsersService from '../services/users';
 
 export const AuthContext = createContext({});
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [favorites, setFavorites] = useState([]);
+  const [cart, setCart] = useState([]);
 
   return (
     <AuthContext.Provider
@@ -22,17 +23,18 @@ export const AuthProvider = ({ children }) => {
         setToken,
         favorites,
         setFavorites,
+        cart,
+        setCart,
         login: async (email, password) => {
-          return UsersService.login({email, password})
+          return UsersService.login({email, password});
         },
-        register: async (body) => {
-          return UsersService.register({...body})
+        register: async body => {
+          return UsersService.register({...body});
         },
         logout: async () => {
-          return UsersService.logout()
-        }
-      }}
-    >
+          return UsersService.logout();
+        },
+      }}>
       {children}
     </AuthContext.Provider>
   );
