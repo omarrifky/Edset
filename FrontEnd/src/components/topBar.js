@@ -17,7 +17,7 @@ const TopBar = ({ navigation, iconColor = "#FFE605" }) => {
         return item
     }
     const handleNavigateProfile = () => {
-        navigation.navigate('Home', { screen: 'Account'});
+        navigation.navigate('Home', { screen: 'Account', initial: false });
     }
     return (
         <View style={styles.TopBar}>

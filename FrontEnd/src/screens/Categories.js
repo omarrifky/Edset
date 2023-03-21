@@ -4,7 +4,7 @@ import TopBar from "../components/topBar";
 export default function CategoriesScreen({ navigation }) {
 
   const viewproducts = () => {
-    navigation.navigate('Cart', { params: { category: "chosencategory" }, screen: 'ViewProducts' });
+    navigation.navigate('Cart', { params: { category: "chosencategory" }, screen: 'ViewProducts', initial: false });
   }
   return (
     <SafeAreaView style={styles.container}>

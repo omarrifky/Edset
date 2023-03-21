@@ -8,7 +8,7 @@ export default function ProductCard({ navigation, product }) {
     const { _id, productName, price, description, quantity, category, Subcategory, percentageDiscount, photoLinks } = product || {};
 
     const viewproduct = () => {
-        navigation.navigate('Cart', { params: { id: _id, product }, screen: 'ViewProduct' })
+        navigation.navigate('Cart', { params: { id: _id, product }, screen: 'ViewProduct', initial: false })
     }
 
     return (

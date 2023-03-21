@@ -17,25 +17,25 @@ const CustomDrawer = (props) => {
                 <View>
                     <Pressable
                         style={styles.btn}
-                        onPress={() => { navigation.navigate('Cart', { screen: 'Orders' }); navigation.closeDrawer() }}
+                        onPress={() => { navigation.navigate('Cart', { screen: 'Orders', initial: false }); navigation.closeDrawer() }}
                     >
                         <Text style={styles.text}>Orders</Text>
                     </Pressable>
                     <Pressable
                         style={styles.btn}
                         title="Account"
-                        onPress={() => { navigation.navigate('Home', { screen: 'Account'}); navigation.closeDrawer() }}
+                        onPress={() => { navigation.navigate('Home', { screen: 'Account', initial: false }); navigation.closeDrawer() }}
                     >
                         <Text style={styles.text}>Account</Text>
                     </Pressable>
                     <Pressable
-                        style={styles.btn} title="Customer Service" onPress={() => { navigation.navigate('Home', { screen:'CustomerService'}); navigation.closeDrawer() }} >
+                        style={styles.btn} title="Customer Service" onPress={() => { navigation.navigate('Home', { screen:'CustomerService', initial: false }); navigation.closeDrawer() }} >
                         <Text style={styles.text}>Customer Service</Text>
                     </Pressable>
                     <Pressable
                         style={styles.btn}
                         title="Settings"
-                        onPress={() => { navigation.navigate('Home', { screen: 'Settings'}); navigation.closeDrawer() }}
+                        onPress={() => { navigation.navigate('Home', { screen: 'Settings', initial: false }); navigation.closeDrawer() }}
                     >
                         <Text style={styles.text}>Settings</Text>
                     </Pressable>

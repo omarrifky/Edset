@@ -5,7 +5,7 @@ import SuppliersService from "../services/suppliers";
 export default function StoresScreen({ navigation }) {
   const [suppliers, setSuppliers] = useState([]);
     const viewproducts = () => {
-      navigation.navigate('Cart', { params: { store: "SamirandAli" }, screen: 'ViewProducts' });
+      navigation.navigate('Cart', { params: { store: "SamirandAli" }, screen: 'ViewProducts', initial: false });
     }
   useEffect(() => {   
       

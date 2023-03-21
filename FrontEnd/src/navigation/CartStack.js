@@ -9,7 +9,7 @@ const CartStackNav = createStackNavigator();
 export default function CartStack() {
 
     return (
-        <CartStackNav.Navigator headerShown='none' headerMode='none' initialRouteName='CartScreen'>
+        <CartStackNav.Navigator headerShown='none' headerMode='none' initialRouteName='CartScreen' >
             <CartStackNav.Screen name='CartScreen' component={CartScreen} options={{ headerShown: false, headerMode: false }}
             />
             <CartStackNav.Screen name='Orders' component={OrdersScreen} options={{ headerShown: false, headerMode: false }}

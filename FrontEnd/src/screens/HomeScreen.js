@@ -14,10 +14,10 @@ export default function HomeScreen({ navigation }) {
   const [suppliers, setSuppliers] = useState([]);
 
   const viewproducts = () => {
-    navigation.navigate('Cart', { params: { category: "Engineer" }, screen: 'ViewProducts' });
+    navigation.navigate('Cart', { params: { category: "Engineer" }, screen: 'ViewProducts', initial: false });
   }
   const viewsuppliers= () => {
-    navigation.navigate('Cart', { screen: 'Suppliers' })
+    navigation.navigate('Cart', { screen: 'Suppliers', initial: false })
   }
   useEffect(() => {
     ProductsService.getProducts({
