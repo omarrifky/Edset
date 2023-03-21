@@ -1,12 +1,13 @@
 import { SafeAreaView, StyleSheet, View, Text, ScrollView, Dimensions, Pressable, Image } from "react-native";
-import { useContext, useEffect, useState } from "react";
-import milaneraser from "../assets/milaneraser.jpeg"
+import { useContext, useEffect, useRef, useState } from "react";
 import TopBar from "../components/topBar";
 import { AuthContext } from "../providers/auth";
 import ProductCard from "../components/productCard";
 import ProductsService from "../services/products";
 import SupplierCard from "../components/supplierCard";
 import SuppliersService from "../services/suppliers";
+import Carousel from 'react-native-snap-carousel';
+
 
 export default function HomeScreen({ navigation }) {
   const { user } = useContext(AuthContext);
@@ -16,7 +17,7 @@ export default function HomeScreen({ navigation }) {
   const viewproducts = () => {
     navigation.navigate('Cart', { params: { category: "Engineer" }, screen: 'ViewProducts', initial: false });
   }
-  const viewsuppliers= () => {
+  const viewsuppliers = () => {
     navigation.navigate('Cart', { screen: 'Suppliers', initial: false })
   }
   useEffect(() => {
@@ -29,22 +30,33 @@ export default function HomeScreen({ navigation }) {
         setProducts(products);
       }).catch(e => {
         alert(e.response.data.err)
-      });    
-      
+      });
+
     SuppliersService.getSuppliers({
-        limit: 4,
-        page: 1
-      })
-        .then(res => {
-          const { count = 0, suppliers = [] } = res.data || {};
-          setSuppliers(suppliers);
-        }).catch(e => {
-          alert(e.response.data.err)
-        }); 
-      
+      limit: 4,
+      page: 1
+    })
+      .then(res => {
+        const { count = 0, suppliers = [] } = res.data || {};
+        setSuppliers(suppliers);
+      }).catch(e => {
+        alert(e.response.data.err)
+      });
+
 
   }, [])
 
+  const carousel = useRef();
+  const _renderItem = ({item, index}) => {
+    return (
+      <ProductCard navigation={navigation} product={item} />
+    );
+  }
+
+  useEffect(() => {
+    carousel.activeSlideOffset = 0;
+    carousel.current.swipeThreshold = 0;
+  }, [carousel])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,13 +84,20 @@ export default function HomeScreen({ navigation }) {
             <Pressable onPress={viewproducts}><Text style={styles.link}>View all {">"}</Text></Pressable>
           </View>
           <View style={styles.cardholder}>
-            {products.map(product => <ProductCard navigation={navigation} product={product} />)}
+            <Carousel
+              ref={carousel}
+              data={products}
+              renderItem={_renderItem}
+              itemWidth={Dimensions.get('screen').width / 3.8}
+              sliderWidth={Dimensions.get('screen').width / 3.8}
+            />
+            {/* {products.map(product => <ProductCard navigation={navigation} product={product} />)} */}
           </View>
           <View style={styles.shoppingholder}>
             <Text style={styles.shoppingtitle} >Stores</Text>
             <Pressable onPress={viewsuppliers}><Text style={styles.link}>View all {">"}</Text></Pressable>
           </View>
-          
+
           <View style={[styles.cardholder, styles.card2holder]}>
             {suppliers.map(supplier => <SupplierCard navigation={navigation} supplier={supplier} />)}
 
