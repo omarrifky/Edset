@@ -52,6 +52,8 @@ export default function CartScreen({route, navigation}) {
     })
     .then(async res => {
       await UsersService.clearCart(token);
+      setCart([]);
+      setCartData([]);
       navigation.navigate("Orders");
     })
     .catch(e => {
