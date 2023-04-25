@@ -6,34 +6,44 @@ import {
   Pressable,
   Image,
 } from 'react-native';
-import { useContext } from 'react';
-import { AuthContext } from '../providers/auth';
+import {useContext} from 'react';
+import {AuthContext} from '../providers/auth';
 import productPlaceholder from '../assets/product.png';
+import UsersService from '../services/users';
 
-export default function CartCard({ navigation, product }) {
-  const { user } = useContext(AuthContext);
-  const {
-    _id,
-    quantity,
-    photoLinks,
-    productName,
-    productPrice,
-  } = product || {};
+export default function CartCard({navigation, prod}) {
+  const {user, token, cart, setCart} = useContext(AuthContext);
+  const {_id, product, quantity, photoLinks, productName, productPrice} =
+    prod || {};
 
-  const removeitem = () => { 
-
+  const removeitem = () => {
+    UsersService.removeOnefromCart(
+      {
+        product_id: _id,
+      },
+      token,
+    ).then(res => {
+      setCart(res.data);
+    });
   };
-  const increase = () => { 
-
+  const increase = () => {
+    console.log('IDDD', product);
+    UsersService.addtoCart(
+      {
+        product_id: product,
+        quantity: quantity + 1,
+      },
+      token,
+    ).then(res => {
+      setCart(res.data);
+    });
   };
-  const decrease = () => { 
-
-  };
+  const decrease = () => {};
   return (
     <View style={styles.card}>
       <View style={styles.cardimageholder}>
         {photoLinks?.length > 0 ? (
-          <Image style={styles.image} source={{ uri: photoLinks[0] }}></Image>
+          <Image style={styles.image} source={{uri: photoLinks[0]}}></Image>
         ) : (
           <Image style={styles.image} source={productPlaceholder}></Image>
         )}
@@ -99,7 +109,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'white',
     shadowColor: '#EEE',
-    shadowOffset: { width: -2, height: 8 },
+    shadowOffset: {width: -2, height: 8},
     shadowOpacity: 1,
     shadowRadius: 5,
     padding: 8,
