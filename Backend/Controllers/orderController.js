@@ -216,6 +216,12 @@ router.get("/customer/readAll", authenticateuser, (req, res) => {
         .find({
             user: req.user._id
         })
+        .sort("-ordernumber")
+        .populate({ 
+            path: "products.product", 
+            model: 'Product', 
+            select: "photoLinks productName",
+        })
         .then((orders) => {
             res.status(200).send(orders);
         })
