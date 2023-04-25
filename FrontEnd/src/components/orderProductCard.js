@@ -85,6 +85,9 @@ const styles = StyleSheet.create({
     statusPending: {
         color: "orange"
     },
+    statusDelivered: {
+        color: "green"
+    },
     cancel: {
         padding: 4,
         paddingHorizontal: 8,
