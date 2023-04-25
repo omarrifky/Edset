@@ -39,13 +39,10 @@ router.post("/create", authenticateuser, (req, res) => {
             },
             delivery: null,
             deliveryFees,
+            total: ((priceatPurchase || 0) * (quantity || 1)) + (deliveryFees || 50)
         }
     });
-    const price =  productsMapping.reduce((a, b) => {
-        return ((a.quantity || 1) * a.priceatPurchase) 
-        + ((b.quantity || 1) * b.priceatPurchase) 
-        + a.deliveryFees + b.deliveryFees
-    });
+    const price = productsMapping.map(el => el.total).reduce((a, b) => a + b, 0);
     const orderData = {
         price,
         user: req.user._id,

@@ -52,6 +52,13 @@ const UsersService = {
       },
     });
   },
+  clearCart: function (token) {
+    return axios.patch(`${baseUrl}/clearcart`, {}, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+  },
 };
 
 export default UsersService;

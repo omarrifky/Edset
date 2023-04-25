@@ -3,7 +3,8 @@ import { User } from "./Models/User";
 import { Delivery } from "./Models/Delivery";
 
 export const authenticateuser = (req, res, next) => {
-    const token = req.headers.authorization.split("Bearer ")[1];
+    const bearer = (req.headers.authorization || '').split("Bearer ");
+    const token = (bearer && bearer.length > 0 && bearer[1]) || '';
 
     User.findByToken(token)
         .then((user) => {

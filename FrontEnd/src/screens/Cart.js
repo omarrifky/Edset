@@ -10,11 +10,13 @@ import {
 import CartCard from '../components/cartCard';
 import TopBar from '../components/topBar';
 import {AuthContext} from '../providers/auth';
+import OrdersService from '../services/orders';
 import UsersService from '../services/users';
 
 export default function CartScreen({route, navigation}) {
   const {user, token, cart, setCart} = useContext(AuthContext);
   const [cartData, setCartData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [prices, setPrices] = useState({
     tax: 0,
     total: 0,
@@ -42,6 +44,23 @@ export default function CartScreen({route, navigation}) {
         alert(e.response?.data.err);
       });
   }, [cart]);
+
+  const handleProceedPayment = () => {
+    setLoading(true);
+    OrdersService.createOrder(token, {
+      products: cartData.map(el => ({...el, priceatPurchase: el.productPrice}))
+    })
+    .then(async res => {
+      await UsersService.clearCart(token);
+      navigation.navigate("Orders");
+    })
+    .catch(e => {
+      alert(e.response?.data.err || 'Something went wrong!');
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+  }
   return (
     <SafeAreaView style={styles.container}>
       <TopBar navigation={navigation} />
@@ -77,7 +96,7 @@ export default function CartScreen({route, navigation}) {
                   </Text>
                 </View>
               </View>
-              <Pressable style={[styles.coupon, styles.payment]}>
+              <Pressable style={[styles.coupon, styles.payment]} disabled={loading} onPress={handleProceedPayment}>
                 <Text style={[styles.couponText, styles.paymentText]}>
                   Proceed To Payment
                 </Text>
