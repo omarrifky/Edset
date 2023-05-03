@@ -1,12 +1,26 @@
+import { useContext } from "react";
 import { StyleSheet, View, Text, Dimensions, Pressable, Image } from "react-native";
 import productPlaceholder from "../assets/product.png";
+import { AuthContext } from "../providers/auth";
+import OrdersService from "../services/orders";
 
-export default function OrderProductCard({ navigation, productData }) {
+export default function OrderProductCard({ navigation, productData, order_id }) {
+    const { token, refetchOrder, setRefetchOrder } = useContext(AuthContext);
     const { priceatPurchase, quantity, status, deliveryOn, dateOfPurchase, deliveryFees, product } = productData || {};
     const { _id, photoLinks, productName } = product || {};
 
     const viewproduct = () => {
         navigation.navigate('Cart', { params: { id: _id }, screen: 'ViewProduct', initial: false })
+    }
+
+    const handleCancelPart = () => {
+        OrdersService.cancelPart(token, order_id, _id)
+            .then(res => {
+                setRefetchOrder(!refetchOrder);
+            })
+            .catch(e => {
+                alert(e.response?.data.err);
+            })
     }
 
     return (
@@ -19,7 +33,7 @@ export default function OrderProductCard({ navigation, productData }) {
                 <View style={styles.info}>
                     <View style={styles.statusHolder}>
                         {status ? <Text style={[styles.titletext, styles.statusText, styles[`status${status}`]]}>{status}</Text> : <></>}
-                        {status === "Pending" ? <Pressable style={styles.cancel}>
+                        {status === "Pending" ? <Pressable style={styles.cancel} onPress={() => handleCancelPart()}>
                             <Text style={styles.cancelText}>x</Text>
                         </Pressable> : <></>}
                     </View>
@@ -84,6 +98,9 @@ const styles = StyleSheet.create({
     },
     statusPending: {
         color: "orange"
+    },
+    statusCanceled: {
+        color: "firebrick"
     },
     statusDelivered: {
         color: "green"

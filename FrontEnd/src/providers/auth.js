@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [orders, setOrders] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [refetchOrder, setRefetchOrder] = useState(false);
 
   return (
     <AuthContext.Provider
@@ -28,6 +29,8 @@ export const AuthProvider = ({ children }) => {
         setCart,
         orders,
         setOrders,
+        refetchOrder,
+        setRefetchOrder,
         login: async (email, password) => {
           return UsersService.login({ email, password });
         },

@@ -522,7 +522,7 @@ router.patch('/cancelOne/:orderId', authenticateuser, (req, res) => {
         { 
             _id: orderId,
             user: req.user._id,
-            "products._id": req.body.productId,
+            "products.product": req.body.productId,
             "products.status": OrderStatusEnums.Pending
         }, 
         { 

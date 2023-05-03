@@ -25,6 +25,22 @@ const OrdersService = {
             },
           })
     },
+
+    cancelOrder: function(token, id) {
+        return axios.patch(`${baseUrl}/cancelAll/${id}`, {}, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+    },
+
+    cancelPart: function(token, id, productId) {
+        return axios.patch(`${baseUrl}/cancelOne/${id}`, { productId }, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+    }
 };
 
 export default OrdersService;
