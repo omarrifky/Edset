@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import {useContext, useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -7,14 +7,13 @@ import {
   TextInput,
   View,
   Image,
-  ScrollView
-
+  ScrollView,
 } from 'react-native';
 import TopBar from '../components/topBar';
-import { AuthContext } from '../providers/auth';
-export default function AccountScreen({ navigation }) {
+import {AuthContext} from '../providers/auth';
+export default function AccountScreen({navigation}) {
   const [edit, setEdit] = useState(false);
-  const { user } = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
   const [userData, setUserData] = useState({
     name: null,
     email: null,
@@ -22,6 +21,7 @@ export default function AccountScreen({ navigation }) {
   });
 
   function editInfo(flag) {
+    console.log('USER DATA', user);
     if (!flag) {
       alert('Edited successfully');
     }
@@ -30,9 +30,9 @@ export default function AccountScreen({ navigation }) {
   const onChangehandle = (value, field) => {
     setUserData({
       ...userData,
-      [field]: value
-    })
-  }
+      [field]: value,
+    });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <TopBar navigation={navigation} />
@@ -45,29 +45,44 @@ export default function AccountScreen({ navigation }) {
                 uri: 'https://scontent.fcai2-2.fna.fbcdn.net/v/t1.6435-9/78416817_10218449129812468_5834337807438446592_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=RhmGHff4ErYAX_u8Rsd&_nc_ht=scontent.fcai2-2.fna&oh=00_AfBZHofQDA_ct-42lh03bD-loNMK9Lfv5Fq5lUwWKt4vAA&oe=63FE5852',
               }}
             />
-            <Text style={[styles.text, styles.title]}>{user.firstname} {user.lastname}</Text>
+            <Text style={[styles.text, styles.title]}>
+              {user.firstname} {user.lastname}
+            </Text>
           </View>
           <ScrollView>
-
             <TextInput
               style={styles.textInput}
               onChangeText={$event => onChangehandle($event, 'username')}
-              value={userData.name}
+              value={user.username}
               placeholder="Username"
               editable={edit}
             />
             <TextInput
               style={styles.textInput}
               onChangeText={$event => onChangehandle($event, 'email')}
-              value={userData.name}
+              value={user.email}
               placeholder="Email"
               editable={edit}
             />
             <TextInput
               style={styles.textInput}
-              onChangeText={$event => onChangehandle($event, 'password')}
-              value={userData.name}
-              placeholder="Password"
+              onChangeText={$event => onChangehandle($event, 'Mobile Number')}
+              value={user.mobileNumber}
+              placeholder="Mobile Number"
+              editable={edit}
+            />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={$event => onChangehandle($event, 'Entity')}
+              value={user.type}
+              placeholder="Enitity"
+              editable={edit}
+            />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={$event => onChangehandle($event, 'Major')}
+              value={user.major}
+              placeholder="Major"
               editable={edit}
             />
           </ScrollView>
@@ -137,7 +152,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     shadowColor: '#EEE',
-    shadowOffset: { width: -2, height: 8 },
+    shadowOffset: {width: -2, height: 8},
     shadowOpacity: 1,
     shadowRadius: 5,
   },
@@ -152,7 +167,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   titleHolder: {
     padding: 18,
