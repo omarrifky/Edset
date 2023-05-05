@@ -5,10 +5,10 @@ import productPlaceholder from "../assets/product.png";
 
 export default function SupplierCard({ navigation, supplier }) {
     const { user } = useContext(AuthContext);
-    const { _id, supplierName, discount ,rating,image} = supplier || {};
+    const { _id, companyName, discount ,rating,image} = supplier || {};
 
     const viewProductsforSupplier = () => {
-        navigation.navigate('Cart', { params: { supplier: supplierName}, screen: 'ViewProducts', initial: false })
+        navigation.navigate('Cart', { params: { supplier: _id, screenTitle: companyName}, screen: 'ViewProducts', initial: false })
     }
 
     return (

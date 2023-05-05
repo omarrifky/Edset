@@ -15,11 +15,11 @@ const orderSchema = mongoose.Schema({
             type: mongoose.Types.ObjectId,
             ref: "Product"
         },
-        deliveryStart:{
+        deliveryStart: {
             type: Date
-            
+
         },
-        deliveryEnd:{
+        deliveryEnd: {
             type: Date
         },
         supplier: {
@@ -78,6 +78,20 @@ const orderSchema = mongoose.Schema({
     user: {
         type: mongoose.Types.ObjectId,
         ref: "User"
+    },
+    delivery: {
+        address: {
+            type: String,
+            required: true,
+        },
+        mapCoordinate: {
+            lat: {
+                type: Number,
+            },
+            long: {
+                type: Number,
+            },
+        },
     },
     paymentType: {
         type: Number,

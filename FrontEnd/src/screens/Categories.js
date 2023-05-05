@@ -3,70 +3,70 @@ import TopBar from "../components/topBar";
 
 export default function CategoriesScreen({ navigation }) {
 
-  const viewproducts = () => {
-    navigation.navigate('Cart', { params: { category: "chosencategory" }, screen: 'ViewProducts', initial: false });
+  const viewproducts = (category, screenTitle) => {
+    navigation.navigate('Cart', { params: { category, screenTitle }, screen: 'ViewProducts', initial: false });
   }
   return (
     <SafeAreaView style={styles.container}>
       <TopBar navigation={navigation} iconColor="#FFFFFF" />
         <ScrollView>
       <View style={styles.card1}>
-      <Pressable onPress={viewproducts}>
-      <Text style={styles.card1Text} >Architecture Engineering</Text>
+      <Pressable onPress={(e) => viewproducts("Engineer", "Engineer")}>
+      <Text style={styles.card1Text} >Engineer</Text>
       </Pressable>
       </View> 
       <View style={styles.card2}>
-      <Pressable onPress={viewproducts }>
-      <Text  style={styles.card2Text}>Mechanical Engineering</Text>
+      <Pressable onPress={(e) => viewproducts("Engineers", "All Engineers") }>
+      <Text  style={styles.card2Text}>All Engineers</Text>
       </Pressable>
       </View>    
       <View style={styles.card1}>
-      <Pressable onPress={viewproducts }>
+      <Pressable onPress={(e) => viewproducts("", "") }>
       <Text style={styles.card1Text} >Mechanical Engineering</Text>
       </Pressable>
       </View> 
       <View style={styles.card2}>
-      <Pressable onPress={viewproducts }>
+      <Pressable onPress={(e) => viewproducts("", "") }>
       <Text  style={styles.card2Text}>Computer Engineering</Text>
       </Pressable>
       </View> 
       <View style={styles.card1}>
-      <Pressable onPress={viewproducts }>
+      <Pressable onPress={(e) => viewproducts("", "") }>
       <Text style={styles.card1Text} >Civil Engineering</Text>
       </Pressable>
       </View> 
       <View style={styles.card2}>
-      <Pressable onPress={viewproducts }>
+      <Pressable onPress={(e) => viewproducts("", "") }>
       <Text  style={styles.card2Text}>Pharmacy</Text>
       </Pressable>
       </View> 
       <View style={styles.card1}>
-      <Pressable onPress={viewproducts }>
+      <Pressable onPress={(e) => viewproducts("", "") }>
       <Text style={styles.card1Text} >Medicine</Text>
       </Pressable>
       </View> 
       <View style={styles.card2}>
-      <Pressable onPress={viewproducts }>
+      <Pressable onPress={(e) => viewproducts("", "") }>
       <Text  style={styles.card2Text}>Dentistry</Text>
       </Pressable>
       </View> 
       <View style={styles.card1}>
-      <Pressable onPress={viewproducts }>
+      <Pressable onPress={(e) => viewproducts("", "") }>
       <Text style={styles.card1Text} >Mechatronics</Text>
       </Pressable>
       </View> 
       <View style={styles.card2}>
-      <Pressable onPress={viewproducts }>
+      <Pressable onPress={(e) => viewproducts("", "") }>
       <Text  style={styles.card2Text}>School</Text>
       </Pressable>
       </View> 
       <View style={styles.card1}>
-      <Pressable onPress={viewproducts }>
+      <Pressable onPress={(e) => viewproducts("", "") }>
       <Text style={styles.card1Text} >Applied Arts</Text>
       </Pressable>
       </View> 
       <View style={styles.card2}>
-      <Pressable onPress={viewproducts }>
+      <Pressable onPress={(e) => viewproducts("", "") }>
       <Text  style={styles.card2Text}>Other</Text>
       </Pressable>
       </View> 

@@ -3,44 +3,106 @@ import TopBar from "../components/topBar";
 import ProductCard from "../components/productCard";
 import { useEffect, useState } from "react";
 import ProductsService from "../services/products";
+import { TextInput } from "react-native-gesture-handler";
 
 export default function HomeScreen({ route, navigation }) {
   const limit = 20;
   const [page, setPage] = useState(1);
   const [showPager, setShowPage] = useState(false);
+  const [search, setSearch] = useState('');
   const [productsData, setProducts] = useState([]);
   useEffect(() => {
     setPage(1);
     setProducts([]);
     setShowPage(true);
 
-    const queryBody = {};
-    if(route.params.category) {
-      queryBody.category = route.params.category;
+    const { screenTitle, ...rest} = route?.params || {};
+    const queryBody = {
+      ...rest
+    };
+    if (search) {
+      queryBody.$or = [
+        {
+          category: {
+            $regex: search,
+            $options: 'i'
+          }
+        },
+        {
+          productName: {
+            $regex: search,
+            $options: 'i'
+          }
+        },
+        {
+          description: {
+            $regex: search,
+            $options: 'i'
+          }
+        },
+        {
+          Subcategory: {
+            $regex: search,
+            $options: 'i'
+          }
+        }
+      ];
     }
-
-    ProductsService.getProducts({
+    // if (route?.params?.category) {
+    //   queryBody.category = route.params.category;
+    // }
+    const q = {
       page,
       limit,
       queryBody
-    })
-    .then(res => {
-      const { count = 0, pages = 1, products = [] } = res.data || {};
-      setProducts(products);
-      if(page >= pages) {
-        setShowPage(false)
-      } else {
-        setShowPage(true)
-      }
-    }).catch(e => {
-      alert(e.response.data.err)
-    });
-  }, [])
+    };
+
+    ProductsService.getProducts(q)
+      .then(res => {
+        const { count = 0, pages = 1, products = [] } = res.data || {};
+        setProducts(products);
+        if (page >= pages) {
+          setShowPage(false)
+        } else {
+          setShowPage(true)
+        }
+      }).catch(e => {
+        alert(e.response.data.err)
+      });
+  }, [search, route.params])
 
   const loadMore = () => {
     setPage(page + 1)
     const queryBody = {};
-    if(route.params.category) {
+    if (search) {
+      queryBody.$or = [
+        {
+          category: {
+            $regex: search,
+            $options: 'i'
+          }
+        },
+        {
+          productName: {
+            $regex: search,
+            $options: 'i'
+          }
+        },
+        {
+          description: {
+            $regex: search,
+            $options: 'i'
+          }
+        },
+        {
+          Subcategory: {
+            $regex: search,
+            $options: 'i'
+          }
+        }
+      ];
+    }
+    if (route.params.category) {
       queryBody.category = route.params.category;
     }
     ProductsService.getProducts({
@@ -51,7 +113,7 @@ export default function HomeScreen({ route, navigation }) {
       .then(res => {
         const { count = 0, pages = 1, products = [] } = res.data || {};
         setProducts([...productsData, ...products]);
-        if((page + 1) >= pages) {
+        if ((page + 1) >= pages) {
           setShowPage(false)
         } else {
           setShowPage(true)
@@ -60,12 +122,21 @@ export default function HomeScreen({ route, navigation }) {
         alert(e.response.data.err)
       });
   };
+  const onSearchhandle = e => {
+    setSearch(e);
+  }
   return (
     <SafeAreaView style={styles.container}>
       <TopBar navigation={navigation} />
       <ScrollView>
         <View style={styles.holder}>
-          <Text style={styles.title}>Search</Text>
+          <Text style={styles.title}>{ route?.params?.screenTitle || 'All Products' }</Text>
+          <TextInput
+            placeholder="Search"
+            value={search}
+            style={styles.textInput}
+            onChangeText={$event => onSearchhandle($event)}
+          />
           <View style={styles.cardholder}>
             {productsData.map(product => (
               <ProductCard product={product} navigation={navigation} />
@@ -116,8 +187,22 @@ const styles = StyleSheet.create({
     width: "auto",
     marginTop: 20,
     color: "white",
-    display:"flex",
+    display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
+  textInput: {
+    padding: 12,
+    marginTop: 12,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 8,
+    width: '100%',
+    backgroundColor: 'white',
+    shadowColor: '#EEE',
+    shadowOffset: { width: -2, height: 8 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+  }
 })

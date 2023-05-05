@@ -7,6 +7,7 @@ import ProductsService from "../services/products";
 import SupplierCard from "../components/supplierCard";
 import SuppliersService from "../services/suppliers";
 import Carousel from 'react-native-snap-carousel';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 export default function HomeScreen({ navigation }) {
@@ -15,8 +16,12 @@ export default function HomeScreen({ navigation }) {
   const [suppliers, setSuppliers] = useState([]);
 
   const viewproducts = () => {
-    navigation.navigate('Cart', { params: { category: "Engineer" }, screen: 'ViewProducts', initial: false });
+    navigation.navigate('Cart', { params: { category: "Engineer", screenTitle: "Essentials" }, screen: 'ViewProducts', initial: false });
   }
+  const viewSearchProducts = () => {
+    navigation.navigate('Cart', { params: {}, screen: 'ViewProducts', initial: false });
+  }
+
   const viewsuppliers = () => {
     navigation.navigate('Cart', { screen: 'Suppliers', initial: false })
   }
@@ -47,9 +52,15 @@ export default function HomeScreen({ navigation }) {
   }, [])
 
   const carousel = useRef();
-  const _renderItem = ({item, index}) => {
+  const carousel_s = useRef();
+  const _renderItem = ({ item, index }) => {
     return (
       <ProductCard navigation={navigation} product={item} />
+    );
+  }
+  const _renderItem_s = ({ item, index }) => {
+    return (
+      <SupplierCard navigation={navigation} supplier={item} />
     );
   }
 
@@ -63,7 +74,12 @@ export default function HomeScreen({ navigation }) {
       <TopBar navigation={navigation} />
       <ScrollView>
         <View style={styles.holder}>
-          <Text style={styles.title}>Hi {user.firstname}!</Text>
+          <View style={styles.searchTitle}>
+            <Text style={styles.title}>Hi {user.firstname}!</Text>
+            <Pressable style={styles.searchBtn} onPress={viewSearchProducts}>
+              <MaterialCommunityIcons name="store-search" color={"#000000"} size={20} />
+            </Pressable>
+          </View>
           <View style={styles.bannerholder}>
             <View style={styles.leftholder}>
               <Text style={styles.bannertitle}>Black Friday!</Text>
@@ -99,7 +115,14 @@ export default function HomeScreen({ navigation }) {
           </View>
 
           <View style={[styles.cardholder, styles.card2holder]}>
-            {suppliers.map(supplier => <SupplierCard navigation={navigation} supplier={supplier} />)}
+            {/* {suppliers.map(supplier => <SupplierCard navigation={navigation} supplier={supplier} />)} */}
+            <Carousel
+              ref={carousel_s}
+              data={suppliers}
+              renderItem={_renderItem_s}
+              itemWidth={Dimensions.get('screen').width / 2.8}
+              sliderWidth={Dimensions.get('screen').width / 2.8}
+            />
 
           </View>
         </View>
@@ -265,4 +288,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
+  searchTitle: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  searchBtn: {
+    width: 40,
+    height: 40,
+    padding: 10,
+    marginTop: 8,
+    display: "flex",
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFE605",
+  }
 })
