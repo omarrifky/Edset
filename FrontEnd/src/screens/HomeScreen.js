@@ -124,8 +124,8 @@ export default function HomeScreen({navigation}) {
               ref={carousel}
               data={products}
               renderItem={_renderItem}
-              itemWidth={Dimensions.get('screen').width / 3.8}
-              sliderWidth={Dimensions.get('screen').width / 3.8}
+              itemWidth={Dimensions.get('screen').width / 2.8}
+              sliderWidth={Dimensions.get('screen').width / 2.8}
             />
             {/* {products.map(product => <ProductCard navigation={navigation} product={product} />)} */}
           </View>

@@ -75,6 +75,7 @@ export default function ViewProductScreen({route, navigation}) {
   useEffect(() => {
     const {id, product} = route.params || {};
     setFecthProduct(product);
+
     if ((favorites || []).includes(id)) {
       setIsfavorite(true);
     } else {

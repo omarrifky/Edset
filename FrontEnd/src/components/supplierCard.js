@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   cardimageholder: {
-    width: '100%',
+    width: 150,
     height: 150,
     padding: 5,
     resizeMode: 'contain',

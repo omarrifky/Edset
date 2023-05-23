@@ -46,23 +46,9 @@ export default function CartScreen({route, navigation}) {
   }, [cart]);
 
   const handleProceedPayment = () => {
-    setLoading(true);
-    OrdersService.createOrder(token, {
-      products: cartData.map(el => ({...el, priceatPurchase: el.productPrice}))
-    })
-    .then(async res => {
-      await UsersService.clearCart(token);
-      setCart([]);
-      setCartData([]);
-      navigation.navigate("Orders");
-    })
-    .catch(e => {
-      alert(e.response?.data.err || 'Something went wrong!');
-    })
-    .finally(() => {
-      setLoading(false);
-    });
-  }
+    navigation.navigate('Cart', {screen: 'Checkout', initial: false});
+    navigation.closeDrawer();
+  };
   return (
     <SafeAreaView style={styles.container}>
       <TopBar navigation={navigation} />
@@ -98,7 +84,10 @@ export default function CartScreen({route, navigation}) {
                   </Text>
                 </View>
               </View>
-              <Pressable style={[styles.coupon, styles.payment]} disabled={loading} onPress={handleProceedPayment}>
+              <Pressable
+                style={[styles.coupon, styles.payment]}
+                disabled={loading}
+                onPress={handleProceedPayment}>
                 <Text style={[styles.couponText, styles.paymentText]}>
                   Proceed To Payment
                 </Text>
