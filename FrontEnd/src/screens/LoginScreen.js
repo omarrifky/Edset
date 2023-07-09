@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 import { AuthContext } from "../providers/auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({ navigation }) {
   const { setUser, login, setToken } = useContext(AuthContext);
@@ -28,7 +29,22 @@ export default function LoginScreen({ navigation }) {
     login(loginData.email, loginData.password).then(
       res => {
         setToken(res.data.token)
-        setUser(res.data.user);
+        setUser(res.data.user)
+        try {
+          AsyncStorage.multiSet([
+            [
+              'token',
+              res.data.token,
+            ],
+            [
+              'user',
+              JSON.stringify(res.data.user),
+            ]
+          ]
+          );
+        } catch (error) {
+          // Error saving data
+        }
       }
     ).catch(e => {
       alert(e.response.data.err)

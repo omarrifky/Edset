@@ -1,5 +1,6 @@
-import React, {createContext, useState} from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import UsersService from '../services/users';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * This provider is created
@@ -10,12 +11,26 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({children}) => {
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
   const [orders, setOrders] = useState([]);
   const [address, setAddress] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [refetchOrder, setRefetchOrder] = useState(false);
+  const [token, setToken] = useState(null);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    try {
+      (async () => {
+        const user = await AsyncStorage.getItem("user")
+        if(user) setUser(JSON.parse(user))
+        else setUser(null)
+        
+        const token = await AsyncStorage.getItem("token")
+        token && setToken(token)
+      })()
+    } catch(e) {
+    }
+  }, [AsyncStorage])
 
   return (
     <AuthContext.Provider
@@ -41,6 +56,8 @@ export const AuthProvider = ({children}) => {
           return UsersService.register({...body});
         },
         logout: async () => {
+          AsyncStorage.removeItem('user');
+          AsyncStorage.removeItem('token');
           return UsersService.logout();
         },
       }}>

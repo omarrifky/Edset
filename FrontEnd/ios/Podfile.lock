@@ -389,6 +389,7 @@ PODS:
     - React-perflogger (= 0.71.0)
   - RNCCheckbox (0.5.15):
     - BEMCheckBox (~> 1.4)
+  - RNCAsyncStorage (1.19.0):
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
@@ -491,6 +492,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -589,6 +591,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCCheckbox:
     :path: "../node_modules/@react-native-community/checkbox"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNGestureHandler:
@@ -626,7 +630,7 @@ SPEC CHECKSUMS:
   RCTTypeSafety: a0834ab89159a346731e8aae55ad6e2cce61c327
   React: d877d055ff2137ca0325a4babdef3411e11f3cb7
   React-callinvoker: 77bd2701eee3acac154b11ec219e68d5a1f780ad
-  React-Codegen: 64c7875dd2f51651057c8a0218f88f01daa4d904
+  React-Codegen: bccc516adc1551ccfe04b0de27e345d38829b204
   React-Core: 4035f59e5bec8f3053583c6108d99c7516deb760
   React-CoreModules: b6a1f76423fea57a03e0d7a2f79d3b55cf193f2c
   React-cxxreact: fe5f6ec8ae875bebc71309d1e8ef89bb966d61a6
@@ -651,6 +655,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: ac80782d9d76ba2b0f709f4de0c427fe33c352dc
   ReactCommon: 20e38a9be5fe1341b5e422220877cc94034776ba
   RNCCheckbox: 43bcc6493611468af0e19f19f029dab3da8561c4
+  RNCAsyncStorage: 4b98ac3c64efa4e35c1197cb0c5ca5e9f5d4c666
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNReanimated: cc5e3aa479cb9170bcccf8204291a6950a3be128
