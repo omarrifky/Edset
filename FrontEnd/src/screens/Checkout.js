@@ -13,7 +13,7 @@ import TopBar from '../components/topBar';
 import {AuthContext} from '../providers/auth';
 import OrdersService from '../services/orders';
 import UsersService from '../services/users';
-
+import openMap from 'react-native-open-maps';
 export default function CheckoutScreen({route, navigation}) {
   const {user, token, cart, setCart} = useContext(AuthContext);
   const [cartData, setCartData] = useState([]);
@@ -51,10 +51,10 @@ export default function CheckoutScreen({route, navigation}) {
   };
   const handleProceedPayment = () => {
     setLoading(true);
-    console.log(user.adresses);
+    console.log('address', user.adresses);
     OrdersService.createOrder(token, {
       products: cartData.map(el => ({...el, priceatPurchase: el.productPrice})),
-      delivery: {},
+      delivery: {address: 'GUC'},
     })
       .then(async res => {
         await UsersService.clearCart(token);
@@ -77,9 +77,7 @@ export default function CheckoutScreen({route, navigation}) {
           <View style={styles.title}>
             <Text style={styles.titletext}>Checkout</Text>
           </View>
-          <View style={styles.location}>
-            <Text>LOCATION</Text>
-          </View>
+
           <View style={styles.shadow}>
             <Text style={styles.paytext}>Pay with</Text>
             <View style={styles.checkboxContainer}>
@@ -210,6 +208,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 15,
     color: '#666666',
+    marginBottom: 40,
   },
   info: {
     fontSize: 15,
