@@ -8,13 +8,12 @@ import {
   View,
 } from 'react-native';
 import {RadioButton} from 'react-native-paper';
-import CartCard from '../components/cartCard';
 import TopBar from '../components/topBar';
 import {AuthContext} from '../providers/auth';
 import OrdersService from '../services/orders';
 import UsersService from '../services/users';
 export default function CheckoutScreen({route, navigation}) {
-  const {user, token, cart, setCart} = useContext(AuthContext);
+  const {user, token, cart, setCart, address} = useContext(AuthContext);
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [payementmethod, setPayement] = useState('cash');
@@ -50,10 +49,9 @@ export default function CheckoutScreen({route, navigation}) {
   };
   const handleProceedPayment = () => {
     setLoading(true);
-    console.log('address', user.adresses);
     OrdersService.createOrder(token, {
       products: cartData.map(el => ({...el, priceatPurchase: el.productPrice})),
-      delivery: {address: 'GUC'},
+      delivery: { address },
     })
       .then(async res => {
         await UsersService.clearCart(token);
@@ -78,6 +76,12 @@ export default function CheckoutScreen({route, navigation}) {
           </View>
 
           <View style={styles.shadow}>
+            <Text style={styles.paytext}>
+              Selected Address
+            </Text>
+            <Text style={styles.address}>
+              {address}
+            </Text>
             <Text style={styles.paytext}>Pay with</Text>
             <View style={styles.checkboxContainer}>
               <RadioButton
@@ -142,6 +146,11 @@ const styles = StyleSheet.create({
   },
   location: {
     marginBottom: 40,
+  },
+  address: {
+    fontSize: 14,
+    marginTop: 8,
+    marginBottom: 24
   },
   paytext: {
     fontSize: 15,
