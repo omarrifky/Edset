@@ -13,7 +13,6 @@ import TopBar from '../components/topBar';
 import {AuthContext} from '../providers/auth';
 import OrdersService from '../services/orders';
 import UsersService from '../services/users';
-import openMap from 'react-native-open-maps';
 export default function CheckoutScreen({route, navigation}) {
   const {user, token, cart, setCart} = useContext(AuthContext);
   const [cartData, setCartData] = useState([]);
