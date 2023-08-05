@@ -196,9 +196,9 @@ router.patch("/updateAddress", authenticateuser, (req, res) => {
     {
       $push: {
         adresses: {
-          ...req.body
-        }
-      }
+          ...req.body,
+        },
+      },
     },
     { new: true }
   ).then((updateduser) => res.status(200).send({ user: updateduser }));
@@ -225,7 +225,7 @@ router.patch("/addtocart", authenticateuser, (req, res) => {
         },
       },
       { new: true }
-    ).then((updatedcart) => res.status(200).send({ cart: updatedcart }));
+    ).then((updatedcart) => res.status(200).send({ user: updatedcart }));
   } else {
     User.findOneAndUpdate(
       { _id: req.user._id, "cart.product": req.body.productid },

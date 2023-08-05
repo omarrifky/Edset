@@ -11,19 +11,27 @@ import {
 } from 'react-native';
 import TopBar from '../components/topBar';
 import {AuthContext} from '../providers/auth';
+import UsersService from '../services/users';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function AccountScreen({navigation}) {
   const [edit, setEdit] = useState(false);
-  const {user} = useContext(AuthContext);
+  const {user, token, setUser} = useContext(AuthContext);
   const [userData, setUserData] = useState({
-    name: null,
-    email: null,
-    password: null,
+    username: user.username,
+    email: user.email,
+    // password: null,
+    mobileNumber: user.mobileNumber,
   });
 
   function editInfo(flag) {
     console.log('USER DATA', user);
     if (!flag) {
-      alert('Edited successfully');
+      UsersService.updateUser(userData, token).then(async res => {
+        console.log(res);
+        setUser(res.data.user);
+        await AsyncStorage.setItem('user', JSON.stringify(res.data.user));
+        alert('Edited successfully');
+      });
     }
     setEdit(flag);
   }
@@ -53,36 +61,22 @@ export default function AccountScreen({navigation}) {
             <TextInput
               style={styles.textInput}
               onChangeText={$event => onChangehandle($event, 'username')}
-              value={user.username}
+              value={userData.username}
               placeholder="Username"
               editable={edit}
             />
             <TextInput
               style={styles.textInput}
               onChangeText={$event => onChangehandle($event, 'email')}
-              value={user.email}
+              value={userData.email}
               placeholder="Email"
               editable={edit}
             />
             <TextInput
               style={styles.textInput}
-              onChangeText={$event => onChangehandle($event, 'Mobile Number')}
-              value={user.mobileNumber}
+              onChangeText={$event => onChangehandle($event, 'mobileNumber')}
+              value={userData.mobileNumber}
               placeholder="Mobile Number"
-              editable={edit}
-            />
-            <TextInput
-              style={styles.textInput}
-              onChangeText={$event => onChangehandle($event, 'Entity')}
-              value={user.type}
-              placeholder="Enitity"
-              editable={edit}
-            />
-            <TextInput
-              style={styles.textInput}
-              onChangeText={$event => onChangehandle($event, 'Major')}
-              value={user.major}
-              placeholder="Major"
               editable={edit}
             />
           </ScrollView>

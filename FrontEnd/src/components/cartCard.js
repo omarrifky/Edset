@@ -28,17 +28,34 @@ export default function CartCard({navigation, prod}) {
   };
   const increase = () => {
     console.log('IDDD', product);
+    console.log('Quantity', quantity);
     UsersService.addtoCart(
       {
-        product_id: product,
-        quantity: quantity + 1,
+        productid: product,
+        quantity: 1,
       },
       token,
     ).then(res => {
+      console.log('CARTTTT', res.data);
       setCart(res.data);
     });
   };
-  const decrease = () => {};
+  const decrease = () => {
+    if (quantity >= 1) {
+      UsersService.addtoCart(
+        {
+          productid: product,
+          quantity: -1,
+        },
+        token,
+      ).then(res => {
+        console.log('CARTTTT', res.data);
+        setCart(res.data);
+      });
+    } else {
+      removeitem();
+    }
+  };
   return (
     <View style={styles.card}>
       <View style={styles.cardimageholder}>
@@ -69,10 +86,6 @@ export default function CartCard({navigation, prod}) {
           </Pressable>
         </View>
         <View style={styles.priceholder}>
-          <Text
-            style={quantity > 0 ? styles.Instocktext : styles.Outofstocktext}>
-            {quantity > 0 ? 'In Stock' : 'Out of Stock'}
-          </Text>
           {productPrice ? (
             <Text style={styles.pricetext}>EGP {productPrice}</Text>
           ) : (

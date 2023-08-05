@@ -46,6 +46,7 @@ export default function ViewProductScreen({route, navigation}) {
       token,
     ).then(res => {
       setCart(res.data);
+      alert('Item added to cart');
     });
   };
   const handleFavorite = () => {
