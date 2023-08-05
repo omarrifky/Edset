@@ -7,15 +7,35 @@ const {
 const { Order } = require("../Models/Order");
 const { GlobalValues, OrderStatusEnums } = require("../utils");
 import { Router } from "express";
-
+const { Product } = require("../Models/Product");
 const router = Router();
-router.post("/create", authenticateuser, (req, res) => {
+router.post("/create", authenticateuser, async (req, res) => {
   const { products, delivery } = req.body;
-
+  console.log("PRODS", products);
   if (!products || products.length === 0) {
     return res.status(400).send({
       err: "Order doesn't contain products!",
     });
+  }
+  for (const currentprod of products) {
+    console.log("IN LOOP", currentprod);
+    await Product.findById(currentprod.product)
+      .then((product) => {
+        if (!product) {
+          throw { err: "No product with this id" };
+        }
+        console.log("FOUNDD", product);
+        if (product.quantity < currentprod.quantity) {
+          console.log("OUT OF STOCK");
+          throw { err: "Part of the order is out of stock" };
+        }
+      })
+      .catch((err) => {
+        console.log("IN CATCH?");
+        res.status(400).send({
+          err: err.message ? err.message : err,
+        });
+      });
   }
 
   const supplierDeliverFees = {};
@@ -58,7 +78,14 @@ router.post("/create", authenticateuser, (req, res) => {
   const order = new Order({ ...orderData });
   order
     .save()
-    .then(() => {
+    .then(async () => {
+      for (const currentprod of products) {
+        console.log("ORDERED PRODUCT", currentprod);
+        await Product.findOneAndUpdate(
+          { _id: currentprod.product },
+          { $inc: { quantity: currentprod.quantity * -1 } }
+        ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));
+      }
       res.status(200).send(order);
     })
     .catch((err) => {
