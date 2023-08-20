@@ -33,7 +33,8 @@ export default function OrderProductCard({navigation, productData, order_id}) {
   };
 
   const handleCancelPart = () => {
-    OrdersService.cancelPart(token, order_id, _id)
+    console.log('PRODDATA:', productData);
+    OrdersService.cancelPart(token, order_id, productData)
       .then(res => {
         setRefetchOrder(!refetchOrder);
       })

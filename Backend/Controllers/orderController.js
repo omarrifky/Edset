@@ -555,7 +555,8 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
       err: "Please choose an order!",
     });
   }
-  if (!req.body.productId) {
+  console.log(req.body.productData.product);
+  if (!req.body.productData.product) {
     return res.status(400).send({
       err: "Product is required!",
     });
@@ -565,7 +566,7 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
     {
       _id: orderId,
       user: req.user._id,
-      "products.product": req.body.productId,
+      "products.product": req.body.productData.product,
       "products.status": OrderStatusEnums.Pending,
     },
     {
@@ -580,6 +581,12 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
         err: "Order not found!",
       });
     }
+    Product.findById(req.body.productData.product).then((product) => {
+      Product.findOneAndUpdate(
+        { _id: product },
+        { $inc: { quantity: req.body.productData.quantity } }
+      ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));
+    });
     res.status(200).send({ order });
   });
 });
