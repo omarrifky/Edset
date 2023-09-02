@@ -11,31 +11,27 @@ const { Product } = require("../Models/Product");
 const router = Router();
 router.post("/create", authenticateuser, async (req, res) => {
   const { products, delivery } = req.body;
-  console.log("PRODS", products);
   if (!products || products.length === 0) {
     return res.status(400).send({
       err: "Order doesn't contain products!",
     });
   }
+  let productsQuan = await Product.find({
+    $or: products.map(({product}) => ({ _id: product}))
+  }).select('quantity')
+
+  productsQuan = [...productsQuan].reduce((prev, current) => {
+    prev[current._id] = {...current._doc}
+    return prev;
+  }, {})
+
   for (const currentprod of products) {
-    console.log("IN LOOP", currentprod);
-    await Product.findById(currentprod.product)
-      .then((product) => {
-        if (!product) {
-          throw { err: "No product with this id" };
-        }
-        console.log("FOUNDD", product);
-        if (product.quantity < currentprod.quantity) {
-          console.log("OUT OF STOCK");
-          throw { err: "Part of the order is out of stock" };
-        }
-      })
-      .catch((err) => {
-        console.log("IN CATCH?");
-        res.status(400).send({
-          err: err.message ? err.message : err,
-        });
+    const { quantity, product } = currentprod;
+    if (productsQuan[product].quantity < quantity) {
+      return res.status(400).send({
+        err: "Part of the order is out of stock",
       });
+    }
   }
 
   const supplierDeliverFees = {};
@@ -47,7 +43,7 @@ router.post("/create", authenticateuser, async (req, res) => {
       ? 0
       : GlobalValues.DeliveryFees;
     if (!supplierDeliverFees[supplier]) supplierDeliverFees[supplier] = true;
-    console.log(delivery);
+    
     return {
       product,
       supplier,
@@ -80,7 +76,7 @@ router.post("/create", authenticateuser, async (req, res) => {
     .save()
     .then(async () => {
       for (const currentprod of products) {
-        console.log("ORDERED PRODUCT", currentprod);
+        
         await Product.findOneAndUpdate(
           { _id: currentprod.product },
           { $inc: { quantity: currentprod.quantity * -1 } }
@@ -94,6 +90,7 @@ router.post("/create", authenticateuser, async (req, res) => {
       });
     });
 });
+
 router.post("/admin/create", authenticateadmin, (req, res) => {
   const { products, user } = req.body;
 
@@ -536,7 +533,7 @@ router.patch("/cancelAll/:orderId", authenticateuser, (req, res) => {
     },
     {
       $set: {
-        "products.$.status": OrderStatusEnums.Canceled,
+        "products.$[].status": OrderStatusEnums.Canceled,
       },
     },
     { new: true }
@@ -555,7 +552,7 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
       err: "Please choose an order!",
     });
   }
-  console.log(req.body.productData.product);
+  console.log("prod id", req.body.productData.product);
   if (!req.body.productData.product) {
     return res.status(400).send({
       err: "Product is required!",
@@ -566,8 +563,12 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
     {
       _id: orderId,
       user: req.user._id,
-      "products.product": req.body.productData.product,
-      "products.status": OrderStatusEnums.Pending,
+      products: {
+        $elemMatch: {
+          status: OrderStatusEnums.Pending,
+          product: req.body.productData.product
+        }
+      }
     },
     {
       $set: {
