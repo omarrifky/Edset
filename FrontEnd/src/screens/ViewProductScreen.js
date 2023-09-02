@@ -33,7 +33,6 @@ export default function ViewProductScreen({route, navigation}) {
   };
   const addtocart = () => {
     const {id, product} = route.params || {};
-    console.log(id);
     UsersService.addtoCart(
       {
         productid: id,
@@ -74,6 +73,8 @@ export default function ViewProductScreen({route, navigation}) {
   };
 
   useEffect(() => {
+    setQuantity(1);
+    
     const {id, product} = route.params || {};
     setFecthProduct(product);
 
