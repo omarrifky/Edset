@@ -13,9 +13,9 @@ import SuppliersService from '../services/suppliers';
 export default function StoresScreen({navigation}) {
   const [suppliers, setSuppliers] = useState([]);
 
-  const viewproducts = () => {
+  const viewProductsforSupplier = (_id, companyName) => {
     navigation.navigate('Home', {
-      params: {store: 'SamirandAli'},
+      params: {supplier: _id, screenTitle: companyName},
       screen: 'ViewProducts',
       initial: false,
     });
@@ -39,7 +39,10 @@ export default function StoresScreen({navigation}) {
       <ScrollView>
         <View style={styles.subcard2holder}>
           {suppliers.map(supplier => (
-            <Pressable>
+            <Pressable
+              onPress={() =>
+                viewProductsforSupplier(supplier._id, supplier.companyName)
+              }>
               <View style={styles.card}>
                 <Image
                   style={styles.cardimageholder}
@@ -64,6 +67,8 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     justifyContent: 'space-between',
+    backgroundColor: '#FFFFF',
+    height: 200,
   },
   card: {
     width: '100%',
@@ -73,11 +78,13 @@ const styles = StyleSheet.create({
     width: 150,
   },
   subcard2holder: {
+    height: 200,
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'space-between',
     gap: 20,
     padding: 25,
+    backgroundColor: 'white',
   },
 });
