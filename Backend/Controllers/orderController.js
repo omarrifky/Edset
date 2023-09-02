@@ -518,13 +518,20 @@ router.patch("/deliveringAll/:orderId", authenticatedelivery, (req, res) => {
   });
 });
 
-router.patch("/cancelAll/:orderId", authenticateuser, (req, res) => {
+router.patch("/cancelAll/:orderId", authenticateuser, async (req, res) => {
   if (!req.params.orderId) {
     return res.status(400).send({
       err: "Please choose an order!",
     });
   }
   const orderId = req.params.orderId;
+  const orderCheck = await Order.findOne(
+    {
+      _id: orderId,
+      user: req.user._id
+    }
+  ).select('products')
+
   Order.findOneAndUpdate(
     {
       _id: orderId,
@@ -537,12 +544,22 @@ router.patch("/cancelAll/:orderId", authenticateuser, (req, res) => {
       },
     },
     { new: true }
-  ).then((order) => {
+  ).then(async (order) => {
     if (!order) {
       return res.status(400).send({
         err: "Order not found!",
       });
     }
+
+   const filteredProducts = orderCheck.products.filter(({ status }) => status === OrderStatusEnums.Pending)
+   for (const prod of filteredProducts) {
+    const { product, quantity } = prod;
+     await  Product.findOneAndUpdate(
+       { _id: product },
+       { $inc: { quantity } }
+     ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));
+   }
+
     res.status(200).send({ order });
   });
 });
@@ -552,7 +569,6 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
       err: "Please choose an order!",
     });
   }
-  console.log("prod id", req.body.productData.product);
   if (!req.body.productData.product) {
     return res.status(400).send({
       err: "Product is required!",
@@ -576,18 +592,18 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
       },
     },
     { new: true }
-  ).then((order) => {
+  ).then(async (order) => {
     if (!order) {
       return res.status(400).send({
         err: "Order not found!",
       });
     }
-    Product.findById(req.body.productData.product).then((product) => {
-      Product.findOneAndUpdate(
-        { _id: product },
-        { $inc: { quantity: req.body.productData.quantity } }
-      ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));
-    });
+    
+    await  Product.findOneAndUpdate(
+      { _id: req.body.productData.product },
+      { $inc: { quantity: req.body.productData.quantity } }
+    ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));
+
     res.status(200).send({ order });
   });
 });
