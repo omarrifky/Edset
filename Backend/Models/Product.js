@@ -48,9 +48,8 @@ const productSchema = mongoose.Schema({
     Subcategory: {
         type: String,
         required: true
-    }
-
-
+    },
+    tags: [String]
 });
 productSchema.index({ "$**": "text" }); // Add this for the search to work
 
