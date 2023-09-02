@@ -2,36 +2,37 @@
 // =============================================================================
 
 // call the packages we need
-var express = require('express');
-var bodyParser = require('body-parser');
+var express = require("express");
+var bodyParser = require("body-parser");
 var app = express();
-var cors = require('cors');
+var cors = require("cors");
 // log requests to the console
 
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
 app.use(cors());
 
 var port = process.env.PORT || 8080; // set our port
 
 // DATABASE SETUP
-var mongoose = require('mongoose');
-const { userController } = require('./Controllers/userController');
-const { orderController } = require('./Controllers/orderController');
-const { productController } = require('./Controllers/productController');
-const { supplierController } = require('./Controllers/supplierController');
-const { deliveryController } = require('./Controllers/deliveryController');
-mongoose.connect('mongodb://localhost:27017/myapp'); // connect to our database
+var mongoose = require("mongoose");
+const { userController } = require("./Controllers/userController");
+const { orderController } = require("./Controllers/orderController");
+const { productController } = require("./Controllers/productController");
+const { supplierController } = require("./Controllers/supplierController");
+const { deliveryController } = require("./Controllers/deliveryController");
+mongoose.connect(
+  "mongodb+srv://omarrifky:OmarSamir19972003@edset.wuulse8.mongodb.net/"
+); // connect to our database
 
 // Handle the connection event
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on("error", console.error.bind(console, "connection error:"));
 
-db.once('open', function() {
-    console.log("DB connection is alive");
+db.once("open", function () {
+  console.log("DB connection is alive");
 });
 
 //Models lives here
@@ -40,11 +41,10 @@ db.once('open', function() {
 // import { userController } from "../Backend/Controllers/userController"
 // import { productControlller } from "./Controllers/productController";
 
-
 // ROUTES FOR OUR API
 // =============================================================================
 // app.use('/api/product', productController)
-app.use('/api/user', userController)
+app.use("/api/user", userController);
 app.use("/api/order", orderController);
 app.use("/api/product", productController);
 app.use("/api/delivery", deliveryController);
@@ -54,16 +54,16 @@ app.use("/api/supplier", supplierController);
 var router = express.Router();
 
 // middleware to use for all requests
-router.use(function(req, res, next) {
-    // do logging
-    console.log('Something is happening.');
-    next();
+router.use(function (req, res, next) {
+  // do logging
+  console.log("Something is happening.");
+  next();
 });
 
 // REGISTER OUR ROUTES -------------------------------
-app.use('/api', router);
+app.use("/api", router);
 
 // START THE SERVER
 // =============================================================================
 app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log("Magic happens on port " + port);
