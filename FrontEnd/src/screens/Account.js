@@ -13,13 +13,14 @@ import TopBar from '../components/topBar';
 import {AuthContext} from '../providers/auth';
 import UsersService from '../services/users';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { toTitleCase } from './Categories';
 export default function AccountScreen({navigation}) {
   const [edit, setEdit] = useState(false);
   const {user, token, setUser} = useContext(AuthContext);
   const [userData, setUserData] = useState({
-    username: user.username,
     email: user.email,
-    // password: null,
+    lastname: user.lastname,
+    firstname: user.firstname,
     mobileNumber: user.mobileNumber,
   });
 
@@ -54,31 +55,40 @@ export default function AccountScreen({navigation}) {
               }}
             />
             <Text style={[styles.text, styles.title]}>
-              {user.firstname} {user.lastname}
+              {toTitleCase(user.firstname)} {toTitleCase(user.lastname)}
             </Text>
           </View>
           <ScrollView>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={$event => onChangehandle($event, 'username')}
-              value={userData.username}
-              placeholder="Username"
-              editable={edit}
-            />
-            <TextInput
-              style={styles.textInput}
-              onChangeText={$event => onChangehandle($event, 'email')}
-              value={userData.email}
-              placeholder="Email"
-              editable={edit}
-            />
-            <TextInput
-              style={styles.textInput}
-              onChangeText={$event => onChangehandle($event, 'mobileNumber')}
-              value={userData.mobileNumber}
-              placeholder="Mobile Number"
-              editable={edit}
-            />
+            <View style={styles.inputsHolder}>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={$event => onChangehandle($event, 'firstname')}
+                value={userData.firstname}
+                placeholder="firstname"
+                editable={edit}
+              />
+              <TextInput
+                style={styles.textInput}
+                onChangeText={$event => onChangehandle($event, 'lastname')}
+                value={userData.lastname}
+                placeholder="lastname"
+                editable={edit}
+              />
+              <TextInput
+                style={styles.textInput}
+                onChangeText={$event => onChangehandle($event, 'email')}
+                value={userData.email}
+                placeholder="Email"
+                editable={edit}
+              />
+              <TextInput
+                style={styles.textInput}
+                onChangeText={$event => onChangehandle($event, 'mobileNumber')}
+                value={userData.mobileNumber}
+                placeholder="Mobile Number"
+                editable={edit}
+              />
+            </View>
           </ScrollView>
           {edit === false ? (
             <SafeAreaView>
@@ -99,6 +109,9 @@ export default function AccountScreen({navigation}) {
   );
 }
 const styles = StyleSheet.create({
+  inputsHolder: {
+    paddingBottom: 24,
+  },
   signupbuttontext: {
     fontWeight: 700,
   },

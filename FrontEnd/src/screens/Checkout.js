@@ -57,7 +57,7 @@ export default function CheckoutScreen({route, navigation}) {
         await UsersService.clearCart(token);
         setCart([]);
         setCartData([]);
-        navigation.navigate('Orders');
+        navigation.navigate('Home', { screen: 'Orders', initial: false });
       })
       .catch(e => {
         alert(e.response?.data.err || 'Something went wrong!');

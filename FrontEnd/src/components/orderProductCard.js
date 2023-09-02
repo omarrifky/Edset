@@ -25,7 +25,7 @@ export default function OrderProductCard({navigation, productData, order_id}) {
   const {_id, photoLinks, productName} = product || {};
 
   const viewproduct = () => {
-    navigation.navigate('Cart', {
+    navigation.navigate('Home', {
       params: {id: _id},
       screen: 'ViewProduct',
       initial: false,

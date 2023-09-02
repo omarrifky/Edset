@@ -15,7 +15,7 @@ export default function SupplierCard({navigation, supplier}) {
   const {_id, companyName, discount, rating, imageURL} = supplier || {};
 
   const viewProductsforSupplier = () => {
-    navigation.navigate('Cart', {
+    navigation.navigate('Home', {
       params: {supplier: _id, screenTitle: companyName},
       screen: 'ViewProducts',
       initial: false,

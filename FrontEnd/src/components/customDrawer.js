@@ -17,7 +17,7 @@ const CustomDrawer = (props) => {
                 <View>
                     <Pressable
                         style={styles.btn}
-                        onPress={() => { navigation.navigate('Cart', { screen: 'Orders', initial: false }); navigation.closeDrawer() }}
+                        onPress={() => { navigation.navigate('Home', { screen: 'Orders', initial: false }); navigation.closeDrawer() }}
                     >
                         <Text style={styles.text}>Orders</Text>
                     </Pressable>

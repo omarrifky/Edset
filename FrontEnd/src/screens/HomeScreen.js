@@ -17,6 +17,7 @@ import SupplierCard from '../components/supplierCard';
 import SuppliersService from '../services/suppliers';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { toTitleCase } from './Categories';
 
 export default function HomeScreen({navigation}) {
   const {user} = useContext(AuthContext);
@@ -24,14 +25,14 @@ export default function HomeScreen({navigation}) {
   const [suppliers, setSuppliers] = useState([]);
 
   const viewproducts = () => {
-    navigation.navigate('Cart', {
-      params: {category: 'Engineer', screenTitle: 'Essentials'},
+    navigation.navigate('Home', {
+      params: {tags: 'essentials', screenTitle: 'Essentials'},
       screen: 'ViewProducts',
       initial: false,
     });
   };
   const viewSearchProducts = () => {
-    navigation.navigate('Cart', {
+    navigation.navigate('Home', {
       params: {},
       screen: 'ViewProducts',
       initial: false,
@@ -39,7 +40,7 @@ export default function HomeScreen({navigation}) {
   };
 
   const viewsuppliers = () => {
-    navigation.navigate('Cart', {screen: 'Suppliers', initial: false});
+    navigation.navigate('Home', {screen: 'Suppliers', initial: false});
   };
   useEffect(() => {
     ProductsService.getProducts({
@@ -87,7 +88,7 @@ export default function HomeScreen({navigation}) {
       <ScrollView>
         <View style={styles.holder}>
           <View style={styles.searchTitle}>
-            <Text style={styles.title}>Hi {user.firstname}!</Text>
+            <Text style={styles.title}>Hi {toTitleCase(user.firstname)}!</Text>
             <Pressable style={styles.searchBtn} onPress={viewSearchProducts}>
               <MaterialCommunityIcons
                 name="store-search"

@@ -14,7 +14,7 @@ export default function StoresScreen({navigation}) {
   const [suppliers, setSuppliers] = useState([]);
 
   const viewproducts = () => {
-    navigation.navigate('Cart', {
+    navigation.navigate('Home', {
       params: {store: 'SamirandAli'},
       screen: 'ViewProducts',
       initial: false,

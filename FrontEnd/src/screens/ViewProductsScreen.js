@@ -45,6 +45,11 @@ export default function HomeScreen({ route, navigation }) {
             $regex: search,
             $options: 'i'
           }
+        },
+        {
+          tags: {
+            $in: search
+          }
         }
       ];
     }
