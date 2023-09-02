@@ -17,7 +17,7 @@ import SupplierCard from '../components/supplierCard';
 import SuppliersService from '../services/suppliers';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { toTitleCase } from './Categories';
+import {toTitleCase} from './Categories';
 
 export default function HomeScreen({navigation}) {
   const {user} = useContext(AuthContext);
@@ -46,6 +46,11 @@ export default function HomeScreen({navigation}) {
     ProductsService.getProducts({
       limit: 4,
       page: 1,
+      queryBody: {
+        tags: {
+          $in: 'essentials',
+        },
+      },
     })
       .then(res => {
         const {count = 0, products = []} = res.data || {};
