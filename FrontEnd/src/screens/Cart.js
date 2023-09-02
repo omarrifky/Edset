@@ -94,7 +94,7 @@ export default function CartScreen({route, navigation}) {
               </Pressable>
             </>
           ) : (
-            <Text>Cart Empty</Text>
+            <Text style={styles.titletext}>Your Cart is Empty</Text>
           )}
         </View>
       </ScrollView>
@@ -102,6 +102,10 @@ export default function CartScreen({route, navigation}) {
   );
 }
 const styles = StyleSheet.create({
+  titletext: {
+    fontWeight: 700,
+    fontSize: 30,
+  },
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
