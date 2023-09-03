@@ -73,11 +73,16 @@ router.post("/registerUser", (req, res) => {
   newuser.addresses = req.body.address;
   newuser.imageURL = req.body.imageURL;
   newuser.cart = [];
+
   newuser
     .save()
-    .then((user) => res.status(200).send(user))
+    .then((user) => {
+      return user.generateAuthToken().then((token) => {
+        // res.header("x-auth", token).status(200).send(user);
+        res.status(200).send({ user: user, token: token });
+      });
+    })
     .catch((err) => {
-      console.log(err.message ? err.message : err);
       res.status(400).send({
         err: err.message ? err.message : err,
       });
