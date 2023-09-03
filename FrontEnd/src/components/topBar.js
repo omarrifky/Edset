@@ -1,45 +1,58 @@
 import SelectDropdown from 'react-native-select-dropdown';
-import { Image, Pressable, StyleSheet, View, Text, Modal, TextInput, Dimensions } from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  View,
+  Text,
+  Modal,
+  TextInput,
+  Dimensions,
+} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { DrawerToggleButton } from '@react-navigation/drawer';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { AuthContext } from '../providers/auth';
+import {DrawerToggleButton} from '@react-navigation/drawer';
+import {useContext, useEffect, useMemo, useRef, useState} from 'react';
+import {AuthContext} from '../providers/auth';
 import UsersService from '../services/users';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const TopBar = ({ navigation, iconColor = '#FFE605' }) => {
+const TopBar = ({navigation, iconColor = '#FFE605'}) => {
   const dropdown = useRef(null);
   const [addressModalVisible, setAddressModalVisible] = useState(false);
-  const { user, setUser, token, address, setAddress } = useContext(AuthContext);
-  const data = useMemo(() => (
-    (user.adresses || []).map(el => el.address)), [user]);
+  const {user, setUser, token, address, setAddress} = useContext(AuthContext);
+  const data = useMemo(
+    () => (user.addresses || []).map(el => el.address),
+    [user],
+  );
   const [newAddress, setNewAddress] = useState('');
   const handleSelect = async (selectedItem, index) => {
     setAddress(selectedItem);
-    await AsyncStorage.setItem("address", selectedItem)
+    await AsyncStorage.setItem('address', selectedItem);
     return selectedItem;
   };
 
   const submitAddAddress = async () => {
     try {
-      const res = await UsersService.updateAddress({
-        address: newAddress
-      }, token)
-      setAddressModalVisible(!addressModalVisible)
+      const res = await UsersService.updateAddress(
+        {
+          address: newAddress,
+        },
+        token,
+      );
+      setAddressModalVisible(!addressModalVisible);
 
-      setAddress(newAddress)
-      await AsyncStorage.setItem("address", newAddress)
-      setNewAddress('')
+      setAddress(newAddress);
+      await AsyncStorage.setItem('address', newAddress);
+      setNewAddress('');
 
       if (res?.data?.user) {
-        setUser(res.data.user)
-        await AsyncStorage.setItem("user", JSON.stringify(res.data.user))
+        setUser(res.data.user);
+        await AsyncStorage.setItem('user', JSON.stringify(res.data.user));
 
-        dropdown.current.selectIndex(res.data.user.adresses.length - 1)
+        dropdown.current.selectIndex(res.data.user.addresses.length - 1);
       }
-    } catch (e) {
-    }
-  }
+    } catch (e) {}
+  };
 
   const handleButtonTextAfterSelection = (selectedItem, index) => {
     return selectedItem;
@@ -53,19 +66,19 @@ const TopBar = ({ navigation, iconColor = '#FFE605' }) => {
     setAddressModalVisible(true);
   };
   const handleNavigateProfile = () => {
-    navigation.navigate('Home', { screen: 'Account', initial: false });
+    navigation.navigate('Home', {screen: 'Account', initial: false});
   };
 
   useEffect(() => {
     (async () => {
-      const addr = await AsyncStorage.getItem("address")
-      addr && setAddress(addr)
-      if(addr && dropdown.current) {
-        const i = (data || []).findIndex((a) => a === addr)
-        dropdown.current.selectIndex(i)
+      const addr = await AsyncStorage.getItem('address');
+      addr && setAddress(addr);
+      if (addr && dropdown.current) {
+        const i = (data || []).findIndex(a => a === addr);
+        dropdown.current.selectIndex(i);
       }
-    })()
-  }, [AsyncStorage, address, data, dropdown])
+    })();
+  }, [AsyncStorage, address, data, dropdown]);
   return (
     <View style={styles.TopBar}>
       <Modal
@@ -123,8 +136,7 @@ const TopBar = ({ navigation, iconColor = '#FFE605' }) => {
               color={iconColor}
               size={24}
             />
-          )}>
-        </SelectDropdown>
+          )}></SelectDropdown>
         <Pressable style={styles.button} onPress={addaddress}>
           <Text style={styles.buttontext}>+</Text>
         </Pressable>
@@ -210,21 +222,21 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     shadowColor: '#EEE',
-    shadowOffset: { width: -2, height: 8 },
+    shadowOffset: {width: -2, height: 8},
     shadowOpacity: 1,
     shadowRadius: 5,
   },
   centeredView: {
     flex: 1,
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 22,
-    width: "100%",
+    width: '100%',
   },
   modalView: {
-    width: "90%",
+    width: '90%',
     marginVertical: 20,
     backgroundColor: 'white',
     borderRadius: 20,
@@ -241,8 +253,8 @@ const styles = StyleSheet.create({
   },
   actions: {
     gap: 4,
-    display: "flex",
-    flexDirection: "row"
+    display: 'flex',
+    flexDirection: 'row',
   },
   mbutton: {
     borderRadius: 20,

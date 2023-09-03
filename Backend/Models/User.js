@@ -102,7 +102,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: false,
   },
-  adresses: [
+  addresses: [
     {
       address: {
         type: String,

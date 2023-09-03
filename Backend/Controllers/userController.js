@@ -52,7 +52,7 @@ router.get("/getusers", function (req, res) {
 });
 
 router.post("/registerUser", (req, res) => {
-  console.log("HELLOO");
+  console.log("HELLOO", req.body.address);
   var newuser = new User(); // create a new instance of the User model
   newuser.username = req.body.username;
   newuser.prefrences = req.body.prefrences;
@@ -70,7 +70,7 @@ router.post("/registerUser", (req, res) => {
   newuser.admin = false;
   newuser.blocked = false;
   newuser.isremoved = false;
-  newuser.adresses = req.body.adresses;
+  newuser.addresses = req.body.address;
   newuser.imageURL = req.body.imageURL;
   newuser.cart = [];
   newuser
@@ -195,7 +195,7 @@ router.patch("/updateAddress", authenticateuser, (req, res) => {
     { _id: req.user._id },
     {
       $push: {
-        adresses: {
+        addresses: {
           ...req.body,
         },
       },
