@@ -13,7 +13,7 @@ import TopBar from '../components/topBar';
 import {AuthContext} from '../providers/auth';
 import UsersService from '../services/users';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { toTitleCase } from './Categories';
+import {toTitleCase} from './Categories';
 export default function AccountScreen({navigation}) {
   const [edit, setEdit] = useState(false);
   const {user, token, setUser} = useContext(AuthContext);
@@ -51,7 +51,7 @@ export default function AccountScreen({navigation}) {
             <Image
               style={styles.pic}
               source={{
-                uri: 'https://scontent.fcai2-2.fna.fbcdn.net/v/t1.6435-9/78416817_10218449129812468_5834337807438446592_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=RhmGHff4ErYAX_u8Rsd&_nc_ht=scontent.fcai2-2.fna&oh=00_AfBZHofQDA_ct-42lh03bD-loNMK9Lfv5Fq5lUwWKt4vAA&oe=63FE5852',
+                uri: user.imageURL,
               }}
             />
             <Text style={[styles.text, styles.title]}>
