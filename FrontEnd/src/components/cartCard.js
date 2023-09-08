@@ -13,7 +13,7 @@ import UsersService from '../services/users';
 
 export default function CartCard({navigation, prod}) {
   const {user, token, cart, setCart} = useContext(AuthContext);
-  const {_id, product, quantity, photoLinks, productName, productPrice} =
+  const {_id, product, quantity, productLogo, productName, productPrice} =
     prod || {};
 
   const removeitem = () => {
@@ -59,8 +59,8 @@ export default function CartCard({navigation, prod}) {
   return (
     <View style={styles.card}>
       <View style={styles.cardimageholder}>
-        {photoLinks?.length > 0 ? (
-          <Image style={styles.image} source={{uri: photoLinks[0]}}></Image>
+        {productLogo.length > 0 ? (
+          <Image style={styles.image} source={{uri: productLogo}}></Image>
         ) : (
           <Image style={styles.image} source={productPlaceholder}></Image>
         )}
