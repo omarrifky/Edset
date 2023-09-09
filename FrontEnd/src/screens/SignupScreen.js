@@ -63,7 +63,24 @@ export default function SignUpScreen({navigation}) {
       },
     })
       .then(res => {
-        setUser(res.data);
+        setUser(res.data.user)
+        setToken(res.data.token)
+
+        try {
+          AsyncStorage.multiSet([
+            [
+              'token',
+              res.data.token,
+            ],
+            [
+              'user',
+              JSON.stringify(res.data.user),
+            ]
+          ]
+          );
+        } catch (error) {
+          // Error saving data
+        }
       })
       .catch(e => {
         alert(e.response.data.err);
