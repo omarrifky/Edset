@@ -27,7 +27,7 @@ export default function FavoritesScreen({ route, navigation }) {
         <View style={styles.body}>
           {favoritesData.length > 0 ?
             <View style={styles.cardholder}>
-              {favoritesData.map(product => <ProductCard product={product} navigation={navigation} />)}
+              {favoritesData.map(product => <ProductCard style={styles.subCard} product={product} navigation={navigation} />)}
             </View>
             : <Text>No Favorites</Text>}
         </View>
@@ -50,5 +50,8 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  subCard: {
+    maxWidth: '45%'
   },
 })
