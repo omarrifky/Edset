@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, View, Text, ScrollView, Pressable } from "react-native";
+import { SafeAreaView, StyleSheet, View, Text, ScrollView, Pressable, Dimensions } from "react-native";
 import TopBar from "../components/topBar";
 import ProductCard from "../components/productCard";
 import { useEffect, useState } from "react";
@@ -144,7 +144,7 @@ export default function HomeScreen({ route, navigation }) {
           />
           <View style={styles.cardholder}>
             {productsData.map(product => (
-              <ProductCard product={product} navigation={navigation} />
+              <ProductCard product={product} navigation={navigation} style={styles.subCard} />
             ))}
           </View>
           {showPager ? <Pressable style={styles.button} onPress={() => loadMore()}>
@@ -157,12 +157,15 @@ export default function HomeScreen({ route, navigation }) {
 }
 const styles = StyleSheet.create({
   cardholder: {
-    marginVertical: 20,
+    marginVertical: 30,
     display: "flex",
     justifyContent: "space-between",
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
+  },
+  subCard: {
+    maxWidth: '45%'
   },
   holder: {
     padding: 25,

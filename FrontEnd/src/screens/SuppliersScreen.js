@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   cardimageholder: {
     height: 150,
     width: 150,
+    resizeMode: 'contain',
   },
   subcard2holder: {
     height: 200,

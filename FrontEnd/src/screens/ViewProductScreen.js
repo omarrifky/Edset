@@ -243,6 +243,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: 150,
     height: 150,
+    resizeMode: 'contain',
   },
   container: {
     flex: 1,

@@ -10,7 +10,7 @@ import {useContext} from 'react';
 import {AuthContext} from '../providers/auth';
 import productPlaceholder from '../assets/product.png';
 
-export default function ProductCard({navigation, product}) {
+export default function ProductCard({navigation, product, style = null}) {
   const {user} = useContext(AuthContext);
   const {
     _id,
@@ -32,8 +32,9 @@ export default function ProductCard({navigation, product}) {
     });
   };
 
+  const extraStyles = style ? { style } : {}
   return (
-    <Pressable onPress={viewproduct}>
+    <Pressable onPress={viewproduct} {...extraStyles}>
       <View style={styles.card}>
         {photoLinks?.length > 0 ? (
           <Image
