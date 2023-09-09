@@ -171,14 +171,26 @@ router.get("/getCart", authenticateuser, (req, res) => {
   User.findById(req.user._id)
     .select("cart")
     .populate({
-      path: "cart",
+      path: "cart.product",
       model: "Product",
+      select: '_id quantity productName price photoLinks'
     })
     .then((user) => {
       if (!user) {
         throw { err: "No user with this id" };
       }
-      res.status(200).send({ cart: user.cart || [] });
+
+      const cart = (user.cart || []).map((el) => ({
+        ...el._doc,
+        product: el._doc.product._id,
+        productPrice: el._doc.product.price,
+        productName: el._doc.product.productName,
+        productQuantity: el._doc.product.quantity,
+        productLogo: el._doc.product.photoLinks && el._doc.product.photoLinks.length > 0 ? 
+          el._doc.product.photoLinks[0] : el.productLogo,
+      })) || []
+
+      res.status(200).send({ cart });
     })
     .catch((err) => {
       res.status(400).send({

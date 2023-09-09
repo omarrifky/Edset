@@ -127,9 +127,9 @@ const userSchema = mongoose.Schema({
       productName: {
         type: String,
       },
-      productPrice: {
-        type: Number,
-      },
+      // productPrice: {
+      //   type: Number,
+      // },
       productLogo: {
         type: String,
       },

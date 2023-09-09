@@ -6,14 +6,14 @@ import {
   Pressable,
   Image,
 } from 'react-native';
-import {useContext} from 'react';
-import {AuthContext} from '../providers/auth';
+import { useContext } from 'react';
+import { AuthContext } from '../providers/auth';
 import productPlaceholder from '../assets/product.png';
 import UsersService from '../services/users';
 
-export default function CartCard({navigation, prod}) {
-  const {user, token, cart, setCart} = useContext(AuthContext);
-  const {_id, product, quantity, productLogo, productName, productPrice} =
+export default function CartCard({ navigation, prod }) {
+  const { user, token, cart, setCart } = useContext(AuthContext);
+  const { _id, product, quantity, productLogo, productName, productQuantity, productPrice } =
     prod || {};
 
   const removeitem = () => {
@@ -60,7 +60,7 @@ export default function CartCard({navigation, prod}) {
     <View style={styles.card}>
       <View style={styles.cardimageholder}>
         {productLogo.length > 0 ? (
-          <Image style={styles.image} source={{uri: productLogo}}></Image>
+          <Image style={styles.image} source={{ uri: productLogo }}></Image>
         ) : (
           <Image style={styles.image} source={productPlaceholder}></Image>
         )}
@@ -76,6 +76,11 @@ export default function CartCard({navigation, prod}) {
             <Text style={styles.x}>x</Text>
           </Pressable>
         </View>
+        {productQuantity ? (
+          <Text style={productQuantity > 0 ? styles.Instocktext : styles.Outofstocktext}>
+            {productQuantity > 0 ? 'In Stock' : 'Out of Stock'}
+          </Text>
+        ) : <></>}
         <View style={styles.holder1}>
           <Pressable style={styles.button} onPress={decrease}>
             <Text style={styles.buttontext}>-</Text>
@@ -122,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'white',
     shadowColor: '#EEE',
-    shadowOffset: {width: -2, height: 8},
+    shadowOffset: { width: -2, height: 8 },
     shadowOpacity: 1,
     shadowRadius: 5,
     padding: 8,
