@@ -60,11 +60,13 @@ export default function LoginScreen({ navigation }) {
           onChangeText={($event) => onChangehandle($event, "email")}
           value={loginData.email}
           placeholder="Email"
+          placeholderTextColor={"#aaaaaa"}
         />
         <TextInput secureTextEntry={true} style={styles.textInput}
           onChangeText={($event) => onChangehandle($event, "password")}
           value={loginData.password}
           placeholder="Password"
+          placeholderTextColor={"#aaaaaa"}
         />
         <Pressable><Text style={styles.link}>Forgot your Password?</Text></Pressable>
         <Pressable style={styles.button} onPress={submit}><Text style={styles.buttontext}>SIGN IN</Text></Pressable>
@@ -129,7 +131,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -2, height: 8 },
     shadowOpacity: 1,
     shadowRadius: 5,
-
   },
   link: {
     alignSelf: "flex-end",

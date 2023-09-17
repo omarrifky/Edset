@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import { useContext, useState } from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -7,27 +7,27 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {AuthContext} from '../providers/auth';
-import {Dropdown, MultiSelect} from 'react-native-element-dropdown';
+import { AuthContext } from '../providers/auth';
+import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 
-export default function SignUpScreen({navigation}) {
+export default function SignUpScreen({ navigation }) {
   const universities = [
-    {label: 'American University In Cairo', value: '1'},
-    {label: 'German University In Cairo', value: '2'},
-    {label: 'Future University In Cairo', value: '3'},
-    {label: 'Cairo University', value: '4'},
-    {label: 'Ain Shams University', value: '5'},
-    {label: 'Canadian University In Cairo', value: '6'},
-    {label: 'Britsh University In Cairo', value: '7'},
+    { label: 'American University In Cairo', value: '1' },
+    { label: 'German University In Cairo', value: '2' },
+    { label: 'Future University In Cairo', value: '3' },
+    { label: 'Cairo University', value: '4' },
+    { label: 'Ain Shams University', value: '5' },
+    { label: 'Canadian University In Cairo', value: '6' },
+    { label: 'Britsh University In Cairo', value: '7' },
   ];
   const intrests = [
-    {label: 'Drawing', value: '1'},
-    {label: 'Dentistry', value: '2'},
-    {label: 'Sculpture', value: '3'},
-    {label: 'Mechanics', value: '4'},
-    {label: 'Electronics', value: '5'},
-    {label: 'Maths', value: '6'},
-    {label: 'Astronomy', value: '7'},
+    { label: 'Drawing', value: '1' },
+    { label: 'Dentistry', value: '2' },
+    { label: 'Sculpture', value: '3' },
+    { label: 'Mechanics', value: '4' },
+    { label: 'Electronics', value: '5' },
+    { label: 'Maths', value: '6' },
+    { label: 'Astronomy', value: '7' },
   ];
   const [dropdown, setDropdown] = useState(null);
   const [selected, setSelected] = useState([]);
@@ -43,7 +43,7 @@ export default function SignUpScreen({navigation}) {
       </View>
     );
   };
-  const {setUser, register} = useContext(AuthContext);
+  const { setUser, register } = useContext(AuthContext);
   const [currentscreen, setCurrentscreen] = useState(0);
   function nextScreen() {
     setCurrentscreen(currentscreen + 1);
@@ -91,7 +91,7 @@ export default function SignUpScreen({navigation}) {
     if (field == 'address') {
       setRegisterData({
         ...registerData,
-        [field]: [{address: value}],
+        [field]: [{ address: value }],
       });
     } else {
       setRegisterData({
@@ -109,24 +109,28 @@ export default function SignUpScreen({navigation}) {
             <Text style={styles.title}>Welcome!</Text>
             <Text style={styles.subtitle}>Let's get to know you more</Text>
             <TextInput
+              placeholderTextColor={"#aaaaaa"}
               onChangeText={$event => onChangehandle($event, 'firstname')}
               value={registerData.firstname}
               style={styles.textInput}
               placeholder="First Name"
             />
             <TextInput
+              placeholderTextColor={"#aaaaaa"}
               onChangeText={$event => onChangehandle($event, 'lastname')}
               value={registerData.lastname}
               style={styles.textInput}
               placeholder="Last Name"
             />
             <TextInput
+              placeholderTextColor={"#aaaaaa"}
               onChangeText={$event => onChangehandle($event, 'dateOfBirth')}
               value={registerData.dateOfBirth}
               style={styles.textInput}
               placeholder="Date of Birth"
             />
             <TextInput
+              placeholderTextColor={"#aaaaaa"}
               onChangeText={$event => onChangehandle($event, 'address')}
               value={registerData.address}
               style={styles.textInput}
@@ -151,24 +155,28 @@ export default function SignUpScreen({navigation}) {
             <Text style={styles.title}>Welcome!</Text>
             <Text style={styles.subtitle}>We are almost there</Text>
             <TextInput
+              placeholderTextColor={"#aaaaaa"}
               onChangeText={$event => onChangehandle($event, 'mobileNumber')}
               value={registerData.mobileNumber}
               style={styles.textInput}
               placeholder="Mobile Number"
             />
             <TextInput
+              placeholderTextColor={"#aaaaaa"}
               onChangeText={$event => onChangehandle($event, 'username')}
               value={registerData.username}
               style={styles.textInput}
               placeholder="Username"
             />
             <TextInput
+              placeholderTextColor={"#aaaaaa"}
               onChangeText={$event => onChangehandle($event, 'email')}
               value={registerData.email}
               style={styles.textInput}
               placeholder="Email Address"
             />
             <TextInput
+              placeholderTextColor={"#aaaaaa"}
               secureTextEntry={true}
               onChangeText={$event => onChangehandle($event, 'password')}
               value={registerData.password}
@@ -241,12 +249,14 @@ export default function SignUpScreen({navigation}) {
             />
 
             <TextInput
+              placeholderTextColor={"#aaaaaa"}
               style={styles.textInput}
               onChangeText={$event => onChangehandle($event, 'faculty')}
               value={registerData.faculty}
               placeholder="Faculty"
             />
             <TextInput
+              placeholderTextColor={"#aaaaaa"}
               style={styles.textInput}
               onChangeText={$event => onChangehandle($event, 'year')}
               value={registerData.year}
@@ -286,7 +296,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     shadowColor: '#EEE',
-    shadowOffset: {width: -2, height: 8},
+    shadowOffset: { width: -2, height: 8 },
     shadowOpacity: 1,
     shadowRadius: 5,
   },
@@ -337,7 +347,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     shadowColor: '#EEE',
-    shadowOffset: {width: -2, height: 8},
+    shadowOffset: { width: -2, height: 8 },
     shadowOpacity: 1,
     shadowRadius: 5,
   },

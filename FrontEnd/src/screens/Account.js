@@ -65,17 +65,20 @@ export default function AccountScreen({navigation}) {
                 onChangeText={$event => onChangehandle($event, 'firstname')}
                 value={userData.firstname}
                 placeholder="firstname"
+                placeholderTextColor={"#aaaaaa"}
                 editable={edit}
               />
               <TextInput
                 style={styles.textInput}
                 onChangeText={$event => onChangehandle($event, 'lastname')}
                 value={userData.lastname}
+                placeholderTextColor={"#aaaaaa"}
                 placeholder="lastname"
                 editable={edit}
               />
               <TextInput
                 style={styles.textInput}
+                placeholderTextColor={"#aaaaaa"}
                 onChangeText={$event => onChangehandle($event, 'email')}
                 value={userData.email}
                 placeholder="Email"
@@ -83,6 +86,7 @@ export default function AccountScreen({navigation}) {
               />
               <TextInput
                 style={styles.textInput}
+                placeholderTextColor={"#aaaaaa"}
                 onChangeText={$event => onChangehandle($event, 'mobileNumber')}
                 value={userData.mobileNumber}
                 placeholder="Mobile Number"

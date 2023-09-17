@@ -16,7 +16,7 @@ export default function HomeScreen({ route, navigation }) {
     setProducts([]);
     setShowPage(true);
 
-    const { screenTitle, ...rest} = route?.params || {};
+    const { screenTitle, ...rest } = route?.params || {};
     const queryBody = {
       ...rest
     };
@@ -135,8 +135,9 @@ export default function HomeScreen({ route, navigation }) {
       <TopBar navigation={navigation} />
       <ScrollView>
         <View style={styles.holder}>
-          <Text style={styles.title}>{ route?.params?.screenTitle || 'All Products' }</Text>
+          <Text style={styles.title}>{route?.params?.screenTitle || 'All Products'}</Text>
           <TextInput
+            placeholderTextColor={"#aaaaaa"}
             placeholder="Search"
             value={search}
             style={styles.textInput}
