@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:8080/api/product';
+const baseUrl = 'https://edset-297a67b6b6a9.herokuapp.com/api/product';
 
 const ProductsService = {
     getProducts: function(body = {}) {
