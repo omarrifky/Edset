@@ -15,7 +15,17 @@ import {toTitleCase} from '../screens/Categories';
 
 const CustomDrawer = props => {
   const {navigation} = props;
-  const {setUser, user} = useContext(AuthContext);
+  const {setUser, user, logout} = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setUser(false);
+      navigation.closeDrawer();
+    } catch(e) {
+      console.log(e);
+    } 
+  }
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.titleHolder}>
@@ -70,10 +80,7 @@ const CustomDrawer = props => {
         <Pressable
           style={styles.btn}
           title="Logout"
-          onPress={() => {
-            setUser(false);
-            navigation.closeDrawer();
-          }}>
+          onPress={handleLogout}>
           <Text style={[styles.text, styles.logoutTxt]}>Logout</Text>
         </Pressable>
       </View>
