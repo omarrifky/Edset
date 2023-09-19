@@ -5,8 +5,12 @@ const UsersService = {
   login: function (body) {
     return axios.post(`${baseUrl}/login`, body);
   },
-  logout: function () {
-    return axios.post(`${baseUrl}/logout`);
+  logout: function (token) {
+    return axios.post(`${baseUrl}/logout`, {}, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
   },
   register: function (body) {
     return axios.post(`${baseUrl}/registerUser`, body);

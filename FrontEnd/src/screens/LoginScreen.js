@@ -28,9 +28,13 @@ export default function LoginScreen({ navigation }) {
     
     login(loginData.email, loginData.password).then(
       res => {
-        setToken(res.data.token)
-        setUser(res.data.user)
         try {
+          if(!res) {
+            throw "Something went wrong"
+          }
+          setToken(res.data.token)
+          setUser(res.data.user)
+
           AsyncStorage.multiSet([
             [
               'token',
@@ -44,10 +48,12 @@ export default function LoginScreen({ navigation }) {
           );
         } catch (error) {
           // Error saving data
+          alert(error)
         }
       }
     ).catch(e => {
-      alert(e.response.data.err)
+      console.log(e);
+      alert(e.response?.data.err || 'Something went wrong!')
     });
   }
 
