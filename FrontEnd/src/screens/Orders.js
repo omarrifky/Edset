@@ -50,7 +50,7 @@ export default function OrdersScreen({ navigation }) {
   };
   const checkCancelAll = useMemo(() => {
     const dd = {};
-    orderData.forEach(({ _id, products = [] }) => {
+    (orderData || []).forEach(({ _id, products = [] }) => {
       const p_len = products.length;
       const p_filter = (products || []).filter(p => p.status !== 'Pending');
       if (p_filter?.length === p_len) {
