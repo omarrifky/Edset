@@ -13,6 +13,8 @@ export default function HomeScreen({ route, navigation }) {
   const [showPagenation, setShowPagenation] = useState(false);
   useEffect(() => {
     setPage(1);
+    setProducts(undefined);
+    setShowPagenation(false);
 
     const { screenTitle, ...rest } = route?.params || {};
     const queryBody = {
