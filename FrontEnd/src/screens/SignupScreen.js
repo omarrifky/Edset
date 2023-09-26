@@ -83,7 +83,7 @@ export default function SignUpScreen({ navigation }) {
         }
       })
       .catch(e => {
-        alert(e.response.data.err);
+        alert(e.response?.data?.err || 'Something went wrong!');
       });
   }
 

@@ -20,7 +20,7 @@ const CustomDrawer = props => {
     try {
       await logout(token);
     } catch(e) {
-      alert(e);
+      e && alert(e);
     } 
     setUser(false);
     setToken(undefined);
@@ -80,7 +80,7 @@ const CustomDrawer = props => {
         <Pressable
           style={styles.btn}
           title="Logout"
-          onPress={handleLogout}>
+          onPress={() => handleLogout()}>
           <Text style={[styles.text, styles.logoutTxt]}>Logout</Text>
         </Pressable>
       </View>

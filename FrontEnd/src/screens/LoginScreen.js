@@ -48,12 +48,11 @@ export default function LoginScreen({ navigation }) {
           );
         } catch (error) {
           // Error saving data
-          alert(error)
+          alert(error || 'Something went wrong!')
         }
       }
     ).catch(e => {
-      console.log(e);
-      alert(e.response?.data.err || 'Something went wrong!')
+      alert(e.response?.data?.err || 'Something went wrong!')
     });
   }
 

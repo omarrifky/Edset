@@ -52,25 +52,25 @@ export default function HomeScreen({navigation}) {
         },
       },
     })
-      .then(res => {
-        const {count = 0, products = []} = res.data || {};
-        setProducts(products);
-      })
-      .catch(e => {
-        alert(e.response.data.err);
-      });
+    .then(res => {
+      const {count = 0, products = []} = res.data || {};
+      setProducts(products);
+    })
+    .catch(e => {
+      alert(e.response?.data?.err || 'Something went wrong!');
+    });
 
     SuppliersService.getSuppliers({
       limit: 4,
       page: 1,
     })
-      .then(res => {
-        const {count = 0, suppliers = []} = res.data || {};
-        setSuppliers(suppliers);
-      })
-      .catch(e => {
-        alert(e.response.data.err);
-      });
+    .then(res => {
+      const {count = 0, suppliers = []} = res.data || {};
+      setSuppliers(suppliers);
+    })
+    .catch(e => {
+      alert(e.response?.data?.err || 'Something went wrong!');
+    });
   }, []);
 
   const carousel = useRef();

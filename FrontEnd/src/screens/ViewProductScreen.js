@@ -68,7 +68,7 @@ export default function ViewProductScreen({route, navigation}) {
         }
       })
       .catch(e => {
-        alert(e.response.data.err);
+        alert(e.response?.data?.err || 'Something went wrong!');
       });
   };
 
@@ -91,7 +91,7 @@ export default function ViewProductScreen({route, navigation}) {
           setFecthProduct(product);
         })
         .catch(e => {
-          alert(e.response.data.err);
+          alert(e.response?.data?.err || 'Something went wrong!');
         });
     }
   }, [route.params]);

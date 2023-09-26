@@ -72,7 +72,7 @@ export default function HomeScreen({ route, navigation }) {
           setShowPage(true)
         }
       }).catch(e => {
-        alert(e.response.data.err)
+        alert(e.response?.data?.err || 'Something went wrong!')
       });
   }, [search, route.params])
 
@@ -124,7 +124,7 @@ export default function HomeScreen({ route, navigation }) {
           setShowPage(true)
         }
       }).catch(e => {
-        alert(e.response.data.err)
+        alert(e.response?.data?.err || 'Something went wrong!')
       });
   };
   const onSearchhandle = e => {
