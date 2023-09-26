@@ -121,7 +121,7 @@ export default function CategoriesScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TopBar navigation={navigation} iconColor="#FFFFFF" />
+      <TopBar navigation={navigation} />
       <View style={styles.selectFilter}>
         {/* <Text style={styles.title}>{toTitleCase(filter)}</Text> */}
         <SelectDropdown
