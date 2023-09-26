@@ -60,7 +60,6 @@ export default function ViewProductScreen({route, navigation}) {
       .then(res => {
         const {user} = res.data;
         setFavorites(user.favorites);
-        console.log(user.favorites);
         if ((user.favorites || []).includes(id)) {
           setIsfavorite(true);
         } else {
@@ -224,6 +223,8 @@ const styles = StyleSheet.create({
   },
   productname: {
     fontSize: 25,
+    textAlign: "center",
+    paddingHorizontal: 12
   },
   card: {
     backgroundColor: 'white',
