@@ -55,10 +55,12 @@ export const AuthProvider = ({children}) => {
         register: async body => {
           return UsersService.register({...body});
         },
-        logout: async () => {
+        logout: async (token) => {
+          try {
+            await UsersService.logout(token);
+          } catch(e) {}
           AsyncStorage.removeItem('user');
           AsyncStorage.removeItem('token');
-          return UsersService.logout();
         },
       }}>
       {children}

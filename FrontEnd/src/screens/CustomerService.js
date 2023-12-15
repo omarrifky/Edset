@@ -15,11 +15,11 @@ export default function CustomerServiceScreen({ navigation }) {
           <Text style={styles.title}>Contact Us!</Text>
           <Text style={styles.subtitle}>We will be in touch soon</Text>
           <TextInput style={styles.textInput}
-
+          placeholderTextColor={"#aaaaaa"}
             placeholder="Subject"
           />
           <TextInput style={styles.textInput2}
-
+          placeholderTextColor={"#aaaaaa"}
             placeholder="Email"
           />
           <Pressable style={styles.button} onPress={() => sendEmail()}><Text style={styles.buttontext}>Send Email</Text></Pressable>

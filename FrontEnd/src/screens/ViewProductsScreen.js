@@ -8,15 +8,15 @@ import { TextInput } from "react-native-gesture-handler";
 export default function HomeScreen({ route, navigation }) {
   const limit = 20;
   const [page, setPage] = useState(1);
-  const [showPager, setShowPage] = useState(false);
   const [search, setSearch] = useState('');
-  const [productsData, setProducts] = useState([]);
+  const [productsData, setProducts] = useState();
+  const [showPagenation, setShowPagenation] = useState(false);
   useEffect(() => {
     setPage(1);
-    setProducts([]);
-    setShowPage(true);
+    setProducts(undefined);
+    setShowPagenation(false);
 
-    const { screenTitle, ...rest} = route?.params || {};
+    const { screenTitle, ...rest } = route?.params || {};
     const queryBody = {
       ...rest
     };
@@ -67,12 +67,12 @@ export default function HomeScreen({ route, navigation }) {
         const { count = 0, pages = 1, products = [] } = res.data || {};
         setProducts(products);
         if (page >= pages) {
-          setShowPage(false)
+          setShowPagenation(false)
         } else {
-          setShowPage(true)
+          setShowPagenation(true)
         }
       }).catch(e => {
-        alert(e.response.data.err)
+        alert(e.response?.data?.err || 'Something went wrong!')
       });
   }, [search, route.params])
 
@@ -117,14 +117,14 @@ export default function HomeScreen({ route, navigation }) {
     })
       .then(res => {
         const { count = 0, pages = 1, products = [] } = res.data || {};
-        setProducts([...productsData, ...products]);
+        setProducts([...(productsData || []), ...products]);
         if ((page + 1) >= pages) {
-          setShowPage(false)
+          setShowPagenation(false)
         } else {
-          setShowPage(true)
+          setShowPagenation(true)
         }
       }).catch(e => {
-        alert(e.response.data.err)
+        alert(e.response?.data?.err || 'Something went wrong!')
       });
   };
   const onSearchhandle = e => {
@@ -135,19 +135,30 @@ export default function HomeScreen({ route, navigation }) {
       <TopBar navigation={navigation} />
       <ScrollView>
         <View style={styles.holder}>
-          <Text style={styles.title}>{ route?.params?.screenTitle || 'All Products' }</Text>
+          <Text style={styles.title}>{route?.params?.screenTitle || 'All Products'}</Text>
           <TextInput
+            placeholderTextColor={"#aaaaaa"}
             placeholder="Search"
             value={search}
             style={styles.textInput}
             onChangeText={$event => onSearchhandle($event)}
           />
-          <View style={styles.cardholder}>
-            {productsData.map(product => (
-              <ProductCard product={product} navigation={navigation} style={styles.subCard} />
-            ))}
-          </View>
-          {showPager ? <Pressable style={styles.button} onPress={() => loadMore()}>
+          {productsData?.length > 0 ? (
+            <View style={styles.cardholder}>
+              {(productsData || [])?.map(product => (
+                <ProductCard product={product} navigation={navigation} style={styles.subCard} />
+              ))}
+            </View>
+          ) : (
+            <>
+              {productsData ? (
+                <></>
+              ) : (
+                <Text>Loading...</Text>
+              )}
+            </>
+          )}
+          {showPagenation ? <Pressable style={styles.button} onPress={() => loadMore()}>
             <Text style={styles.buttontext}>View More</Text>
           </Pressable> : <></>}
         </View>

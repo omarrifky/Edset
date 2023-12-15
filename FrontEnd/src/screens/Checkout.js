@@ -40,8 +40,7 @@ export default function CheckoutScreen({route, navigation}) {
         });
       })
       .catch(e => {
-        console.log(e);
-        alert(e.response?.data.err);
+        alert(e.response?.data?.err || 'Something went wrong!');
       });
   }, [cart]);
   const handlePayement = value => {
@@ -60,7 +59,7 @@ export default function CheckoutScreen({route, navigation}) {
         navigation.navigate('Home', { screen: 'Orders', initial: false });
       })
       .catch(e => {
-        alert(e.response?.data.err || 'Something went wrong!');
+        alert(e.response?.data?.err || 'Something went wrong!');
       })
       .finally(() => {
         setLoading(false);

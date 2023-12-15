@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -9,13 +9,13 @@ import {
 } from 'react-native';
 import CartCard from '../components/cartCard';
 import TopBar from '../components/topBar';
-import {AuthContext} from '../providers/auth';
+import { AuthContext } from '../providers/auth';
 import OrdersService from '../services/orders';
 import UsersService from '../services/users';
 
-export default function CartScreen({route, navigation}) {
-  const {user, token, cart, setCart} = useContext(AuthContext);
-  const [cartData, setCartData] = useState([]);
+export default function CartScreen({ route, navigation }) {
+  const { user, token, cart, setCart } = useContext(AuthContext);
+  const [cartData, setCartData] = useState();
   const [loading, setLoading] = useState(false);
   const [prices, setPrices] = useState({
     tax: 0,
@@ -27,7 +27,7 @@ export default function CartScreen({route, navigation}) {
   useEffect(() => {
     UsersService.cart(token)
       .then(res => {
-        setCartData(res?.data.cart);
+        setCartData(res?.data.cart || []);
         const priceCart = res?.data.cart
           .map(el => el.productPrice * el.quantity)
           .reduce((prev, next) => (prev || 0) + (next || 0), 0);
@@ -40,13 +40,12 @@ export default function CartScreen({route, navigation}) {
         });
       })
       .catch(e => {
-        console.log(e);
-        alert(e.response?.data.err);
+        alert(e.response?.data?.err || 'Something went wrong!');
       });
   }, [cart]);
 
   const handleProceedPayment = () => {
-    navigation.navigate('Cart', {screen: 'Checkout', initial: false});
+    navigation.navigate('Cart', { screen: 'Checkout', initial: false });
     navigation.closeDrawer();
   };
   return (
@@ -54,7 +53,7 @@ export default function CartScreen({route, navigation}) {
       <TopBar navigation={navigation} />
       <ScrollView>
         <View style={styles.body}>
-          {cartData.length > 0 ? (
+          {cartData?.length > 0 ? (
             <>
               <View style={styles.cardholder}>
                 {cartData.map(product => (
@@ -94,7 +93,9 @@ export default function CartScreen({route, navigation}) {
               </Pressable>
             </>
           ) : (
-            <Text style={styles.titletext}>Your Cart is Empty</Text>
+            <>
+              {cartData ? (<Text style={styles.titletext}>Your Cart is Empty</Text>) : (<Text style={styles.titletext}>Loading...</Text>)}
+            </>
           )}
         </View>
       </ScrollView>

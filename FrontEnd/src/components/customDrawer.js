@@ -9,13 +9,23 @@ import {
   Pressable,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {NavigationActions} from 'react-navigation';
 import {AuthContext} from '../providers/auth';
 import {toTitleCase} from '../screens/Categories';
 
 const CustomDrawer = props => {
   const {navigation} = props;
-  const {setUser, user} = useContext(AuthContext);
+  const {setUser, user, token, setToken, logout} = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    try {
+      await logout(token);
+    } catch(e) {
+      e && alert(e);
+    } 
+    setUser(false);
+    setToken(undefined);
+    navigation.closeDrawer();
+  }
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.titleHolder}>
@@ -70,10 +80,7 @@ const CustomDrawer = props => {
         <Pressable
           style={styles.btn}
           title="Logout"
-          onPress={() => {
-            setUser(false);
-            navigation.closeDrawer();
-          }}>
+          onPress={() => handleLogout()}>
           <Text style={[styles.text, styles.logoutTxt]}>Logout</Text>
         </Pressable>
       </View>

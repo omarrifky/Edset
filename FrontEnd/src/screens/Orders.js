@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import TopBar from '../components/topBar';
 import AccordionItem from '../components/accordionItem';
-import {useContext, useEffect, useMemo, useState} from 'react';
-import {AuthContext} from '../providers/auth';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import { AuthContext } from '../providers/auth';
 import OrdersService from '../services/orders';
 import OrderProductCard from '../components/orderProductCard';
 
@@ -19,20 +19,20 @@ export const cancel_cases = Object.freeze({
   SOME_PENDING: 3,
 });
 
-export default function OrdersScreen({navigation}) {
-  const {user, token, orders, setOrders, refetchOrder, setRefetchOrder} =
+export default function OrdersScreen({ navigation }) {
+  const { user, token, orders, setOrders, refetchOrder, setRefetchOrder } =
     useContext(AuthContext);
-  const [orderData, setOrderData] = useState([]);
+  const [orderData, setOrderData] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     OrdersService.getOrders(token)
       .then(res => {
         setOrders(res.data);
-        setOrderData(res.data);
+        setOrderData(res.data || []);
       })
       .catch(e => {
-        alert(e.response?.data.err);
+        alert(e.response?.data?.err || 'Something went wrong!');
       })
       .finally(() => {
         setLoading(false);
@@ -45,12 +45,12 @@ export default function OrdersScreen({navigation}) {
         setRefetchOrder(!refetchOrder);
       })
       .catch(e => {
-        alert(e.response?.data.err);
+        alert(e.response?.data?.err || 'Something went wrong!');
       });
   };
   const checkCancelAll = useMemo(() => {
     const dd = {};
-    orderData.forEach(({_id, products = []}) => {
+    (orderData || []).forEach(({ _id, products = [] }) => {
       const p_len = products.length;
       const p_filter = (products || []).filter(p => p.status !== 'Pending');
       if (p_filter?.length === p_len) {
@@ -69,9 +69,9 @@ export default function OrdersScreen({navigation}) {
       <TopBar navigation={navigation} iconColor="#FFFFFF" />
       <ScrollView>
         <View style={styles.body}>
-          {orderData.length > 0 ? (
+          {orderData?.length > 0 ? (
             <>
-              {orderData.map(({ordernumber, price, products, status, _id}) => (
+              {orderData.map(({ ordernumber, price, products, status, _id }) => (
                 <AccordionItem title={`Order #${ordernumber}`}>
                   {products.map(product => (
                     <OrderProductCard
@@ -98,7 +98,13 @@ export default function OrdersScreen({navigation}) {
               ))}
             </>
           ) : (
-            <Text style={styles.titletext}>You currently have no Orders</Text>
+            <>
+              {orderData ? (
+                <Text style={styles.titletext}>You currently have no Orders</Text>
+              ) : (
+                <Text style={styles.titletext}>Loading...</Text>
+              )}
+            </>
           )}
         </View>
       </ScrollView>

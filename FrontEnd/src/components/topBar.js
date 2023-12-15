@@ -96,6 +96,7 @@ const TopBar = ({navigation, iconColor = '#FFE605'}) => {
               value={newAddress}
               editable={true}
               style={styles.textInput}
+              placeholderTextColor={"#aaaaaa"}
               onChangeText={$event => setNewAddress($event)}
               placeholder="Ex: Appartment, Floor, Building, Street, Area, City"
             />

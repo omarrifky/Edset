@@ -60,7 +60,6 @@ export default function ViewProductScreen({route, navigation}) {
       .then(res => {
         const {user} = res.data;
         setFavorites(user.favorites);
-        console.log(user.favorites);
         if ((user.favorites || []).includes(id)) {
           setIsfavorite(true);
         } else {
@@ -68,7 +67,7 @@ export default function ViewProductScreen({route, navigation}) {
         }
       })
       .catch(e => {
-        alert(e.response.data.err);
+        alert(e.response?.data?.err || 'Something went wrong!');
       });
   };
 
@@ -91,7 +90,7 @@ export default function ViewProductScreen({route, navigation}) {
           setFecthProduct(product);
         })
         .catch(e => {
-          alert(e.response.data.err);
+          alert(e.response?.data?.err || 'Something went wrong!');
         });
     }
   }, [route.params]);
@@ -224,6 +223,8 @@ const styles = StyleSheet.create({
   },
   productname: {
     fontSize: 25,
+    textAlign: "center",
+    paddingHorizontal: 12
   },
   card: {
     backgroundColor: 'white',

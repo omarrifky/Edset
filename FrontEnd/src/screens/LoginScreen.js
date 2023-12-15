@@ -28,9 +28,13 @@ export default function LoginScreen({ navigation }) {
     
     login(loginData.email, loginData.password).then(
       res => {
-        setToken(res.data.token)
-        setUser(res.data.user)
         try {
+          if(!res) {
+            throw "Something went wrong"
+          }
+          setToken(res.data.token)
+          setUser(res.data.user)
+
           AsyncStorage.multiSet([
             [
               'token',
@@ -44,10 +48,11 @@ export default function LoginScreen({ navigation }) {
           );
         } catch (error) {
           // Error saving data
+          alert(error || 'Something went wrong!')
         }
       }
     ).catch(e => {
-      alert(e.response.data.err)
+      alert(e.response?.data?.err || 'Something went wrong!')
     });
   }
 
@@ -60,11 +65,13 @@ export default function LoginScreen({ navigation }) {
           onChangeText={($event) => onChangehandle($event, "email")}
           value={loginData.email}
           placeholder="Email"
+          placeholderTextColor={"#aaaaaa"}
         />
         <TextInput secureTextEntry={true} style={styles.textInput}
           onChangeText={($event) => onChangehandle($event, "password")}
           value={loginData.password}
           placeholder="Password"
+          placeholderTextColor={"#aaaaaa"}
         />
         <Pressable><Text style={styles.link}>Forgot your Password?</Text></Pressable>
         <Pressable style={styles.button} onPress={submit}><Text style={styles.buttontext}>SIGN IN</Text></Pressable>
@@ -129,7 +136,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -2, height: 8 },
     shadowOpacity: 1,
     shadowRadius: 5,
-
   },
   link: {
     alignSelf: "flex-end",

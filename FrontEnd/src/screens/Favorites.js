@@ -7,17 +7,17 @@ import UsersService from "../services/users";
 
 export default function FavoritesScreen({ route, navigation }) {
   const { user, token, favorites, setFavorites } = useContext(AuthContext);
-  const [favoritesData, setFavoritesData] = useState([]);
+  const [favoritesData, setFavoritesData] = useState();
 
   useEffect(() => {
     UsersService
       .favorites(token)
       .then(res => {
-        setFavoritesData(res?.data.favorites);
+        setFavoritesData(res?.data.favorites || []);
         const ids = res?.data.favorites.map(el => el._id) || [];
-        setFavorites(ids);
+        setFavorites(ids || []);
       }).catch(e => {
-        alert(e.response?.data.err)
+        alert(e.response?.data?.err || 'Something went wrong!')
       })
   }, [favorites])
   return (
@@ -25,11 +25,15 @@ export default function FavoritesScreen({ route, navigation }) {
       <TopBar navigation={navigation} />
       <ScrollView>
         <View style={styles.body}>
-          {favoritesData.length > 0 ?
+          {favoritesData?.length > 0 ?
             <View style={styles.cardholder}>
               {favoritesData.map(product => <ProductCard style={styles.subCard} product={product} navigation={navigation} />)}
             </View>
-            : <Text>No Favorites</Text>}
+            : (
+              <>
+                {favoritesData ? <Text>No Favorites</Text> : <Text>Loading...</Text>}
+              </>
+            )}
         </View>
       </ScrollView>
     </SafeAreaView>

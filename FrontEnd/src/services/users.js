@@ -1,12 +1,16 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:8080/api/user';
+const baseUrl = 'https://edset-297a67b6b6a9.herokuapp.com/api/user';
 
 const UsersService = {
   login: function (body) {
     return axios.post(`${baseUrl}/login`, body);
   },
-  logout: function () {
-    return axios.post(`${baseUrl}/logout`);
+  logout: function (token) {
+    return axios.post(`${baseUrl}/logout`, {}, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
   },
   register: function (body) {
     return axios.post(`${baseUrl}/registerUser`, body);
