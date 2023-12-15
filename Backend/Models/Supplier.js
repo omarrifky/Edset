@@ -20,24 +20,22 @@ const supplierSchema = mongoose.Schema({
     trim: true,
     lowercase: true,
   },
-  addresses: [
-    {
-      address: {
-        type: String,
+  address: {
+    name: {
+      type: String,
+      required: true,
+    },
+    mapCoordinate: {
+      lat: {
+        type: Number,
         required: true,
       },
-      mapCoordinate: {
-        lat: {
-          type: Number,
-          required: true,
-        },
-        long: {
-          type: Number,
-          required: true,
-        },
+      long: {
+        type: Number,
+        required: true,
       },
     },
-  ],
+  },
   companyName: {
     type: String,
     required: true,

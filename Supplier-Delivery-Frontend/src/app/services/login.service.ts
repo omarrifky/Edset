@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginService {
 
-  baseUrl: string = `${environment.baseUrl}/login`;
+  baseUrl: string = `${environment.baseUrl}/${environment.role}`;
   constructor(private http: HttpClient) { }
 
   login(email: string, password: string) {

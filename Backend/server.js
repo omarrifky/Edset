@@ -24,7 +24,7 @@ const { productController } = require("./Controllers/productController");
 const { supplierController } = require("./Controllers/supplierController");
 const { deliveryController } = require("./Controllers/deliveryController");
 mongoose.connect(
-  "mongodb+srv://omarrifky:OmarSamir19972003@edset.wuulse8.mongodb.net/EdSetDB"
+  "mongodb://localhost:27017/myapp"
 ); // connect to our database
 
 // Handle the connection event

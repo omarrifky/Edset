@@ -179,9 +179,9 @@ router.post("/create", authenticateadmin, async (req, res) => {
       err: "username feild is required !",
     });
   }
-  if (!req.body.addresses) {
+  if (!req.body.address) {
     return res.status(400).send({
-      err: "addresses feild is required !",
+      err: "address feild is required !",
     });
   }
   if (!req.body.companyName) {
@@ -203,7 +203,7 @@ router.post("/create", authenticateadmin, async (req, res) => {
     imageURL: req.body.imageURL,
     password: req.body.password,
     username: req.body.username,
-    addresses: req.body.addresses,
+    address: req.body.address,
     taxNumber: req.body.taxNumber,
     companyName: req.body.companyName,
     mobileNumbers: req.body.mobileNumbers || [],

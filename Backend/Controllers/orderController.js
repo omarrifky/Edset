@@ -17,11 +17,11 @@ router.post("/create", authenticateuser, async (req, res) => {
     });
   }
   let productsQuan = await Product.find({
-    $or: products.map(({product}) => ({ _id: product}))
+    $or: products.map(({ product }) => ({ _id: product }))
   }).select('quantity')
 
   productsQuan = [...productsQuan].reduce((prev, current) => {
-    prev[current._id] = {...current._doc}
+    prev[current._id] = { ...current._doc }
     return prev;
   }, {})
 
@@ -43,7 +43,7 @@ router.post("/create", authenticateuser, async (req, res) => {
       ? 0
       : GlobalValues.DeliveryFees;
     if (!supplierDeliverFees[supplier]) supplierDeliverFees[supplier] = true;
-    
+
     return {
       product,
       supplier,
@@ -76,7 +76,7 @@ router.post("/create", authenticateuser, async (req, res) => {
     .save()
     .then(async () => {
       for (const currentprod of products) {
-        
+
         await Product.findOneAndUpdate(
           { _id: currentprod.product },
           { $inc: { quantity: currentprod.quantity * -1 } }
@@ -260,9 +260,25 @@ router.get("/customer/readAll", authenticateuser, (req, res) => {
 });
 
 router.get("/delivery/readAll", authenticatedelivery, (req, res) => {
+  const { queryBody, search, page, sort, limit, status } = req.query;
+  const skip = limit * (page - 1);
+  if (search) queryBody.$text = { $search: search };
+  
   Order.find({
-    "products.delivery": req.delivery._id,
+    "products.status": status || OrderStatusEnums.Preparing,
   })
+    .sort("-ordernumber")
+    .skip(skip)
+    .limit(limit)
+    .populate([{
+      path: "user",
+      model: 'User',
+      select: "email mobileNumber firstname lastname",
+    },{
+      path: "products.supplier",
+      model: 'Supplier',
+      select: "address companyName mobileNumbers",
+    }])
     .then((orders) => {
       res.status(200).send(orders);
     })
@@ -440,7 +456,7 @@ router.patch("/delivered/:orderId", authenticatedelivery, (req, res) => {
     {
       _id: orderId,
       "products.delivery": req.delivery._id,
-      "products.status": OrderStatusEnums.Preparing,
+      "products.status": OrderStatusEnums.Delivering,
     },
     {
       $set: {
@@ -468,7 +484,7 @@ router.patch("/deliveringOne/:orderId", authenticatedelivery, (req, res) => {
   Order.findOneAndUpdate(
     {
       _id: orderId,
-      "products.product": { $in: req.body.products },
+      "products.product": req.body.product,
       "products.status": OrderStatusEnums.Preparing,
     },
     {
@@ -476,6 +492,7 @@ router.patch("/deliveringOne/:orderId", authenticatedelivery, (req, res) => {
         "products.$.status": OrderStatusEnums.Delivering,
         "products.$.estimatedTime": req.body.estimatedTime,
         "products.$.deliveryStart": req.body.deliveryStart,
+        "products.$.delivery": req.delivery,
       },
     },
     { new: true }
@@ -551,14 +568,14 @@ router.patch("/cancelAll/:orderId", authenticateuser, async (req, res) => {
       });
     }
 
-   const filteredProducts = orderCheck.products.filter(({ status }) => status === OrderStatusEnums.Pending)
-   for (const prod of filteredProducts) {
-    const { product, quantity } = prod;
-     await  Product.findOneAndUpdate(
-       { _id: product },
-       { $inc: { quantity } }
-     ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));
-   }
+    const filteredProducts = orderCheck.products.filter(({ status }) => status === OrderStatusEnums.Pending)
+    for (const prod of filteredProducts) {
+      const { product, quantity } = prod;
+      await Product.findOneAndUpdate(
+        { _id: product },
+        { $inc: { quantity } }
+      ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));
+    }
 
     res.status(200).send({ order });
   });
@@ -598,8 +615,8 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
         err: "Order not found!",
       });
     }
-    
-    await  Product.findOneAndUpdate(
+
+    await Product.findOneAndUpdate(
       { _id: req.body.productData.product },
       { $inc: { quantity: req.body.productData.quantity } }
     ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));

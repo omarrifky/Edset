@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  baseUrl: process.env["baseUrl"],
+  role: process.env["role"]
 };

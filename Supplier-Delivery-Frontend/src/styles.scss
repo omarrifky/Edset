@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
+:root {
+    --main-color: rgb(0, 166, 255);
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -10,4 +14,17 @@ body {
     box-sizing: border-box;
     font-family: sans-serif;
     outline: none;
+}
+
+.edset_button {
+    border: none;
+    font-size: 18px;
+    margin-top: 12px;
+    padding: 12px 24px;
+    border-radius: 12px;
+
+    color: #fff;
+    cursor: pointer;
+    background-color: var(--main-color);
+
 }
