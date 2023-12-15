@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./deliveryhomepage.component.scss']
 })
 export class DeliveryhomepageComponent implements OnInit {
-
+  selectedTable:string = "all"
   constructor() { }
 
   ngOnInit(): void {
+  }
+  changeTable(table:string){
+    this.selectedTable = table;
   }
 
 }

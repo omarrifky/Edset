@@ -1,1 +1,133 @@
-<p>deliveryhomepage works!</p>
+<div class = "holder">
+<div>
+<button (click)="changeTable('all')">View all orders</button>    
+<button (click)="changeTable('accepted')">View accepted orders</button>    
+<button (click)="changeTable('previous')">View previous orders</button>    
+</div>
+<div *ngIf="selectedTable=='all'">
+<h1>Available Orders</h1>
+<table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+      <tr>
+        <th>OrderID</th>
+        <th>Client Name</th>
+        <th>Deliver From</th>
+        <th>Dilver To</th>
+        <th>Delivery Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+            <p class="fw-normal mb-1">1</p>
+  
+          </td>
+        <td>
+              <p class="fw-bold mb-1">John Doe</p>
+          
+        </td>
+        <td>
+          <p class="fw-normal mb-1">Samir and Ali tagamo3</p>
+
+        </td>
+        <td>Sodic East Town 28C24</td>
+        <td>
+        <span class="badge badge-success rounded-pill d-inline">Active</span>
+        </td>
+        <td>
+          <button type="button" class="btn btn-link btn-sm btn-rounded">
+            Edit
+          </button>
+        </td>
+      </tr>
+     
+      
+    </tbody>
+  </table>
+</div>
+<div *ngIf="selectedTable=='accepted'">
+  <h1>Accepted Orders</h1>
+<table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+      <tr>
+        <th>OrderID</th>
+        <th>Client Name</th>
+        <th>Deliver From</th>
+        <th>Dilver To</th>
+        <th>Delivery Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+            <p class="fw-normal mb-1">1</p>
+  
+          </td>
+        <td>
+    
+              <p class="fw-bold mb-1">John Doe</p>
+       
+        </td>
+        <td>
+          <p class="fw-normal mb-1">Samir and Ali tagamo3</p>
+
+        </td>
+        <td>Sodic East Town 28C24</td>
+        <td>
+        <span class="badge badge-success rounded-pill d-inline">Active</span>
+        </td>
+        <td>
+          <button type="button" class="btn btn-link btn-sm btn-rounded">
+            Edit
+          </button>
+        </td>
+      </tr>
+     
+      
+    </tbody>
+  </table>
+</div>
+<div *ngIf="selectedTable=='previous'">
+  <h1>Previous Orders</h1>
+<table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+      <tr>
+        <th>OrderID</th>
+        <th>Client Name</th>
+        <th>Deliver From</th>
+        <th>Dilver To</th>
+        <th>Delivery Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+            <p class="fw-normal mb-1">1</p>
+  
+          </td>
+        <td>
+       
+              <p class="fw-bold mb-1">John Doe</p>
+         
+        </td>
+        <td>
+          <p class="fw-normal mb-1">Samir and Ali tagamo3</p>
+
+        </td>
+        <td>Sodic East Town 28C24</td>
+        <td>
+        <span class="badge badge-success rounded-pill d-inline">Active</span>
+        </td>
+        <td>
+          <button type="button" class="btn btn-link btn-sm btn-rounded">
+            Edit
+          </button>
+        </td>
+      </tr>
+     
+      
+    </tbody>
+  </table>
+</div>
