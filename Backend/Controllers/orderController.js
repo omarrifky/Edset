@@ -17,13 +17,13 @@ router.post("/create", authenticateuser, async (req, res) => {
     });
   }
   let productsQuan = await Product.find({
-    $or: products.map(({ product }) => ({ _id: product }))
-  }).select('quantity')
+    $or: products.map(({ product }) => ({ _id: product })),
+  }).select("quantity");
 
   productsQuan = [...productsQuan].reduce((prev, current) => {
-    prev[current._id] = { ...current._doc }
+    prev[current._id] = { ...current._doc };
     return prev;
-  }, {})
+  }, {});
 
   for (const currentprod of products) {
     const { quantity, product } = currentprod;
@@ -76,7 +76,6 @@ router.post("/create", authenticateuser, async (req, res) => {
     .save()
     .then(async () => {
       for (const currentprod of products) {
-
         await Product.findOneAndUpdate(
           { _id: currentprod.product },
           { $inc: { quantity: currentprod.quantity * -1 } }
@@ -263,22 +262,25 @@ router.get("/delivery/readAll", authenticatedelivery, (req, res) => {
   const { queryBody, search, page, sort, limit, status } = req.query;
   const skip = limit * (page - 1);
   if (search) queryBody.$text = { $search: search };
-  
+
   Order.find({
     "products.status": status || OrderStatusEnums.Preparing,
   })
     .sort("-ordernumber")
     .skip(skip)
     .limit(limit)
-    .populate([{
-      path: "user",
-      model: 'User',
-      select: "email mobileNumber firstname lastname",
-    },{
-      path: "products.supplier",
-      model: 'Supplier',
-      select: "address companyName mobileNumbers",
-    }])
+    .populate([
+      {
+        path: "user",
+        model: "User",
+        select: "email mobileNumber firstname lastname",
+      },
+      {
+        path: "products.supplier",
+        model: "Supplier",
+        select: "address companyName mobileNumbers",
+      },
+    ])
     .then((orders) => {
       res.status(200).send(orders);
     })
@@ -290,7 +292,12 @@ router.get("/delivery/readAll", authenticatedelivery, (req, res) => {
 });
 
 router.get("/supplier/readAll", authenticatesupplier, (req, res) => {
+  const { queryBody, search, page, sort, limit, status } = req.query;
+  const skip = limit * (page - 1);
+  if (search) queryBody.$text = { $search: search };
+
   Order.find({
+    "products.status": status || OrderStatusEnums.Pending,
     "products.supplier": req.supplier._id,
   })
     .then((orders) => {
@@ -542,12 +549,10 @@ router.patch("/cancelAll/:orderId", authenticateuser, async (req, res) => {
     });
   }
   const orderId = req.params.orderId;
-  const orderCheck = await Order.findOne(
-    {
-      _id: orderId,
-      user: req.user._id
-    }
-  ).select('products')
+  const orderCheck = await Order.findOne({
+    _id: orderId,
+    user: req.user._id,
+  }).select("products");
 
   Order.findOneAndUpdate(
     {
@@ -568,7 +573,9 @@ router.patch("/cancelAll/:orderId", authenticateuser, async (req, res) => {
       });
     }
 
-    const filteredProducts = orderCheck.products.filter(({ status }) => status === OrderStatusEnums.Pending)
+    const filteredProducts = orderCheck.products.filter(
+      ({ status }) => status === OrderStatusEnums.Pending
+    );
     for (const prod of filteredProducts) {
       const { product, quantity } = prod;
       await Product.findOneAndUpdate(
@@ -599,9 +606,9 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
       products: {
         $elemMatch: {
           status: OrderStatusEnums.Pending,
-          product: req.body.productData.product
-        }
-      }
+          product: req.body.productData.product,
+        },
+      },
     },
     {
       $set: {

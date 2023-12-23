@@ -36,7 +36,7 @@
               <a class="fw-bold mb-1" href="tel:{{order?.user?.mobileNumber}}">Mob: {{order?.user?.mobileNumber}}</a>
             </td>
             <td>
-              <p>{{(order.deliveryPrice) | currency:'EGP ':'symbol':'4.2-2'}}</p>
+              <p>{{(order.deliveryPrice) | currency:'EGP ':'symbol':'.2-2'}}</p>
             </td>
             <td>
               <p>{{order?.delivery?.address}}</p>
