@@ -86,36 +86,55 @@ img {
 .popup {
     display: none;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 1px solid #ccc;
-    padding: 20px;
-    background-color: #fff;
     z-index: 1;
-}
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(#eee, 0.7);
 
-.popup-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
+    .popup-overlay {
+        top: 0;
+        left: 0;
+        z-index: 1;
+        position: absolute;
 
-.buttons {
-    gap:10px;
-    display: flex;
-    flex-direction: row;
-    margin: 30px;
-    align-items: center;
-    justify-content: space-between;
-    .cancel {
-        background-color: firebrick;
+        width: 100%;
+        height: 100%;
     }
-    
-    .restock {
-        padding-right: 10px;
-        background-color: green;
+    .popup-content {
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        padding: 24px;
+        position: absolute;
+        border-radius: 8px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        transform: translate(-50%, -50%);
+
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .buttons {
+        gap: 10px;
+        width: 100%;
+        display: flex;
+        margin-top: 12px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .cancel {
+            background-color: firebrick;
+        }
+
+        .restock {
+            padding-right: 10px;
+            background-color: green;
+        }
     }
 }
-
