@@ -1,3 +1,4 @@
+<Navbar></Navbar>
 <div class="holder">
   <div class="tabs">
     <button (click)="changeTable('all')" [ngClass]="{'active': selectedTable=='all'}">View My orders</button>
@@ -18,17 +19,15 @@
             <th>Client</th>
 
             <th>
-              <div class="product_details" [ngClass]="{'no_action': selectedTable == 'previous'}">
-
+              <div class="product_details">
                 <p>Product Name</p>
                 <p>Product Quantity</p>
                 <p>Product Price</p>
+                <p>Product Status</p>
               </div>
             </th>
             <th>Total Price</th>
-            <th>Status</th>
-            <th>Action</th>
-
+            <th *ngIf="selectedTable != 'previous'">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -41,18 +40,16 @@
               <a class="fw-bold mb-1" href="tel:{{order?.user?.mobileNumber}}">Mob: {{order?.user?.mobileNumber}}</a>
             </td>
             <td class="split">
-              <div class="product_details" [ngClass]="{'no_action': selectedTable == 'previous'}"
+              <div class="product_details"
                 *ngFor="let product of order.products">
-
-
+                <p>{{product.product.productName}}</p>
+                <p>{{product.quantity}}</p>
+                <p>{{product.priceatPurchase | currency:'EGP ':'symbol':'.2-2'}}</p>
+                <p [class]="'edset_badge ' + product.status">{{mappedStatus[product.status] || product.status}}</p>
               </div>
             </td>
             <td>
               <p>{{(order.totalPrice) | currency:'EGP ':'symbol':'.2-2'}}</p>
-            </td>
-            <td>
-              <p [class]="'edset_badge ' + order.products[0].status">{{order.products[0].status}}</p>
-
             </td>
             <td>
               <div class="actions" *ngIf="selectedTable != 'previous'">

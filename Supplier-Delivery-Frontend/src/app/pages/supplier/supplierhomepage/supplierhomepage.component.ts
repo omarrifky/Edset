@@ -15,6 +15,11 @@ export class SupplierhomepageComponent implements OnInit {
   quanity: number = 0;
   path: { [key: string]: string } = {};
   selectedProductID = '';
+
+  mappedStatus: { [key: string]: string } = {
+    Preparing: 'Prepared',
+  };
+
   actions: { [key: string]: string } = {
     all: 'Prepared',
     accepted: '',
@@ -76,8 +81,6 @@ export class SupplierhomepageComponent implements OnInit {
             };
           })
           .filter(({ products }) => products.length > 0);
-
-        console.log(this.orders);
       },
       (err) => {}
     );
