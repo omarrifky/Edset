@@ -296,12 +296,31 @@ router.get("/supplier/readAll", authenticatesupplier, (req, res) => {
   const skip = limit * (page - 1);
   if (search) queryBody.$text = { $search: search };
 
-  Order.find({
-    "products.status": status || OrderStatusEnums.Pending,
+  const query = {
+    "products.status": status,
     "products.supplier": req.supplier._id,
-  })
+  }
+  if(!query["products.status"]) delete query["products.status"]
+
+  Order.find(query)
+    .populate([
+      {
+        path: "user",
+        model: "User",
+        select: "email mobileNumber firstname lastname",
+      },
+      {
+        path: "products.product",
+        model: "Product",
+        select: "productName category Subcategory",
+      },
+    ])
     .then((orders) => {
-      res.status(200).send(orders);
+      const ordersMapped = [...orders].map(ord => ({
+        ...ord._doc,
+        products: ord._doc.products.filter(({ supplier }) => supplier.toString() == req.supplier._id.toString())
+      }))
+      res.status(200).send(ordersMapped);
     })
     .catch((err) => {
       res.status(400).send({
@@ -399,7 +418,7 @@ router.patch(
       },
       {
         $set: {
-          "products.$.status": OrderStatusEnums.Preparing,
+          "products.$[].status": OrderStatusEnums.Preparing,
         },
       },
       { new: true }
