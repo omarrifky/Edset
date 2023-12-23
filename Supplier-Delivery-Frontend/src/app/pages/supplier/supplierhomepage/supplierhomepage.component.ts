@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/supplier/product.service';
 import { SupplierService } from 'src/app/services/supplier/supplier.service';
 
@@ -40,10 +40,14 @@ export class SupplierhomepageComponent implements OnInit {
   constructor(
     private ser: SupplierService,
     private prodSer: ProductService,
+    private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.selectedTable = params["p"] || "all"
+    })
     this.fetchOrder(this.selectedTable);
     this.fetchMyProducts();
   }
@@ -51,7 +55,6 @@ export class SupplierhomepageComponent implements OnInit {
     this.ser.getMyProducts().subscribe(
       (products: any) => {
         this.products = products;
-        console.log(this.products);
       },
       (err) => {}
     );
@@ -97,10 +100,23 @@ export class SupplierhomepageComponent implements OnInit {
   createProduct() {
     this.router.navigateByUrl('/createproduct');
   }
+
   changeTable(table: string) {
     this.selectedTable = table;
+    this.navigateToTab(table);
     this.fetchOrder(table);
   }
+
+  navigateToTab(table: string){
+    this.router.navigate([], {
+     relativeTo: this.route,
+     queryParams: {
+       p: table
+     },
+     queryParamsHandling: 'merge'
+   });
+  }
+
   openPopup(productID: string) {
     var popup = document.getElementById('popup');
     if (popup) popup.style.display = 'block';

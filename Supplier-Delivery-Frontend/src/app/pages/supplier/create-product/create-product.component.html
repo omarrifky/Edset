@@ -1,25 +1,27 @@
+<Navbar></Navbar>
 <div class="container pb-5">
     <form class="form">
 
         <input class="mb-2" type="text" placeholder="Product Name" name="productName" [(ngModel)]="productName" />
 
 
-        <input class="mb-2" type="text" placeholder="Product Description" name="productDescription" [(ngModel)]="productDescription" />
+        <textarea class="mb-2" type="text" placeholder="Product Description" name="productDescription"
+            [(ngModel)]="productDescription" [rows]="4"></textarea>
 
         <input class="mb-2" type="number" placeholder="Quantity" name="productQuantity" [(ngModel)]="productQuantity" />
-  
+
         <input class="mb-2" type="number" placeholder="Price EGP" name="productPrice" [(ngModel)]="productPrice" />
 
 
-        <input class="mb-2" type="text" placeholder="Product Photo" name="productPhoto" [(ngModel)]="productPhoto"  />
+        <input class="mb-2" type="text" placeholder="Product Photo" name="productPhoto" [(ngModel)]="productPhoto" />
 
-        <label>Category </label>
-        <select class="mb-2" placeholder="Category" name="category" [(ngModel)]="productCategory" >
-            <option class = "options" *ngFor="let category of categories" [value]="category">
+        <select class="mb-2" placeholder="Category" name="category" [(ngModel)]="productCategory">
+            <option disabled [ngValue]="''">Choose Category</option>
+            <option *ngFor="let category of categories" [ngValue]="category">
                 {{ category }}
-              </option>
+            </option>
         </select>
 
-        <button (click)="createProduct()" class="btn btn-primary w-100 mt-4">Create Product</button>
+        <button (click)="createProduct()" class="edset_button">Create Product</button>
     </form>
 </div>

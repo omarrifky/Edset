@@ -59,3 +59,21 @@ body {
         background-color: rgba(#4b00ff, 0.8); 
     }
 }
+
+
+input,
+select,
+textarea {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 8px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    box-shadow: 0px 5px 12px #eee;
+    &.ng-touched {
+        &.ng-invalid {
+            border: 1px solid rgba(185, 40, 40, 0.384);
+        }
+    }
+}

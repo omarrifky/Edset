@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeliveryService } from 'src/app/services/delivery/delivery.service';
 
 @Component({
@@ -34,9 +35,16 @@ export class DeliveryhomepageComponent implements OnInit {
     previous: 'Delivered',
   };
 
-  constructor(private ser: DeliveryService) {}
+  constructor(
+    private ser: DeliveryService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.selectedTable = params['p'] || 'all';
+    });
     this.fetchOrder(this.selectedTable);
   }
 
@@ -48,19 +56,21 @@ export class DeliveryhomepageComponent implements OnInit {
           .map((el) => {
             const products = [...el.products].filter(
               ({ status }) => status === fetchStatus
-            )
-            
+            );
+
             const deliveryPrice = products.reduce((total, prod) => {
-              const currentPrice = (prod.deliveryFees || 0) + (prod.priceatPurchase || 0)
-              total += currentPrice
-              return total
-            }, 0)
-            
+              const currentPrice =
+                (prod.deliveryFees || 0) + (prod.priceatPurchase || 0);
+              total += currentPrice;
+              return total;
+            }, 0);
+
             return {
-            ...el,
-            products,
-            deliveryPrice
-          }})
+              ...el,
+              products,
+              deliveryPrice,
+            };
+          })
           .filter(({ products }) => products.length > 0);
       },
       (err) => {}
@@ -68,7 +78,13 @@ export class DeliveryhomepageComponent implements OnInit {
   }
 
   acceptProduct(orderId: string, productId: string) {
-      this.ser.updateProductDelivering(orderId, productId,this.path[this.selectedTable]).subscribe(
+    this.ser
+      .updateProductDelivering(
+        orderId,
+        productId,
+        this.path[this.selectedTable]
+      )
+      .subscribe(
         (res: any) => {
           this.fetchOrder(this.selectedTable);
         },
@@ -78,6 +94,17 @@ export class DeliveryhomepageComponent implements OnInit {
 
   changeTable(table: string) {
     this.selectedTable = table;
+    this.navigateToTab(table);
     this.fetchOrder(table);
+  }
+
+  navigateToTab(table: string){
+    this.router.navigate([], {
+     relativeTo: this.route,
+     queryParams: {
+       p: table
+     },
+     queryParamsHandling: 'merge'
+   });
   }
 }
