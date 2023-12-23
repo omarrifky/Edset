@@ -1,1 +1,10 @@
-<p>supplierhomepage works!</p>
+<div class="holder">
+    <div class="tabs">
+      <button (click)="changeTable('all')" [ngClass]="{'active': selectedTable=='all'}">View My orders</button>
+   
+      <button (click)="changeTable('previous')" [ngClass]="{'active': selectedTable=='previous'}">View previous orders</button>
+      <button (click)="changeTable('myProducts')" [ngClass]="{'active': selectedTable=='myProducts'}" >View My Products</button> 
+      <button (click)="createProduct()" >Create Product</button>
+    </div>
+  
+  </div>

@@ -22,7 +22,9 @@ router.post("/login", (req, res) => {
 
   Supplier.findByCredentials(supplierData.email, supplierData.password)
     .then((supplier) => {
+      console.log(supplier);
       return supplier.generateAuthToken().then((token) => {
+        console.log(token);
         res.status(200).send({ supplier, token });
       });
     })

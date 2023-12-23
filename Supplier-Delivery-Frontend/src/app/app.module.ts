@@ -8,6 +8,8 @@ import { SupplierhomepageComponent } from './pages/supplier/supplierhomepage/sup
 import { DeliveryhomepageComponent } from './pages/delivery/deliveryhomepage/deliveryhomepage.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { CreateProductComponent } from './pages/supplier/create-product/create-product.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,12 +17,14 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     LoginComponent,
     SupplierhomepageComponent,
     DeliveryhomepageComponent,
-    NavbarComponent
+    NavbarComponent,
+    CreateProductComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

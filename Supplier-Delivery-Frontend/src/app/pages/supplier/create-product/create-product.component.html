@@ -1,0 +1,25 @@
+<div class="container pb-5">
+    <form class="form">
+
+        <input class="mb-2" type="text" placeholder="Product Name" name="productName" [(ngModel)]="productName" />
+
+
+        <input class="mb-2" type="text" placeholder="Product Description" name="productDescription" [(ngModel)]="productDescription" />
+
+        <input class="mb-2" type="number" placeholder="Quantity" name="productQuantity" [(ngModel)]="productQuantity" />
+  
+        <input class="mb-2" type="number" placeholder="Price EGP" name="productPrice" [(ngModel)]="productPrice" />
+
+
+        <input class="mb-2" type="text" placeholder="Product Photo" name="productPhoto" [(ngModel)]="productPhoto"  />
+
+        <label>Category </label>
+        <select class="mb-2" placeholder="Category" name="category" [(ngModel)]="productCategory" >
+            <option class = "options" *ngFor="let category of categories" [value]="category">
+                {{ category }}
+              </option>
+        </select>
+
+        <button (click)="createProduct()" class="btn btn-primary w-100 mt-4">Create Product</button>
+    </form>
+</div>

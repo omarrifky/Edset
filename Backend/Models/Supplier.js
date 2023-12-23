@@ -28,11 +28,11 @@ const supplierSchema = mongoose.Schema({
     mapCoordinate: {
       lat: {
         type: Number,
-        required: true,
+        required: false,
       },
       long: {
         type: Number,
-        required: true,
+        required: false,
       },
     },
   },
