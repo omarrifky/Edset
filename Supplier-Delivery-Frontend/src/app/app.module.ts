@@ -7,13 +7,15 @@ import { LoginComponent } from './pages/login/login.component';
 import { SupplierhomepageComponent } from './pages/supplier/supplierhomepage/supplierhomepage.component';
 import { DeliveryhomepageComponent } from './pages/delivery/deliveryhomepage/deliveryhomepage.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SupplierhomepageComponent,
-    DeliveryhomepageComponent
+    DeliveryhomepageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

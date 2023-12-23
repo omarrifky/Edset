@@ -45,12 +45,22 @@ export class DeliveryhomepageComponent implements OnInit {
     this.ser.getAllDeliveryOrders(fetchStatus).subscribe(
       (res: any) => {
         this.orders = [...res]
-          .map((el) => ({
-            ...el,
-            products: [...el.products].filter(
+          .map((el) => {
+            const products = [...el.products].filter(
               ({ status }) => status === fetchStatus
-            ),
-          }))
+            )
+            
+            const deliveryPrice = products.reduce((total, prod) => {
+              const currentPrice = (prod.deliveryFees || 0) + (prod.priceatPurchase || 0)
+              total += currentPrice
+              return total
+            }, 0)
+            
+            return {
+            ...el,
+            products,
+            deliveryPrice
+          }})
           .filter(({ products }) => products.length > 0);
       },
       (err) => {}
