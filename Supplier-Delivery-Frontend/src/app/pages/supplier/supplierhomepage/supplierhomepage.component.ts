@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProductService } from 'src/app/services/supplier/product.service';
 import { SupplierService } from 'src/app/services/supplier/supplier.service';
 
 @Component({
@@ -10,9 +11,10 @@ import { SupplierService } from 'src/app/services/supplier/supplier.service';
 export class SupplierhomepageComponent implements OnInit {
   selectedTable: string = 'all';
   orders: any[] = [];
-
+  products: any[] = [];
+  quanity: number = 0;
   path: { [key: string]: string } = {};
-
+  selectedProductID = '';
   actions: { [key: string]: string } = {
     all: 'Prepared',
     accepted: '',
@@ -30,10 +32,24 @@ export class SupplierhomepageComponent implements OnInit {
     delivering: 'Delivering',
   };
 
-  constructor(private ser: SupplierService, private router: Router) {}
+  constructor(
+    private ser: SupplierService,
+    private prodSer: ProductService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.fetchOrder(this.selectedTable);
+    this.fetchMyProducts();
+  }
+  fetchMyProducts() {
+    this.ser.getMyProducts().subscribe(
+      (products: any) => {
+        this.products = products;
+        console.log(this.products);
+      },
+      (err) => {}
+    );
   }
 
   fetchOrder(table: string) {
@@ -81,5 +97,29 @@ export class SupplierhomepageComponent implements OnInit {
   changeTable(table: string) {
     this.selectedTable = table;
     this.fetchOrder(table);
+  }
+  openPopup(productID: string) {
+    var popup = document.getElementById('popup');
+    if (popup) popup.style.display = 'block';
+    this.selectedProductID = productID;
+  }
+
+  closePopup() {
+    var popup = document.getElementById('popup');
+    this.quanity = 0;
+    if (popup) popup.style.display = 'none';
+  }
+
+  restock() {
+    this.prodSer
+      .restock(this.selectedProductID, Math.abs(this.quanity))
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.closePopup();
+          this.fetchMyProducts();
+        },
+        (err) => {}
+      );
   }
 }

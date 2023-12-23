@@ -49,12 +49,13 @@
                 display: flex;
                 flex-direction: column;
             }
-            
+
             &:nth-child(odd) {
                 background-color: #eee;
             }
         }
     }
+
     .actions {
         gap: 8px;
         display: flex;
@@ -68,3 +69,53 @@
         }
     }
 }
+
+img {
+    width: auto;
+    height: 100px;
+}
+
+.edset_button {
+    margin: 0;
+    font-size: 14px;
+    padding: 8px;
+    color: white;
+    background-color: green;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #fff;
+    z-index: 1;
+}
+
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.buttons {
+    gap:10px;
+    display: flex;
+    flex-direction: row;
+    margin: 30px;
+    align-items: center;
+    justify-content: space-between;
+    .cancel {
+        background-color: firebrick;
+    }
+    
+    .restock {
+        padding-right: 10px;
+        background-color: green;
+    }
+}
+

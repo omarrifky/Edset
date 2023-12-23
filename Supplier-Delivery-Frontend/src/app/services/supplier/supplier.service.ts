@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class SupplierService {
   baseUrl: string = `${environment.baseUrl}/supplier`;
   baseorderUrl: string = `${environment.baseUrl}/order`;
+  baseproductUrl: string = `${environment.baseUrl}/product`;
 
   supplier: any;
 
@@ -20,7 +21,16 @@ export class SupplierService {
       this.baseUrl + `/allsuppliers${search ? `?search=${search}` : ''}`
     );
   }
+  getMyProducts() {
+    const url = `${this.baseproductUrl}/viewmyproducts`;
+    const token = localStorage.getItem('SuppToken');
 
+    return this.http.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
   createSupplier() {
     const url = `${this.baseUrl}/register`;
     return this.http.post(url, {});
