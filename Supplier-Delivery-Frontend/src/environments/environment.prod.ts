@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://edset-297a67b6b6a9.herokuapp.com/api',
+  baseUrl: 'https://edset-6bd45293148f.herokuapp.com/api',
   role: 'delivery',
 };
