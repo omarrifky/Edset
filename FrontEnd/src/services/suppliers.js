@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'https://edset-297a67b6b6a9.herokuapp.com/api/supplier';
+const baseUrl = 'https://edset-6bd45293148f.herokuapp.com/api/supplier';
 
 const SuppliersService = {
     getSuppliers: function(body = {}) {
