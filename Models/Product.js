@@ -5,6 +5,10 @@ const productSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  serialNumber: {
+    type: String,
+    required: true
+  },
   description: {
     type: String,
     required: false,
