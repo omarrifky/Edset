@@ -7,7 +7,7 @@
       orders</button>
     <button (click)="changeTable('myProducts')" [ngClass]="{'active': selectedTable=='myProducts'}">View My
       Products</button>
-    <button (click)="createProduct()">Create Product</button>
+    {# <button (click)="createProduct()">Create Product</button> #}
   </div>
   <div *ngIf="selectedTable != 'myProducts'">
     <h1>{{ titles[selectedTable] }}</h1>
