@@ -62,6 +62,7 @@ export class SupplierhomepageComponent implements OnInit {
 
   fetchOrder(table: string) {
     const fetchStatus = this.status[this.selectedTable];
+    this.orders = [];
     this.ser.getAllOrders(fetchStatus).subscribe(
       (res: any) => {
         this.orders = [...res]
@@ -134,7 +135,6 @@ export class SupplierhomepageComponent implements OnInit {
       .restock(this.selectedProductID, Math.abs(this.quanity))
       .subscribe(
         (res) => {
-          console.log(res);
           this.closePopup();
           this.fetchMyProducts();
         },

@@ -54,6 +54,7 @@ export class DeliveryhomepageComponent implements OnInit {
 
   fetchOrder(table: string) {
     const fetchStatus = this.status[this.selectedTable];
+    this.orders = [];
     this.ser.getAllDeliveryOrders(fetchStatus).subscribe(
       (res: any) => {
         this.orders = [...res]
