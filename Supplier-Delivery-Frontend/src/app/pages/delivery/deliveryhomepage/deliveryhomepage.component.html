@@ -47,7 +47,7 @@
                   {{product.supplier?.companyName}}
                   <span *ngIf="product.supplier?.address"><b>Address:</b> {{product.supplier?.address?.name}}</span>
                 </p>
-                <p [class]="'edset_badge ' + product.status">{{product.status}}</p>
+                <p [class]="'edset_badge ' + product.status">{{statusMapper[product.status] || product.status}}</p>
                 <div class="actions" *ngIf="selectedTable != 'previous'">
                   <button type="button" (click)="acceptProduct(order._id, product.product)" class="edset_button">
                     {{actions[selectedTable]}}

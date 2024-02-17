@@ -35,6 +35,10 @@ export class DeliveryhomepageComponent implements OnInit {
     previous: 'Delivered',
   };
 
+  statusMapper: { [key: string]: string } = {
+    'Preparing': 'Ready for pickup '
+  }
+
   constructor(
     private ser: DeliveryService,
     private route: ActivatedRoute,
