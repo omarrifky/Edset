@@ -1,0 +1,78 @@
+.holder {
+    padding: 24px;
+
+    p {
+        margin: 0;
+    }
+
+    .tabs {
+        gap: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin-bottom: 24px;
+
+        button {
+            border: none;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 12px;
+
+            color: #fff;
+            cursor: pointer;
+            background-color: var(--main-color);
+
+            &.active {
+                color: #000;
+                background-color: #eee;
+            }
+        }
+    }
+
+    th {
+        .product_details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+
+            &.no_action {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    }
+
+    td.split {
+        .product_details {
+            padding: 8px;
+            display: grid;
+            column-gap: 8px;
+            border-radius: 8px;
+            align-items: center;
+            grid-template-columns: 1fr 1fr 1fr;
+
+            .supplier_det {
+                display: flex;
+                flex-direction: column;
+            }
+
+            &.no_action {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            &:nth-child(odd) {
+                background-color: #eee;
+            }
+        }
+    }
+    .actions {
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+
+        .edset_button {
+            margin: 0;
+            font-size: 14px;
+            padding: 8px;
+            background-color: green;
+        }
+    }
+}

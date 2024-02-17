@@ -1,0 +1,57 @@
+.formHolder {
+    display: flex;
+    min-height: 100dvh;
+    align-items: center;
+    justify-content: center;
+    background: rgb(255,230,5);
+    background: linear-gradient(90deg, rgba(255,230,5,1) 5%, rgb(0, 136, 255) 100%);
+
+    form {
+        display: flex;
+        flex-direction: column;
+
+        max-width: 500px;
+        padding: 64px 24px;
+        border-radius: 24px;
+        background-color: #fff;
+        width: calc(100% - 24px);
+
+        .title {
+            margin-top: 0;
+            font-size: 32px;
+            text-align: center;
+        }
+    
+        .field {
+            margin-bottom: 18px;
+            input,
+            select {
+                width: 100%;
+                font-size: 16px;
+                padding: 12px 8px;
+                border-radius: 6px;
+                box-sizing: border-box;
+                border: 1px solid #eee;
+                box-shadow: 0px 5px 12px #eee;
+                &.ng-touched {
+                    &.ng-invalid {
+                        border: 1px solid rgba(185, 40, 40, 0.384);
+                    }
+                }
+            }
+        }
+
+        button {
+            border: none;
+            font-size: 18px;
+            margin-top: 12px;
+            padding: 12px 24px;
+            border-radius: 12px;
+
+            color: #fff;
+            cursor: pointer;
+            background-color: var(--main-color);
+        }
+    }
+
+}

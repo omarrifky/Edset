@@ -1,0 +1,63 @@
+<Navbar></Navbar>
+<div class="holder">
+  <div class="tabs">
+    <button (click)="changeTable('all')" [ngClass]="{'active': selectedTable=='all'}">View all orders</button>
+    <button (click)="changeTable('accepted')" [ngClass]="{'active': selectedTable=='accepted'}">View accepted
+      orders</button>
+    <button (click)="changeTable('previous')" [ngClass]="{'active': selectedTable=='previous'}">View previous
+      orders</button>
+  </div>
+  <div>
+    <h1>{{ titles[selectedTable] }}</h1>
+    <div class="main_table">
+      <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
+          <tr>
+            <th>OrderID</th>
+            <th>Client</th>
+            <th>Price</th>
+            <th>Deliver To</th>
+            <th>
+              <div class="product_details" [ngClass]="{'no_action': selectedTable == 'previous'}">
+                <p>Deliver From</p>
+                <p>Status</p>
+                <p *ngIf="selectedTable != 'previous'">Actions</p>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders">
+            <td>
+              <p class="fw-normal mb-1">{{order.ordernumber}}</p>
+            </td>
+            <td>
+              <p class="fw-bold mb-1">{{order?.user?.firstname}} {{order?.user?.lastname}}</p>
+              <a class="fw-bold mb-1" href="tel:{{order?.user?.mobileNumber}}">Mob: {{order?.user?.mobileNumber}}</a>
+            </td>
+            <td>
+              <p>{{(order.deliveryPrice) | currency:'EGP ':'symbol':'.2-2'}}</p>
+            </td>
+            <td>
+              <p>{{order?.delivery?.address}}</p>
+            </td>
+            <td class="split">
+              <div class="product_details" [ngClass]="{'no_action': selectedTable == 'previous'}" *ngFor="let product of order.products">
+                <p class="supplier_det">
+                  {{product.supplier?.companyName}}
+                  <span *ngIf="product.supplier?.address"><b>Address:</b> {{product.supplier?.address?.name}}</span>
+                </p>
+                <p [class]="'edset_badge ' + product.status">{{product.status}}</p>
+                <div class="actions" *ngIf="selectedTable != 'previous'">
+                  <button type="button" (click)="acceptProduct(order._id, product.product)" class="edset_button">
+                    {{actions[selectedTable]}}
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

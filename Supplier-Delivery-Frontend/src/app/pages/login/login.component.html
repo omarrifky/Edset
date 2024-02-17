@@ -1,0 +1,12 @@
+<div class="formHolder">
+    <form (submit)="login($event)">
+        <h2 class="title">EdSet</h2>
+        <div class="field">
+            <input type="email" placeholder="Enter your email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+        </div>
+        <div class="field">
+            <input type="password" placeholder="Enter your password" name="password" required />
+        </div>
+        <button class="btn btn-primary w-100 mt-4" type="submit">Login</button>
+    </form>
+</div>

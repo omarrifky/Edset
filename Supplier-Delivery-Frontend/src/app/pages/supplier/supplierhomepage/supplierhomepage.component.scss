@@ -1,0 +1,140 @@
+.holder {
+    padding: 24px;
+
+    p {
+        margin: 0;
+    }
+
+    .tabs {
+        gap: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin-bottom: 24px;
+
+        button {
+            border: none;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 12px;
+
+            color: #fff;
+            cursor: pointer;
+            background-color: var(--main-color);
+
+            &.active {
+                color: #000;
+                background-color: #eee;
+            }
+        }
+    }
+
+    th {
+        .product_details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+    }
+
+    td.split {
+        .product_details {
+            padding: 8px;
+            display: grid;
+            column-gap: 8px;
+            border-radius: 8px;
+            align-items: center;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+
+            .supplier_det {
+                display: flex;
+                flex-direction: column;
+            }
+
+            &:nth-child(odd) {
+                background-color: #eee;
+            }
+        }
+    }
+
+    .actions {
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+
+        .edset_button {
+            margin: 0;
+            font-size: 14px;
+            padding: 8px;
+            background-color: green;
+        }
+    }
+}
+
+img {
+    width: auto;
+    height: 100px;
+}
+
+.edset_button {
+    margin: 0;
+    font-size: 14px;
+    padding: 8px;
+    color: white;
+    background-color: green;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(#eee, 0.7);
+
+    .popup-overlay {
+        top: 0;
+        left: 0;
+        z-index: 1;
+        position: absolute;
+
+        width: 100%;
+        height: 100%;
+    }
+    .popup-content {
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        padding: 24px;
+        position: absolute;
+        border-radius: 8px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        transform: translate(-50%, -50%);
+
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .buttons {
+        gap: 10px;
+        width: 100%;
+        display: flex;
+        margin-top: 12px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .cancel {
+            background-color: firebrick;
+        }
+
+        .restock {
+            padding-right: 10px;
+            background-color: green;
+        }
+    }
+}

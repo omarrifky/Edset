@@ -99,6 +99,9 @@ const orderSchema = mongoose.Schema({
     required: true,
     default: PaymentTypeEnums.COD,
   },
+},
+  {
+    timestamps: true,
 });
 orderSchema.index({ "$**": "text" });
 orderSchema.plugin(AutoIncrement, { inc_field: "ordernumber" });

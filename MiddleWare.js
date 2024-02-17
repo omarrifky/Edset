@@ -25,7 +25,7 @@ export const authenticateuser = (req, res, next) => {
 };
 
 export const authenticateadmin = (req, res, next) => {
-    const token = req.headers.authorization.split("Bearer ")[1];
+    const token = (req.headers.authorization || '').split("Bearer ")[1];
 
     User.findByToken(token)
         .then((user) => {
@@ -53,7 +53,7 @@ export const authenticateadmin = (req, res, next) => {
 
 
 export const authenticatesupplier = (req, res, next) => {
-    const token = req.headers.authorization.split("Bearer ")[1];
+    const token = (req.headers.authorization || '').split("Bearer ")[1];
     console.log("In Supplier Auth")
     Supplier.findByToken(token)
         .then((supplier) => {
@@ -75,7 +75,7 @@ export const authenticatesupplier = (req, res, next) => {
 
 
 export const authenticatedelivery = (req, res, next) => {
-    const token = req.headers.authorization.split("Bearer ")[1];
+    const token = (req.headers.authorization || '').split("Bearer ")[1];
     Delivery.findByToken(token)
         .then((delivery) => {
             if (!delivery) {

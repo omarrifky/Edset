@@ -10,20 +10,21 @@ import { Router } from "express";
 const { Product } = require("../Models/Product");
 const router = Router();
 router.post("/create", authenticateuser, async (req, res) => {
-  const { products, delivery } = req.body;
+  const defaultDelivery = req.user.addresses && req.user.addresses.length > 0 ? req.user.addresses[0].address : undefined
+  const { products, delivery = defaultDelivery } = req.body;
   if (!products || products.length === 0) {
     return res.status(400).send({
       err: "Order doesn't contain products!",
     });
   }
   let productsQuan = await Product.find({
-    $or: products.map(({product}) => ({ _id: product}))
-  }).select('quantity')
+    $or: products.map(({ product }) => ({ _id: product })),
+  }).select("quantity");
 
   productsQuan = [...productsQuan].reduce((prev, current) => {
-    prev[current._id] = {...current._doc}
+    prev[current._id] = { ...current._doc };
     return prev;
-  }, {})
+  }, {});
 
   for (const currentprod of products) {
     const { quantity, product } = currentprod;
@@ -43,7 +44,7 @@ router.post("/create", authenticateuser, async (req, res) => {
       ? 0
       : GlobalValues.DeliveryFees;
     if (!supplierDeliverFees[supplier]) supplierDeliverFees[supplier] = true;
-    
+
     return {
       product,
       supplier,
@@ -76,7 +77,6 @@ router.post("/create", authenticateuser, async (req, res) => {
     .save()
     .then(async () => {
       for (const currentprod of products) {
-        
         await Product.findOneAndUpdate(
           { _id: currentprod.product },
           { $inc: { quantity: currentprod.quantity * -1 } }
@@ -260,9 +260,28 @@ router.get("/customer/readAll", authenticateuser, (req, res) => {
 });
 
 router.get("/delivery/readAll", authenticatedelivery, (req, res) => {
+  const { queryBody, search, page, sort, limit, status } = req.query;
+  const skip = limit * (page - 1);
+  if (search) queryBody.$text = { $search: search };
+
   Order.find({
-    "products.delivery": req.delivery._id,
+    "products.status": status || OrderStatusEnums.Preparing,
   })
+    .sort("-ordernumber")
+    .skip(skip)
+    .limit(limit)
+    .populate([
+      {
+        path: "user",
+        model: "User",
+        select: "email mobileNumber firstname lastname",
+      },
+      {
+        path: "products.supplier",
+        model: "Supplier",
+        select: "address companyName mobileNumbers",
+      },
+    ])
     .then((orders) => {
       res.status(200).send(orders);
     })
@@ -274,11 +293,35 @@ router.get("/delivery/readAll", authenticatedelivery, (req, res) => {
 });
 
 router.get("/supplier/readAll", authenticatesupplier, (req, res) => {
-  Order.find({
+  const { queryBody, search, page, sort, limit, status } = req.query;
+  const skip = limit * (page - 1);
+  if (search) queryBody.$text = { $search: search };
+
+  const query = {
+    "products.status": status,
     "products.supplier": req.supplier._id,
-  })
+  }
+  if(!query["products.status"]) delete query["products.status"]
+
+  Order.find(query)
+    .populate([
+      {
+        path: "user",
+        model: "User",
+        select: "email mobileNumber firstname lastname",
+      },
+      {
+        path: "products.product",
+        model: "Product",
+        select: "productName category Subcategory",
+      },
+    ])
     .then((orders) => {
-      res.status(200).send(orders);
+      const ordersMapped = [...orders].map(ord => ({
+        ...ord._doc,
+        products: ord._doc.products.filter(({ supplier }) => supplier.toString() == req.supplier._id.toString())
+      }))
+      res.status(200).send(ordersMapped);
     })
     .catch((err) => {
       res.status(400).send({
@@ -376,7 +419,7 @@ router.patch(
       },
       {
         $set: {
-          "products.$.status": OrderStatusEnums.Preparing,
+          "products.$[].status": OrderStatusEnums.Preparing,
         },
       },
       { new: true }
@@ -440,7 +483,7 @@ router.patch("/delivered/:orderId", authenticatedelivery, (req, res) => {
     {
       _id: orderId,
       "products.delivery": req.delivery._id,
-      "products.status": OrderStatusEnums.Preparing,
+      "products.status": OrderStatusEnums.Delivering,
     },
     {
       $set: {
@@ -468,7 +511,7 @@ router.patch("/deliveringOne/:orderId", authenticatedelivery, (req, res) => {
   Order.findOneAndUpdate(
     {
       _id: orderId,
-      "products.product": { $in: req.body.products },
+      "products.product": req.body.product,
       "products.status": OrderStatusEnums.Preparing,
     },
     {
@@ -476,6 +519,7 @@ router.patch("/deliveringOne/:orderId", authenticatedelivery, (req, res) => {
         "products.$.status": OrderStatusEnums.Delivering,
         "products.$.estimatedTime": req.body.estimatedTime,
         "products.$.deliveryStart": req.body.deliveryStart,
+        "products.$.delivery": req.delivery,
       },
     },
     { new: true }
@@ -525,12 +569,10 @@ router.patch("/cancelAll/:orderId", authenticateuser, async (req, res) => {
     });
   }
   const orderId = req.params.orderId;
-  const orderCheck = await Order.findOne(
-    {
-      _id: orderId,
-      user: req.user._id
-    }
-  ).select('products')
+  const orderCheck = await Order.findOne({
+    _id: orderId,
+    user: req.user._id,
+  }).select("products");
 
   Order.findOneAndUpdate(
     {
@@ -551,14 +593,16 @@ router.patch("/cancelAll/:orderId", authenticateuser, async (req, res) => {
       });
     }
 
-   const filteredProducts = orderCheck.products.filter(({ status }) => status === OrderStatusEnums.Pending)
-   for (const prod of filteredProducts) {
-    const { product, quantity } = prod;
-     await  Product.findOneAndUpdate(
-       { _id: product },
-       { $inc: { quantity } }
-     ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));
-   }
+    const filteredProducts = orderCheck.products.filter(
+      ({ status }) => status === OrderStatusEnums.Pending
+    );
+    for (const prod of filteredProducts) {
+      const { product, quantity } = prod;
+      await Product.findOneAndUpdate(
+        { _id: product },
+        { $inc: { quantity } }
+      ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));
+    }
 
     res.status(200).send({ order });
   });
@@ -582,9 +626,9 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
       products: {
         $elemMatch: {
           status: OrderStatusEnums.Pending,
-          product: req.body.productData.product
-        }
-      }
+          product: req.body.productData.product,
+        },
+      },
     },
     {
       $set: {
@@ -598,8 +642,8 @@ router.patch("/cancelOne/:orderId", authenticateuser, (req, res) => {
         err: "Order not found!",
       });
     }
-    
-    await  Product.findOneAndUpdate(
+
+    await Product.findOneAndUpdate(
       { _id: req.body.productData.product },
       { $inc: { quantity: req.body.productData.quantity } }
     ).then((updatedproduct) => console.log("NEW PRODUCT", updatedproduct));
