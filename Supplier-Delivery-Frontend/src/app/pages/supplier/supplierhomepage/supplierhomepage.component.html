@@ -20,7 +20,6 @@
 
             <th>
               <div class="product_details">
-                <p>Serial Number</p>
                 <p>Product Name</p>
                 <p>Product Quantity</p>
                 <p>Product Price</p>
@@ -41,9 +40,7 @@
               <a class="fw-bold mb-1" href="tel:{{order?.user?.mobileNumber}}">Mob: {{order?.user?.mobileNumber}}</a>
             </td>
             <td class="split">
-              <div class="product_details"
-                *ngFor="let product of order.products">
-                <p>{{product.product.serialNumber}}</p>
+              <div class="product_details" *ngFor="let product of order.products">
                 <p>{{product.product.productName}}</p>
                 <p>{{product.quantity}}</p>
                 <p>{{product.priceatPurchase | currency:'EGP ':'symbol':'.2-2'}}</p>
@@ -73,6 +70,7 @@
         <thead class="bg-light">
           <tr>
             <!-- <th>Product IDz</th> -->
+            <p>Serial Number</p>
             <th>Product Photo</th>
             <th>Product Name</th>
             <th>Product Description</th>
@@ -84,9 +82,9 @@
           </tr>
         </thead>
         <tr *ngFor="let product of products">
-          <!-- <td>
-                <p class="fw-normal mb-1">{{product.productID}}</p>
-              </td> -->
+          <td>
+            <p class="fw-normal mb-1">{{product.serialNumber}}</p>
+          </td>
           <td>
             <img class="img" src={{product.photoLinks}} />
 
