@@ -20,6 +20,7 @@
 
             <th>
               <div class="product_details">
+                <p>Serial Number</p>
                 <p>Product Name</p>
                 <p>Product Quantity</p>
                 <p>Product Price</p>
@@ -42,6 +43,7 @@
             <td class="split">
               <div class="product_details"
                 *ngFor="let product of order.products">
+                <p>{{product.product.serialNumber}}</p>
                 <p>{{product.product.productName}}</p>
                 <p>{{product.quantity}}</p>
                 <p>{{product.priceatPurchase | currency:'EGP ':'symbol':'.2-2'}}</p>
