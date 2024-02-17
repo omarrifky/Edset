@@ -10,7 +10,8 @@ import { Router } from "express";
 const { Product } = require("../Models/Product");
 const router = Router();
 router.post("/create", authenticateuser, async (req, res) => {
-  const { products, delivery } = req.body;
+  const defaultDelivery = req.user.addresses && req.user.addresses.length > 0 ? req.user.addresses[0].address : undefined
+  const { products, delivery = defaultDelivery } = req.body;
   if (!products || products.length === 0) {
     return res.status(400).send({
       err: "Order doesn't contain products!",
