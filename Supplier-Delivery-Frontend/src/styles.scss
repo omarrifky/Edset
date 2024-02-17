@@ -41,19 +41,19 @@ body {
     font-weight: bold;
 
     &.Pending {
-        color: rgba(#f3d504, 0.8);
+        color: rgba(#ff8c00, 1);
     }
     &.Delivering {
-        color: rgba(#00a6ff, 0.8); 
+        color: rgba(#00a6ff, 1); 
     }
     &.Delivered {
-        color: rgba(#228b22, 0.8); 
+        color: rgba(#228b22, 1); 
     }
     &.Canceled {
-        color: rgba(#b22222, 0.8); 
+        color: rgba(#b22222, 1); 
     }
     &.Preparing {
-        color: rgba(#4b00ff, 0.8); 
+        color: rgba(#4b00ff, 1); 
     }
 }
 
